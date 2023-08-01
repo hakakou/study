@@ -1,0 +1,7 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="MauiApp1.DesktopView">
+	<Border BackgroundColor="Aqua">
+		<Label Text="Desktop View"/>
+	</Border>
+</ContentView>
