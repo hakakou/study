@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DXApplication2.Views.DetailForm1Page"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:viewModels="clr-namespace:DXApplication2.ViewModels;assembly=DXApplication2"
+    x:DataType="viewModels:DetailForm1ViewModel"
+    Title="Your Profile">
+
+    <ContentPage.BindingContext>
+        <viewModels:DetailForm1ViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <Style x:Key="ActionButton" TargetType="dx:DXButton">
+            <Setter Property="ButtonType" Value="Filled" />
+            <Setter Property="WidthRequest" Value="66" />
+            <Setter Property="IconWidth" Value="18" />
+            <Setter Property="IconHeight" Value="18" />
+            <Setter Property="Padding" Value="24,10" />
+        </Style>
+        <Style x:Key="FormComponent" TargetType="dx:FormItem">
+            <Setter Property="Padding" Value="0,14" />
+            <Setter Property="ArrowMargin" Value="16,0" />
+            <Setter Property="ShowSeparator" Value="False" />
+            <Setter Property="ImageWidth" Value="24" />
+            <Setter Property="ImageHeight" Value="24" />
+            <Setter Property="ImageMargin" Value="16,0" />
+            <Setter Property="ImageColor" Value="{dx:ThemeColor Key=OnSurfaceVariant}" />
+            <Setter Property="HorizontalSpacing" Value="0" />
+            <Setter Property="VerticalSpacing" Value="10" />
+            <Setter Property="TextFontSize" Value="16" />
+            <Setter Property="TextFontFamily" Value="Roboto" />
+            <Setter Property="DetailFontSize" Value="14" />
+            <Setter Property="DetailFontFamily" Value="Roboto" />
+            <Setter Property="DetailColor" Value="{dx:ThemeColor Key=OnSurfaceVariant}" />
+            <Setter Property="UseRippleEffect" Value="False" />
+        </Style>
+    </ContentPage.Resources>
+
+    <dx:DXScrollView>
+        <dx:DXStackLayout>
+            <dx:DXBorder
+                Margin="16,12"
+                BackgroundColor="{dx:ThemeColor Key=PrimaryContainer}"
+                WidthRequest="100"
+                HeightRequest="100"
+                CornerRadius="50">
+                <Label
+                    Text="{Binding NameInitials}"
+                    FontSize="24"
+                    FontFamily="Roboto Medium"
+                    FontAttributes="Bold"
+                    TextColor="{dx:ThemeColor Key=OnPrimaryContainer}"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center" />
+            </dx:DXBorder>
+
+            <Label
+                Text="{Binding FullName}"
+                TextColor="{dx:ThemeColor Key=OnSurface}"
+                FontSize="16"
+                FontFamily="Roboto Medium"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center" />
+
+            <Grid
+                ColumnDefinitions="*,Auto,*"
+                ColumnSpacing="16"
+                Margin="0,12">
+                <dx:DXButton
+                    Grid.Column="0"
+                    Style="{StaticResource ActionButton}"
+                    Command="{Binding HandleActionCommand}"
+                    Icon="phone18"
+                    HorizontalOptions="End" />
+                <dx:DXButton
+                    Grid.Column="1"
+                    Style="{StaticResource ActionButton}"
+                    Command="{Binding HandleActionCommand}"
+                    Icon="mail18"
+                    HorizontalOptions="Center" />
+                <dx:DXButton
+                    Grid.Column="2"
+                    Style="{StaticResource ActionButton}"
+                    Command="{Binding HandleActionCommand}"
+                    Icon="message18"
+                    HorizontalOptions="Start" />
+            </Grid>
+
+            <dx:FormItem
+                Style="{StaticResource FormComponent}"
+                ImageSource="phone"
+                Text="{Binding PhoneNumber}"
+                TapCommand="{Binding HandleActionCommand}"
+                Detail="Phone"
+                ShowArrow="true"
+                UseRippleEffect="true">
+                <dx:FormItem.ArrowTemplate>
+                    <DataTemplate>
+                        <dx:DXImage
+                            Source="copy"
+                            TintColor="{dx:ThemeColor Key=OnSurfaceVariant}"
+                            Margin="16,0" />
+                    </DataTemplate>
+                </dx:FormItem.ArrowTemplate>
+            </dx:FormItem>
+            <dx:FormItem
+                Style="{StaticResource FormComponent}"
+                ImageSource="mail"
+                Text="{Binding Email}"
+                TapCommand="{Binding HandleActionCommand}"
+                Detail="Email"
+                ShowArrow="true"
+                UseRippleEffect="true">
+                <dx:FormItem.ArrowTemplate>
+                    <DataTemplate>
+                        <dx:DXImage
+                            Source="copy"
+                            TintColor="{dx:ThemeColor Key=OnSurfaceVariant}"
+                            Margin="16,0" />
+                    </DataTemplate>
+                </dx:FormItem.ArrowTemplate>
+            </dx:FormItem>
+            <dx:FormItem
+                Style="{StaticResource FormComponent}"
+                ImageSource="address"
+                Text="{Binding Address}"
+                Detail="Street Address" />
+            <dx:FormItem
+                Style="{StaticResource FormComponent}"
+                ImageSource="city"
+                Text="{Binding City}"
+                Detail="City" />
+            <dx:FormItem
+                Style="{StaticResource FormComponent}"
+                ImageSource="company"
+                Text="Newman Systems"
+                Detail="Company" />
+        </dx:DXStackLayout>
+    </dx:DXScrollView>
+</ContentPage>

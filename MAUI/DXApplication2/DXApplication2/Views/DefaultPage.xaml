@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DXApplication2.Views.DefaultPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    Title="Welcome">
+
+    <Grid RowDefinitions="1*,2*,3*">
+        <dx:DXStackLayout
+            Grid.Row="1"
+            Padding="16"
+            ItemSpacing="8">
+            <Label
+                FontAttributes="Bold"
+                FontFamily="Roboto Medium"
+                FontSize="24"
+                Text="Hello!"
+                TextColor="{dx:ThemeColor Key=Primary}" />
+            <Label
+                FontFamily="Roboto"
+                FontSize="16"
+                Text="Your next great app starts here"
+                TextColor="{dx:ThemeColor Key=OnSurface}" />
+            <dx:DXButton
+                x:Name="button"
+                Margin="0,96,0,0"
+                Clicked="OnClick"
+                Content="Click Me" />
+        </dx:DXStackLayout>
+    </Grid>
+</ContentPage>
