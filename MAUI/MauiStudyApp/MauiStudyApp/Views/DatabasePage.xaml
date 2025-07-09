@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Name="page"
+    x:Class="MauiStudyApp.Views.DatabasePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:dxcore="clr-namespace:DevExpress.Maui.Core;assembly=DevExpress.Maui.Mvvm"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:MauiStudyApp.ViewModels"
+    xmlns:views="clr-namespace:MauiStudyApp.Views;assembly=MauiStudyApp"
+    xmlns:models="clr-namespace:MauiStudyApp.Domain.Data;assembly=MauiStudyApp.Domain"
+    x:DataType="viewModels:DatabaseViewModel"
+    BindingContext="{dx:Ioc Type={x:Type TypeName=viewModels:DatabaseViewModel}}"
+    Title="Database Page">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding InitializeCommand}" BindingContext="{Binding Path=BindingContext, Source={x:Reference page}}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Create" Command="{Binding Source={x:Reference collectionView}, Path=Commands.ShowDetailNewItemForm}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <dx:DXCollectionView
+            x:Name="collectionView"
+            ItemsSource="{Binding Customers}"
+            ItemSpacing="16"
+            UseRippleEffect="True"
+            DetailFormTemplate="{DataTemplate views:DatabaseDetailPage}"
+            DetailEditFormTemplate="{DataTemplate views:DatabaseEditPage}"
+            DetailNewItemFormTemplate="{DataTemplate views:DatabaseEditPage}"
+            TapCommand="{Binding Source={x:Reference collectionView}, Path=Commands.ShowDetailForm}">
+
+            <dx:DXCollectionView.Behaviors>
+                <toolkit:EventToCommandBehavior
+                    x:TypeArguments="dxcore:ValidateItemEventArgs"
+                    EventName="ValidateAndSave"
+                    Command="{Binding ValidateAndSaveCommand}"
+                    BindingContext="{Binding Path=BindingContext, Source={x:Reference collectionView}}" />
+                <toolkit:EventToCommandBehavior
+                    x:TypeArguments="dxcore:CreateDetailFormViewModelEventArgs"
+                    EventName="CreateDetailFormViewModel"
+                    Command="{Binding CreateDetailFormViewModelCommand}"
+                    BindingContext="{Binding Path=BindingContext, Source={x:Reference collectionView}}" />
+            </dx:DXCollectionView.Behaviors>
+
+            <dx:DXCollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Customer">
+                    <dx:SwipeContainer>
+                        <dx:SwipeContainer.EndSwipeItems>
+                            <dx:SwipeContainerItem
+                                Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.DeleteItemCommand}"
+                                BackgroundColor="{dx:ThemeColor Key=Error}"
+                                FontColor="{dx:ThemeColor Key=OnError}"
+                                Caption="Delete" />
+                        </dx:SwipeContainer.EndSwipeItems>
+
+                        <dx:SwipeContainer.ItemView>
+                            <dx:DXStackLayout Margin="16,0" ItemSpacing="4">
+                                <Label
+                                    Text="{Binding FullName}"
+                                    TextColor="{dx:ThemeColor Key=OnSurface}"
+                                    FontSize="16" />
+                                <Label
+                                    Text="{Binding Company}"
+                                    TextColor="{dx:ThemeColor Key=OnSurfaceVariant}"
+                                    FontSize="14" />
+                            </dx:DXStackLayout>
+                        </dx:SwipeContainer.ItemView>
+                    </dx:SwipeContainer>
+                </DataTemplate>
+            </dx:DXCollectionView.ItemTemplate>
+        </dx:DXCollectionView>
+
+        <ActivityIndicator
+            IsRunning="{Binding InitializeCommand.IsRunning}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+    </Grid>
+</ContentPage>

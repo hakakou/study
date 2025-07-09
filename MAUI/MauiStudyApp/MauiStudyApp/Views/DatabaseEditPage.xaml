@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiStudyApp.Views.DatabaseEditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="true"
+    Title="Edit Page">
+
+    <dx:DXScrollView>
+        <dx:DXStackLayout ItemSpacing="24" Margin="16">
+            <dx:DXStackLayout ItemSpacing="8">
+                <dx:TextEdit LabelText="First Name" Text="{Binding Item.FirstName}" />
+                <dx:TextEdit LabelText="Last Name" Text="{Binding Item.LastName}" />
+                <dx:TextEdit LabelText="Email" Text="{Binding Item.Email}" />
+                <dx:TextEdit LabelText="Company" Text="{Binding Item.Company}" />
+            </dx:DXStackLayout>
+
+            <dx:DXButton Content="Save" Command="{Binding SaveCommand}" />
+        </dx:DXStackLayout>
+    </dx:DXScrollView>
+
+</ContentPage>

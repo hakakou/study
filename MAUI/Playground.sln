@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiApp1", "MauiApp1\MauiApp1.csproj", "{DBB709D5-80F0-EE7D-A2D1-7D84BC5D452F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiStudyApp", "MauiStudyApp\MauiStudyApp\MauiStudyApp.csproj", "{3F7BB89F-8ADA-4154-A2AC-EC4F02B8B464}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DXApplication2", "DXApplication2\DXApplication2\DXApplication2.csproj", "{3F7BB89F-8ADA-4154-A2AC-EC4F02B8B464}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiStudyApp.Domain", "MauiStudyApp\MauiStudyApp.Domain\MauiStudyApp.Domain.csproj", "{0D24DDB0-0DF7-4301-B7EA-D4997EE747AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DXApplication2.Domain", "DXApplication2\DXApplication2.Domain\DXApplication2.Domain.csproj", "{0D24DDB0-0DF7-4301-B7EA-D4997EE747AC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DXApplication2.Infrastructure", "DXApplication2\DXApplication2.Infrastructure\DXApplication2.Infrastructure.csproj", "{92FA40AE-26DF-416C-BD9E-471DF28723B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiStudyApp.Infrastructure", "MauiStudyApp\MauiStudyApp.Infrastructure\MauiStudyApp.Infrastructure.csproj", "{92FA40AE-26DF-416C-BD9E-471DF28723B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DBB709D5-80F0-EE7D-A2D1-7D84BC5D452F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBB709D5-80F0-EE7D-A2D1-7D84BC5D452F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBB709D5-80F0-EE7D-A2D1-7D84BC5D452F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBB709D5-80F0-EE7D-A2D1-7D84BC5D452F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F7BB89F-8ADA-4154-A2AC-EC4F02B8B464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F7BB89F-8ADA-4154-A2AC-EC4F02B8B464}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F7BB89F-8ADA-4154-A2AC-EC4F02B8B464}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

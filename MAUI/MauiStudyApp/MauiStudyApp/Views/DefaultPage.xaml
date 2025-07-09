@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiStudyApp.Views.DefaultPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:viewModel="clr-namespace:MauiStudyApp.ViewModels;assembly=MauiStudyApp"
+    xmlns:local="clr-namespace:MauiStudyApp.Views"
+    x:DataType="{x:Type viewModel:DefaultViewModel}"
+    Title="Welcome"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="Page">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding InitializeCommand}"
+            BindingContext="{Binding Source={x:Reference Page}, 
+                Path=BindingContext, x:DataType=ContentPage}"/>
+    </ContentPage.Behaviors>
+    
+    <Grid>
+        <CollectionView ItemsSource="{Binding Customers}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type viewModel:Customer}">
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding ID}"/>
+                        <Label Text="{Binding Name}"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator IsRunning="{Binding InitializeCommand.IsRunning}" 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+ 
+    </Grid>
+
+</ContentPage>
