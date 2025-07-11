@@ -12,11 +12,12 @@ public partial class DefaultViewModel : ObservableObject
 
     public DefaultViewModel()
     {
-        //this._navManager = navManager;
         Pages = new ObservableCollection<PageItem>
         {
             new PageItem { Title = "Page1", Route = typeof(Page1ViewModel) },
-            new PageItem { Title = "Page2", Route = typeof(Page2ViewModel) }
+            new PageItem { Title = "Page2", Route = typeof(Page2ViewModel) },
+            new PageItem { Title = "Page3", Route = typeof(Page3ViewModel) },
+            new PageItem { Title = "Page4", Route = typeof(Page4ViewModel) }
         };
     }
 

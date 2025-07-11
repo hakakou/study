@@ -11,7 +11,7 @@
 
     <VerticalStackLayout Padding="16" Spacing="12">
         <Label Text="Pages" FontSize="22"/>
-        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Pages}">
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Pages}" Spacing="5">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type viewModel:PageItem}">
                     <Button Text="{Binding Title}"

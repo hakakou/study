@@ -5,10 +5,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dx="http://schemas.devexpress.com/maui"
     xmlns:viewModel="clr-namespace:MauiStudyApp.ViewModels;assembly=MauiStudyApp"
-    x:DataType="{x:Type viewModel:Page2ViewModel}"
+    x:DataType="{x:Type viewModel:Page3ViewModel}"
     Title="Welcome"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="Page">
- 
+    <Grid RowDefinitions="50,*">
+        <Button Text="Add Customer" Command="{Binding AddCustomerCommand}"/>
+        <CollectionView x:Name="customersCollectionView" ItemsSource="{Binding Customers}" Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type viewModel:Customer}">
+                    <HorizontalStackLayout>
+                        <Label FontSize="30"  Text="{Binding ID}"/>
+                        <Label FontSize="30" Text="{Binding Name}"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>
