@@ -1,6 +1,6 @@
 using Microsoft.Maui.Layouts;
 
-namespace MauiStudyApp.Custom;
+namespace MauiStudyApp.CustomLayout;
 
 public class CircularLayout : Layout
 {

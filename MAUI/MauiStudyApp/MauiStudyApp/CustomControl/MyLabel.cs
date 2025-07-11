@@ -1,4 +1,4 @@
-namespace MauiStudyApp.Custom
+namespace MauiStudyApp.CustomControl
 {
     public class MyLabel : Label
     {
