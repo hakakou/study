@@ -57,4 +57,22 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
 		<ProjectReference Include="..\MauiStudyApp.Infrastructure\MauiStudyApp.Infrastructure.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Page2.xaml.cs">
+	    <DependentUpon>Page2.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Page1.xaml.cs">
+	    <DependentUpon>Page1.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Page2.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Page1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
 </Project>

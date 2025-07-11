@@ -6,7 +6,5 @@
     xmlns:views="clr-namespace:MauiStudyApp.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Welcome"
-        ContentTemplate="{DataTemplate views:DefaultPage}" />
+    <ShellContent Title="Welcome" ContentTemplate="{DataTemplate views:DefaultPage}" />
 </Shell>

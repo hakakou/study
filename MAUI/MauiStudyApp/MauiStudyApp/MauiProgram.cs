@@ -29,6 +29,7 @@ public static class MauiProgram
             .RegisterAppServices()
             .RegisterViewModels()
 
+
         .ConfigureLifecycleEvents(l =>
         {
 #if ANDROID
@@ -59,14 +60,20 @@ public static class MauiProgram
             .AddFilter("Microsoft.Maui.Controls.Binding", LogLevel.Debug);
 #endif
 
+        //builder.Services.AddMvvm(options =>
+        //{
+        //    options.RegisterViewModelsFromAssemblyContaining<Page1ViewModel>();
+        //    options.HostingModelType = BlazorHostingModelType.HybridMaui;
+        //});
+
         return builder.Build();
     }
 
     static MauiAppBuilder RegisterViewModels(this MauiAppBuilder appBuilder)
     {
-        appBuilder.Services.AddTransient<ViewModels.MvvmViewModel>();
-        appBuilder.Services.AddTransient<ViewModels.DatabaseViewModel>();
         appBuilder.Services.AddTransient<ViewModels.DefaultViewModel>();
+        appBuilder.Services.AddTransient<ViewModels.Page1ViewModel>();
+        appBuilder.Services.AddTransient<ViewModels.Page2ViewModel>();
         return appBuilder;
     }
 

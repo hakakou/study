@@ -4,12 +4,12 @@ using Microsoft.Maui.Layouts;
 
 namespace MauiStudyApp.Views;
 
-public partial class DefaultPage : ContentPage
+public partial class Page2 : ContentPage
 {
-    public DefaultPage(DefaultViewModel viewModel)
+    public Page2(Page2ViewModel page)
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = page;
     }
 
 }

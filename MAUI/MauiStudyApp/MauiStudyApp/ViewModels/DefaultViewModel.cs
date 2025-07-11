@@ -7,38 +7,29 @@ namespace MauiStudyApp.ViewModels;
 
 public partial class DefaultViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private ObservableCollection<Customer>? customers;
+    //readonly IMvvmNavigationManager _navManager;
+    public ObservableCollection<PageItem> Pages { get; }
 
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(InitializeCommand))]
-    private bool isInitialized;
-
-    [RelayCommand(CanExecute = nameof(CanInitialize))]
-    private async Task InitializeAsync()
+    public DefaultViewModel()
     {
-        Customers = new ObservableCollection<Customer>(await DummyService.GetCustomersAsync());
-        IsInitialized = true;
+        //this._navManager = navManager;
+        Pages = new ObservableCollection<PageItem>
+        {
+            new PageItem { Title = "Page1", Route = typeof(Page1ViewModel) },
+            new PageItem { Title = "Page2", Route = typeof(Page2ViewModel) }
+        };
     }
 
-    private bool CanInitialize() => !IsInitialized;
-}
-
-public class Customer
-{
-    public int ID { get; set; }
-
-    public string Name { get; set; }
-}
-
-public static class DummyService
-{
-    public static async Task<IEnumerable<Customer>> GetCustomersAsync()
+    [RelayCommand]
+    private async Task OpenPageAsync(PageItem? item)
     {
-        await Task.Delay(2000);
-        return new List<Customer>() {
-            new Customer(){ ID = 1, Name = "Jim" },
-            new Customer(){ ID = 2, Name = "Bob" }
-            };
+        await Shell.Current.GoToAsync(item.Title);
     }
 }
+
+public class PageItem
+{
+    public string Title { get; set; } = string.Empty;
+    public Type Route { get; set; }
+}
+
