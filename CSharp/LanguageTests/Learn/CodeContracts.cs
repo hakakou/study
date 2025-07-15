@@ -1,31 +1,28 @@
 using System;
 using System.Diagnostics.Contracts;
 using Xunit;
+using Xunit.Abstractions;
+using static LanguageTests.Demo_Records;
 
 namespace LanguageTests
 {
-    // Are Code Contracts going to be supported in .NET Core going forwards? 
-    // https://github.com/dotnet/docs/issues/6361
-
-    [Obsolete("Code Contracts are not supported in .NET Core and later versions.")]
-    public class CodeContracts
+    public class NumbersTest(ITestOutputHelper testOutputHelper)
     {
 
-        // [Fact]
+        [Fact]
         public void Test1()
         {
-            Exec1(null);
-            Exec2(null);
-        }
+            var e = long.MaxValue ;
+            var  f = (int)e;
+            //testOutputHelper.WriteLine($"e is {e:N0}, f is {f:N0}");
+   
+            e = 5_000_000_000;
+            f = (int)e;
+            //testOutputHelper.WriteLine($"e is {e:N0}, f is {f:N0}");
 
-        public void Exec1(string x)
-        {
-            Contract.Requires(x != null);
-        }
-
-        public void Exec2(string x)
-        {
-            Contract.Requires<ArgumentNullException>(x != null, "x");
+            e = 0b_01111111111111111111111111111111;
+            f = (int)e;
+            testOutputHelper.WriteLine($"e is {e:N0}, f is {f:N0}");
         }
 
     }

@@ -50,7 +50,7 @@
 		<PackageReference Include="DevExpress.Maui.Scheduler" Version="25.1.*" />
 		<PackageReference Include="DevExpress.Maui.Gauges" Version="25.1.*" />
 		<PackageReference Include="DevExpress.Maui.Charts" Version="25.1.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
