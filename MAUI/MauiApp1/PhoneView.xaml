@@ -1,7 +1,0 @@
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.PhoneView">
-    <Border BackgroundColor="Red">
-        <Label Text="Phone View"/>
-    </Border>
-</ContentView>

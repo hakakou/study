@@ -7,9 +7,12 @@
     <ContentView.BindingContext>
         <vm:AlertGeneratorViewModel/>
     </ContentView.BindingContext>
-    <Grid ColumnDefinitions="*, 150">
-        <Entry Text="{Binding AlertText, Mode=TwoWay}"/>
-        <Button Text="Send Alert" Grid.Column="1"
+    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*">
+        <Button Text="Send Alert" Grid.Column="0"
             Command="{Binding GenerateAlertCommand}"/>
+        <Button Text="Request Alert (Async)" Grid.Column="1"
+            Command="{Binding RequestAlertCommand}"/>
+
+        <Entry Text="{Binding AlertText, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="2" />
     </Grid>
 </ContentView>
