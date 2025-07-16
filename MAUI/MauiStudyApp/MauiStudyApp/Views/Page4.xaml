@@ -8,5 +8,13 @@
     x:DataType="{x:Type viewModel:Page4ViewModel}"
     Title="Welcome"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:MauiStudyApp.Views;assembly=MauiStudyApp"
     x:Name="Page">
+
+    <Grid RowDefinitions="60, *" ColumnDefinitions="*,*">
+        <views:AlertGeneratorView Grid.ColumnSpan="2"/>
+        <views:PerformanceMonitorView Grid.Row="1"/>
+        <views:SecurityMonitorView Grid.Row="1" Grid.Column="1"/>
+    </Grid>
+    
 </ContentPage>
