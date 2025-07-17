@@ -9,18 +9,22 @@
             <Style TargetType="Entry">
                 <Setter Property="local:EntrySelection.SelectAllOnFocus" Value="True"/>
             </Style>
+            <Style TargetType="Image">
+                <Setter Property="local:DoubleTapToZoomBehavior.AttachBehavior" Value="True" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <ScrollView local:EntrySelection.SelectAllOnFocus="True">
+    <ScrollView >
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+
             <Image
                 Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+                HeightRequest="500"
+                Aspect="AspectFit">
+            </Image>
 
             <Entry local:EntrySelection.SelectAllOnFocus="True"
                 x:Name="nameEntry"
