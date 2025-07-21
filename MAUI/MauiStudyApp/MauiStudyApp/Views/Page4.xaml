@@ -25,7 +25,7 @@
         <views:AlertGeneratorView Grid.ColumnSpan="2"/>
         <Label Text="{behaviors:Translate TestTest}" />
     </Grid>
-    
-    
-    
+
+
+
 </ContentPage>

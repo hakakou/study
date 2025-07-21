@@ -1,0 +1,1 @@
+No valid *.cs or *.md files found under .\dotnet\src\SemanticKernel.MetaPackage\

@@ -1,0 +1,109 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UserSecretsId>313b34db-f412-4570-a9df-1a7bdea20aaa</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="S03_GettingStarted_Lights.cs" />
+	  <Compile Remove="S04_DI.cs" />
+	  <Compile Remove="S05_ChatHistory.cs" />
+	  <Compile Remove="S06_Image.cs" />
+	  <Compile Remove="S07_ManualFunctionInvocation.cs" />
+	  <Compile Remove="S08_FunctionChoices.cs" />
+	  <Compile Remove="S09_TextEmbeddingGeneration.cs" />
+	  <Compile Remove="S101_Basics.cs" />
+	  <Compile Remove="S102_Add_Plugins.cs" />
+	  <Compile Remove="S104_Step4_Dependency_Injection.cs" />
+	  <Compile Remove="S105_Filters.cs" />
+	  <Compile Remove="S106_PluginFromOpenApi.cs" />
+	  <Compile Remove="S10_OCR.cs" />
+	  <Compile Remove="S201_Agents.cs" />
+	  <Compile Remove="S202_AgentsPlugins.cs" />
+	  <Compile Remove="S203_UseAgentGroupChatWithTwoAgentsAsync.cs" />
+	  <Compile Remove="S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync.cs" />
+	  <Compile Remove="S205_JsonResult.cs" />
+	  <Compile Remove="S208_OpenAIAssistantAgent.cs" />
+	  <Compile Remove="S209_OpenAIAssistantAgentFunctions.cs" />
+	  <Compile Remove="S209_OpenAIAssistantAgentImages.cs" />
+	  <Compile Remove="S211_OpenAIFileSearch.cs" />
+	  <Compile Remove="S302_RagWithTextSearch.cs" />
+	  <Compile Remove="S303_RagWithBingTextSearchIncludingTimeStampedCitationsAsync.cs" />
+	  <Compile Remove="S304_RagWithBingTextSearchUsingCustomSiteAsync.cs" />
+	  <Compile Remove="S305_SearchWithFunctionCalling.cs" />
+	  <Compile Remove="S306_Search_With_VectorStore.cs" />
+	  <Compile Remove="SXX_Template.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="S03_GettingStarted_Lights.cs" />
+	  <None Include="S04_DI.cs" />
+	  <None Include="S05_ChatHistory.cs" />
+	  <None Include="S06_Image.cs" />
+	  <None Include="S07_ManualFunctionInvocation.cs" />
+	  <None Include="S08_FunctionChoices.cs" />
+	  <None Include="S09_TextEmbeddingGeneration.cs" />
+	  <None Include="S101_Basics.cs" />
+	  <None Include="S102_Add_Plugins.cs" />
+	  <None Include="S104_Step4_Dependency_Injection.cs" />
+	  <None Include="S105_Filters.cs" />
+	  <None Include="S106_PluginFromOpenApi.cs" />
+	  <None Include="S10_OCR.cs" />
+	  <None Include="S201_Agents.cs" />
+	  <None Include="S202_AgentsPlugins.cs" />
+	  <None Include="S203_UseAgentGroupChatWithTwoAgentsAsync.cs" />
+	  <None Include="S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync.cs" />
+	  <None Include="S205_JsonResult.cs" />
+	  <None Include="S208_OpenAIAssistantAgent.cs" />
+	  <None Include="S209_OpenAIAssistantAgentFunctions.cs" />
+	  <None Include="S209_OpenAIAssistantAgentImages.cs" />
+	  <None Include="S211_OpenAIFileSearch.cs" />
+	  <None Include="S302_RagWithTextSearch.cs" />
+	  <None Include="S303_RagWithBingTextSearchIncludingTimeStampedCitationsAsync.cs" />
+	  <None Include="S304_RagWithBingTextSearchUsingCustomSiteAsync.cs" />
+	  <None Include="S305_SearchWithFunctionCalling.cs" />
+	  <None Include="S306_Search_With_VectorStore.cs" />
+	  <None Include="SXX_Template.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Azure.Identity" Version="1.17.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.67.1" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.OpenAI" Version="1.67.1-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.67.1-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.67.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.67.1" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.67.1" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.67.1-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.67.1" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.67.1-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.67.1" />
+		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.67.1" />
+		<PackageReference Include="ObjectDumper.NET" Version="4.3.2" />
+		<PackageReference Include="Spectre.Console.Cli" Version="0.53.0" />
+		<PackageReference Include="System.IO" Version="4.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SharedConfig\SharedConfig.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="**/*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="media\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

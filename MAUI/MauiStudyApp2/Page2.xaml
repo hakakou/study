@@ -2,15 +2,88 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MauiStudyApp2"
+             xmlns:tr="clr-namespace:System.Threading;assembly=mscorlib"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              x:Class="MauiStudyApp2.Page2">
-     
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="local:AttentionAnimation.AttachBehavior" Value="True" />
+            </Style>
+        </ResourceDictionary>
+        <toolkit:InvertedBoolConverter x:Key="invertedBoolConverter"/>
+        <!-- Reusable style for theme-aware tint -->
+        <Style x:Key="ThemeAwareTint" TargetType="Image">
+            <Setter Property="HeightRequest" Value="100" />
+            <Setter Property="Source" Value="check_mark.png" />
+            <Setter Property="Behaviors">
+                <Setter.Value>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Dark=Red, Light=Blue}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <toolkit:AppThemeObject Light="check_mark.png" Dark="dotnet_bot.png" x:Key="themedImage" />
+
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior 
+            StatusBarColor="{Binding Source={x:Reference themedLabel}, Path=TextColor}" />
+    </ContentPage.Behaviors>
+
     <ScrollView >
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
 
-            <local:EditableCard Text="Test" />
-            <local:EditableCard Text="Test2" HorizontalOptions="Center"  />
+            <Ellipse Fill="Green" Stroke="Red" StrokeThickness="2" WidthRequest="100" HeightRequest="50"/>
+
+            <Label x:Name="themedLabel" IsVisible="False"
+                   TextColor="{AppThemeBinding Dark=Red, Light=Blue}"/>
+
+            <Button Text="Go to Page 3" Clicked="Button_Clicked" />
+
+            <Label Text="This is Page 2" 
+           FontSize="32"
+           HorizontalOptions="Center" 
+           Margin="0,20"/>
+
+            <Image HeightRequest="200">
+                <Image.Source>
+                    <toolkit:GravatarImageSource  Email="notregistered@emailongravitar.com" Image="MonsterId" />
+                </Image.Source>
+            </Image>
+
+            <!--<skia:SKLottieView RepeatCount="-1" Source="gameover.json" HeightRequest="100" />
+
+            <Label Text="This is a test">
+                <Label.Behaviors>
+                    <toolkit:AnimationBehavior EventName="Loaded" x:Name="animationBehavior">
+                        <toolkit:AnimationBehavior.AnimationType>
+                            <local:AttentionAnimation Length="1000"
+                               Easing="{x:Static Easing.SinIn}" />
+                        </toolkit:AnimationBehavior.AnimationType>
+                    </toolkit:AnimationBehavior>
+                </Label.Behaviors>
+            </Label>-->
+
+            <!--<Button Text="Trigger" Command="{Binding Source={x:Reference animationBehavior}, 
+                Path=AnimateCommand}" CommandParameter="{x:Static tr:CancellationToken.None}"/>-->
+
+            <Label Text="{Binding StatusMessage}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontSize="30"
+            IsVisible="{Binding HamsterRunCommand.IsRunning, Converter={StaticResource invertedBoolConverter}}"/>
+            <skia:SKLottieView RepeatCount="-1" 
+                IsVisible="{Binding HamsterRunCommand.IsRunning}" HeightRequest="100" 
+                Source="gameover.json"/>
+            <Button Text="Run"
+            Command="{Binding HamsterRunCommand}"
+            Grid.Row="1"/>
 
         </VerticalStackLayout>
     </ScrollView>

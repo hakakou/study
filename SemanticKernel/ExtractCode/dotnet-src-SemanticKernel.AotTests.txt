@@ -1,0 +1,1166 @@
+
+===== JsonSerializerContexts\CustomResultJsonSerializerContext.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json.Serialization;
+using Microsoft.SemanticKernel.Data;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.JsonSerializerContexts;
+
+[JsonSerializable(typeof(CustomResult))]
+[JsonSerializable(typeof(int))]
+[JsonSerializable(typeof(KernelSearchResults<string>))]
+[JsonSerializable(typeof(KernelSearchResults<TextSearchResult>))]
+[JsonSerializable(typeof(KernelSearchResults<object>))]
+internal sealed partial class CustomResultJsonSerializerContext : JsonSerializerContext
+{
+}
+
+
+===== JsonSerializerContexts\LocationJsonSerializerContext.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json.Serialization;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.JsonSerializerContexts;
+
+[JsonSerializable(typeof(Location))]
+internal sealed partial class LocationJsonSerializerContext : JsonSerializerContext
+{
+}
+
+
+===== JsonSerializerContexts\WeatherJsonSerializerContext.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json.Serialization;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.JsonSerializerContexts;
+
+[JsonSerializable(typeof(Weather))]
+internal sealed partial class WeatherJsonSerializerContext : JsonSerializerContext
+{
+}
+
+
+===== Plugins\CustomResult.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+namespace SemanticKernel.AotTests.Plugins;
+
+internal sealed class CustomResult
+{
+    public string Value { get; set; }
+
+    public CustomResult(string value)
+    {
+        this.Value = value;
+    }
+}
+
+
+===== Plugins\Location.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+namespace SemanticKernel.AotTests.Plugins;
+
+internal sealed class Location
+{
+    public string Country { get; set; }
+
+    public string City { get; set; }
+
+    public Location(string country, string city)
+    {
+        this.Country = country;
+        this.City = city;
+    }
+}
+
+
+===== Plugins\Weather.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+namespace SemanticKernel.AotTests.Plugins;
+
+internal sealed class Weather
+{
+    public int? Temperature { get; set; }
+    public string? Condition { get; set; }
+
+    public override string ToString() => $"Current weather(temperature: {this.Temperature}F, condition: {this.Condition})";
+}
+
+
+===== Plugins\WeatherPlugin.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.ComponentModel;
+using Microsoft.SemanticKernel;
+
+namespace SemanticKernel.AotTests.Plugins;
+internal sealed class WeatherPlugin
+{
+    [KernelFunction]
+    [Description("Get the current weather in a given location.")]
+    public Weather GetCurrentWeather(Location location)
+    {
+        return location.City switch
+        {
+            "Boston" => new Weather { Temperature = 61, Condition = "rainy" },
+            "London" => new Weather { Temperature = 55, Condition = "cloudy" },
+            "Miami" => new Weather { Temperature = 80, Condition = "sunny" },
+            "Tokyo" => new Weather { Temperature = 50, Condition = "sunny" },
+            "Sydney" => new Weather { Temperature = 75, Condition = "sunny" },
+            _ => new Weather { Temperature = 31, Condition = "snowing" }
+        };
+    }
+}
+
+
+===== Program.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using SemanticKernel.AotTests.UnitTests.Core.Functions;
+using SemanticKernel.AotTests.UnitTests.Core.Plugins;
+using SemanticKernel.AotTests.UnitTests.Search;
+
+namespace SemanticKernel.AotTests;
+
+/// <summary>
+/// This application is created in accordance with the instructions in the blog post at https://devblogs.microsoft.com/dotnet/creating-aot-compatible-libraries to ensure that
+/// all Native-AOT-related warnings missed by the Roslyn analyzers are caught by the AOT compiler used in this application.
+/// </summary>
+internal sealed class Program
+{
+    private static async Task<int> Main(string[] args)
+    {
+        bool success = await RunUnitTestsAsync(s_unitTests);
+
+        return success ? 1 : 0;
+    }
+
+    private static readonly Func<Task>[] s_unitTests =
+    [
+        // Tests for functions
+        KernelFunctionFromMethodTests.CreateUsingOverloadWithFunctionDetails,
+        KernelFunctionFromMethodTests.CreateUsingOverloadWithOptions,
+        KernelFunctionFromMethodTests.CreateMetadataUsingOverloadWithFunctionDetails,
+        KernelFunctionFromMethodTests.CreateMetadataUsingOverloadWithOptions,
+
+        KernelFunctionFactoryTests.CreateFromLambda,
+        KernelFunctionFactoryTests.CreateFromMethod,
+        KernelFunctionFactoryTests.CreateFromStringPrompt,
+        KernelFunctionFactoryTests.CreateFromPromptTemplate,
+
+        KernelExtensions_KernelFunctionTests.CreateFromLambda,
+        KernelExtensions_KernelFunctionTests.CreateFromMethod,
+        KernelExtensions_KernelFunctionTests.CreateFromStringPrompt,
+        KernelExtensions_KernelFunctionTests.CreateFromPromptTemplate,
+
+        KernelExtensions_InvokePromptTests.InvokePrompt,
+        KernelExtensions_InvokePromptTests.InvokePromptStreaming,
+
+        KernelFunctionMetadataFactoryTests.CreateFromType,
+
+        // Tests for plugins
+        KernelPluginFactoryTests.CreateFromGenericParameterType,
+        KernelPluginFactoryTests.CreateFromObject,
+
+        KernelExtensions_KernelPluginTests.CreateFromType,
+        KernelExtensions_KernelPluginTests.CreateFromObject,
+        KernelExtensions_KernelPluginTests.ImportFromType,
+        KernelExtensions_KernelPluginTests.ImportFromObject,
+
+        KernelPluginExtensionsTests.AddFromType,
+        KernelPluginExtensionsTests.AddFromObject,
+
+        KernelBuilderPluginsExtensionsTests.AddFromType,
+        KernelBuilderPluginsExtensionsTests.AddFromObject,
+
+        // Tests for text search
+        VectorStoreTextSearchTests.GetTextSearchResultsAsync,
+        VectorStoreTextSearchTests.AddVectorStoreTextSearch,
+
+        TextSearchExtensionsTests.CreateWithSearch,
+        TextSearchExtensionsTests.CreateWithGetTextSearchResults,
+        TextSearchExtensionsTests.CreateWithGetSearchResults,
+    ];
+
+    private static async Task<bool> RunUnitTestsAsync(IEnumerable<Func<Task>> functionsToRun)
+    {
+        bool failed = false;
+
+        foreach (var function in functionsToRun)
+        {
+            Console.Write($"Running - {function.Method.DeclaringType?.Name}.{function.Method.Name}");
+
+            try
+            {
+                await function.Invoke();
+
+                Console.WriteLine(" - Success");
+            }
+            catch (Exception ex)
+            {
+                failed = true;
+                Console.WriteLine($" - Fail: {ex.Message}");
+            }
+        }
+
+        return failed;
+    }
+}
+
+
+===== README.md =====
+
+# Native-AOT Tests
+This test application is used to test the Semantic Kernel Native-AOT compatible API by publishing the application in a Native-AOT mode, analyzing the API using AOT compiler, and running the tests against the API.
+
+## Running Tests
+The test can be run either in a debug mode by just setting a break point and pressing `F5` in Visual Studio (make sure the `AotCompatibility.TestApp` project is set as the startup project) in 
+which case they are run in a regular CoreCLR application and not in Native-AOT one. This might be useful to add additional tests or debug the existing ones.
+
+To run the tests in a Native-AOT application, first publish it using the following command: `dotnet publish -r win-x64`. Then, execute the application by running the following command in the terminal: `.\bin\Release\net8.0\win-x64\publish\AotCompatibility.TestApp.exe`.  
+   
+Alternatively, the `.github\workflows\test-aot-compatibility.ps1` script can be used to publish the application and run the tests. Please ensure that this script is run in at least PowerShell 7.4. The script takes the version of the .NET Framework as an argument. For example, to run the tests with .NET 8.0, run the following command: `.github\workflows\test-aot-compatibility.ps1 8.0`.
+
+
+===== UnitTests\Core\Functions\KernelExtensions_InvokePromptTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Functions;
+
+internal sealed class KernelExtensions_InvokePromptTests
+{
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task InvokePrompt()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+        kernelBuilder.Services.AddSingleton<IChatCompletionService>(new PromptEchoChatCompletionService());
+        kernelBuilder.Plugins.Add(KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils"));
+
+        string prompt = "Is it suitable for hiking today? - {{weather_utils.GetCurrentWeather location=$location}}";
+
+        Kernel kernel = kernelBuilder.Build();
+
+        KernelArguments arguments = new() { ["location"] = new Location("USA", "Boston") };
+
+        // Act
+        FunctionResult functionResult = await kernel.InvokePromptAsync(s_jsonSerializerOptions, prompt, arguments);
+
+        // Assert
+        Assert.AreEqual("Is it suitable for hiking today? - Current weather(temperature: 61F, condition: rainy)", functionResult.ToString());
+    }
+
+    public static async Task InvokePromptStreaming()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+        kernelBuilder.Services.AddSingleton<IChatCompletionService>(new PromptEchoChatCompletionService());
+        kernelBuilder.Plugins.Add(KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils"));
+
+        string prompt = "Is it suitable for hiking today? - {{weather_utils.GetCurrentWeather location=$location}}";
+
+        Kernel kernel = kernelBuilder.Build();
+
+        KernelArguments arguments = new() { ["location"] = new Location("USA", "Boston") };
+
+        StringBuilder contentBuilder = new();
+
+        // Act
+        await foreach (StreamingKernelContent content in kernel.InvokePromptStreamingAsync(s_jsonSerializerOptions, prompt, arguments))
+        {
+            contentBuilder.Append(content);
+        }
+
+        // Assert
+        Assert.AreEqual("Is it suitable for hiking today? - Current weather(temperature: 61F, condition: rainy)", contentBuilder.ToString());
+    }
+}
+
+
+===== UnitTests\Core\Functions\KernelExtensions_KernelFunctionTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Functions;
+
+internal sealed class KernelExtensions_KernelFunctionTests
+{
+    private static readonly Kernel s_kernel = new();
+
+    private static readonly Func<Location, Weather> s_lambda = location => location.City == "Boston" ? new Weather { Temperature = 61, Condition = "rainy" } : throw new NotImplementedException();
+
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateFromLambda()
+    {
+        // Act
+        KernelFunction function = s_kernel.CreateFunctionFromMethod(s_lambda, s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, function);
+    }
+
+    public static async Task CreateFromMethod()
+    {
+        // Act
+        KernelFunction function = s_kernel.CreateFunctionFromMethod(GetWeather, s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, function);
+    }
+
+    public static async Task CreateFromStringPrompt()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+        kernelBuilder.Services.AddSingleton<IChatCompletionService>(new PromptEchoChatCompletionService());
+        kernelBuilder.Plugins.Add(KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils"));
+
+        string prompt = "Is it suitable for hiking today? - {{weather_utils.GetCurrentWeather location=$location}}";
+
+        // Act
+        KernelFunction function = s_kernel.CreateFunctionFromPrompt(prompt, s_jsonSerializerOptions);
+
+        // Assert
+        Kernel kernel = kernelBuilder.Build();
+
+        await GetWeatherFunctionAsserts.AssertPromptFunctionSchemaAndInvocationResult(kernel, function);
+        await GetWeatherFunctionAsserts.AssertPromptFunctionSchemaAndStreamedInvocationResult(kernel, function);
+    }
+
+    public static async Task CreateFromPromptTemplate()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+        kernelBuilder.Services.AddSingleton<IChatCompletionService>(new PromptEchoChatCompletionService());
+        kernelBuilder.Plugins.Add(KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils"));
+
+        PromptTemplateConfig promptTemplateConfig = new("Is it suitable for hiking today? - {{weather_utils.GetCurrentWeather location=$location}}");
+
+        // Act
+        KernelFunction function = s_kernel.CreateFunctionFromPrompt(promptTemplateConfig, s_jsonSerializerOptions);
+
+        // Assert
+        Kernel kernel = kernelBuilder.Build();
+
+        await GetWeatherFunctionAsserts.AssertPromptFunctionSchemaAndInvocationResult(kernel, function);
+        await GetWeatherFunctionAsserts.AssertPromptFunctionSchemaAndStreamedInvocationResult(kernel, function);
+    }
+
+    private static Weather GetWeather(Location location)
+    {
+        return location.City == "Boston" ? new Weather { Temperature = 61, Condition = "rainy" } : throw new NotImplementedException();
+    }
+}
+
+
+===== UnitTests\Core\Functions\KernelFunctionFactoryTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Functions;
+
+internal sealed class KernelFunctionFactoryTests
+{
+    private static readonly Kernel s_kernel = new();
+
+    private static readonly Func<Location, Weather> s_lambda = location => location.City == "Boston" ? new Weather { Temperature = 61, Condition = "rainy" } : throw new NotImplementedException();
+
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateFromLambda()
+    {
+        // Act
+        KernelFunction function = KernelFunctionFactory.CreateFromMethod(s_lambda, s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, function);
+    }
+
+    public static async Task CreateFromMethod()
+    {
+        // Act
+        KernelFunction function = KernelFunctionFactory.CreateFromMethod(GetWeather, s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, function);
+    }
+
+    public static async Task CreateFromStringPrompt()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+        kernelBuilder.Services.AddSingleton<IChatCompletionService>(new PromptEchoChatCompletionService());
+        kernelBuilder.Plugins.Add(KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils"));
+
+        string prompt = "Is it suitable for hiking today? - {{weather_utils.GetCurrentWeather location=$location}}";
+
+        // Act
+        KernelFunction function = KernelFunctionFactory.CreateFromPrompt(prompt, s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertPromptFunctionSchemaAndInvocationResult(kernelBuilder.Build(), function);
+    }
+
+    public static async Task CreateFromPromptTemplate()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+        kernelBuilder.Services.AddSingleton<IChatCompletionService>(new PromptEchoChatCompletionService());
+        kernelBuilder.Plugins.Add(KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils"));
+
+        PromptTemplateConfig promptTemplateConfig = new("Is it suitable for hiking today? - {{weather_utils.GetCurrentWeather location=$location}}");
+
+        // Act
+        KernelFunction function = KernelFunctionFactory.CreateFromPrompt(promptTemplateConfig, s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertPromptFunctionSchemaAndInvocationResult(kernelBuilder.Build(), function);
+    }
+
+    private static Weather GetWeather(Location location)
+    {
+        return location.City == "Boston" ? new Weather { Temperature = 61, Condition = "rainy" } : throw new NotImplementedException();
+    }
+}
+
+
+===== UnitTests\Core\Functions\KernelFunctionFromMethodTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Functions;
+
+internal sealed class KernelFunctionFromMethodTests
+{
+    private static readonly Kernel s_kernel = new();
+
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateUsingOverloadWithFunctionDetails()
+    {
+        // Act
+        KernelFunction function = KernelFunctionFromMethod.Create(((Func<Location, Weather>)GetWeather).Method, s_jsonSerializerOptions, functionName: "f1");
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, function);
+    }
+
+    public static async Task CreateUsingOverloadWithOptions()
+    {
+        // Act
+        KernelFunction function = KernelFunctionFromMethod.Create(((Func<Location, Weather>)GetWeather).Method, s_jsonSerializerOptions, options: new KernelFunctionFromMethodOptions());
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, function);
+    }
+
+    public static Task CreateMetadataUsingOverloadWithFunctionDetails()
+    {
+        // Act
+        KernelFunctionMetadata metadata = KernelFunctionFromMethod.CreateMetadata(((Func<Location, Weather>)GetWeather).Method, s_jsonSerializerOptions, functionName: "f1");
+
+        // Assert
+        GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionMetadata(metadata);
+        return Task.CompletedTask;
+    }
+
+    public static Task CreateMetadataUsingOverloadWithOptions()
+    {
+        // Act
+        KernelFunctionMetadata metadata = KernelFunctionFromMethod.CreateMetadata(((Func<Location, Weather>)GetWeather).Method, s_jsonSerializerOptions, options: new KernelFunctionFromMethodOptions());
+
+        // Assert
+        GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionMetadata(metadata);
+        return Task.CompletedTask;
+    }
+
+    private static Weather GetWeather(Location location)
+    {
+        return location.City == "Boston" ? new Weather { Temperature = 61, Condition = "rainy" } : throw new NotImplementedException();
+    }
+}
+
+
+===== UnitTests\Core\Functions\KernelFunctionMetadataFactoryTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Functions;
+
+internal sealed class KernelFunctionMetadataFactoryTests
+{
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateFromType()
+    {
+        // Act
+        IEnumerable<KernelFunctionMetadata> metadata = KernelFunctionMetadataFactory.CreateFromType(typeof(WeatherPlugin), s_jsonSerializerOptions);
+
+        // Assert
+        GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionMetadata(metadata.Single());
+    }
+}
+
+
+===== UnitTests\Core\GetWeatherFunctionAsserts.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text;
+using Microsoft.SemanticKernel;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core;
+
+internal static class GetWeatherFunctionAsserts
+{
+    internal static async Task AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(Kernel kernel, KernelFunction function)
+    {
+        // Assert input parameter schema  
+        AssertGetCurrentWeatherFunctionMetadata(function.Metadata);
+
+        // Assert the function is invocable
+        KernelArguments arguments = new() { ["location"] = new Location("USA", "Boston") };
+
+        // Assert the function result
+        FunctionResult functionResult = await function.InvokeAsync(kernel, arguments);
+
+        Weather weather = functionResult.GetValue<Weather>()!;
+        Assert.AreEqual(61, weather.Temperature);
+        Assert.AreEqual("rainy", weather.Condition);
+    }
+
+    internal static void AssertGetCurrentWeatherFunctionMetadata(KernelFunctionMetadata metadata)
+    {
+        // Assert input parameter schema  
+        Assert.AreEqual("""{"type":"object","properties":{"Country":{"type":"string"},"City":{"type":"string"}},"required":["Country","City"]}""", metadata.Parameters.Single().Schema!.ToString());
+
+        // Assert return type schema  
+        Assert.AreEqual("""{"type":"object","properties":{"Temperature":{"type":["integer","null"]},"Condition":{"type":["string","null"]}}}""", metadata.ReturnParameter.Schema!.ToString());
+    }
+
+    internal static async Task AssertPromptFunctionSchemaAndInvocationResult(Kernel kernel, KernelFunction function)
+    {
+        // Assert parameter type schema
+        Assert.AreEqual("{\"type\":\"string\"}", function.Metadata.Parameters[0].Schema!.ToString());
+
+        // Assert return type schema
+        Assert.IsNull(function.Metadata.ReturnParameter.Schema);
+
+        // Assert the function is invocable
+        KernelArguments arguments = new() { ["location"] = new Location("USA", "Boston") };
+
+        // Assert the function result
+        FunctionResult functionResult = await function.InvokeAsync(kernel, arguments);
+
+        Assert.AreEqual("Is it suitable for hiking today? - Current weather(temperature: 61F, condition: rainy)", functionResult.ToString());
+    }
+
+    internal static async Task AssertPromptFunctionSchemaAndStreamedInvocationResult(Kernel kernel, KernelFunction function)
+    {
+        // Assert parameter type schema
+        Assert.AreEqual("{\"type\":\"string\"}", function.Metadata.Parameters[0].Schema!.ToString());
+
+        // Assert return type schema
+        Assert.IsNull(function.Metadata.ReturnParameter.Schema);
+
+        // Assert the function is invocable
+        KernelArguments arguments = new() { ["location"] = new Location("USA", "Boston") };
+
+        StringBuilder contentBuilder = new();
+
+        // Assert the function result
+        await foreach (StreamingKernelContent content in function.InvokeStreamingAsync(kernel, arguments))
+        {
+            contentBuilder.Append(content);
+        }
+
+        Assert.AreEqual("Is it suitable for hiking today? - Current weather(temperature: 61F, condition: rainy)", contentBuilder.ToString());
+    }
+}
+
+
+===== UnitTests\Core\Plugins\KernelBuilderPluginsExtensionsTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Plugins;
+
+internal sealed class KernelBuilderPluginsExtensionsTests
+{
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task AddFromType()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+
+        // Act
+        kernelBuilder.Plugins.AddFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils");
+
+        // Assert
+        Kernel kernel = kernelBuilder.Build();
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, kernel.Plugins["weather_utils"]["GetCurrentWeather"]);
+    }
+
+    public static async Task AddFromObject()
+    {
+        // Arrange
+        IKernelBuilder kernelBuilder = Kernel.CreateBuilder();
+
+        // Act
+        kernelBuilder.Plugins.AddFromObject(new WeatherPlugin(), s_jsonSerializerOptions, "weather_utils");
+
+        // Assert
+        Kernel kernel = kernelBuilder.Build();
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernelBuilder.Build(), kernel.Plugins["weather_utils"]["GetCurrentWeather"]);
+    }
+}
+
+
+===== UnitTests\Core\Plugins\KernelExtensions_KernelPluginTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Plugins;
+
+internal sealed class KernelExtensions_KernelPluginTests
+{
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateFromType()
+    {
+        // Arrange
+        Kernel kernel = new();
+
+        // Act
+        KernelPlugin plugin = kernel.CreatePluginFromType<WeatherPlugin>(s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, plugin["GetCurrentWeather"]);
+    }
+
+    public static async Task CreateFromObject()
+    {
+        // Arrange
+        Kernel kernel = new();
+
+        // Act
+        KernelPlugin plugin = kernel.CreatePluginFromObject(new WeatherPlugin(), s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, plugin["GetCurrentWeather"]);
+    }
+
+    public static async Task ImportFromType()
+    {
+        // Arrange
+        Kernel kernel = new();
+
+        // Act
+        kernel.ImportPluginFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils");
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, kernel.Plugins["weather_utils"]["GetCurrentWeather"]);
+    }
+
+    public static async Task ImportFromObject()
+    {
+        // Arrange
+        Kernel kernel = new();
+
+        // Act
+        kernel.ImportPluginFromObject(new WeatherPlugin(), s_jsonSerializerOptions, "weather_utils");
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, kernel.Plugins["weather_utils"]["GetCurrentWeather"]);
+    }
+}
+
+
+===== UnitTests\Core\Plugins\KernelPluginExtensionsTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Plugins;
+
+internal sealed class KernelPluginExtensionsTests
+{
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task AddFromType()
+    {
+        // Arrange
+        Kernel kernel = new();
+
+        // Act
+        kernel.Plugins.AddFromType<WeatherPlugin>(s_jsonSerializerOptions, "weather_utils");
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, kernel.Plugins["weather_utils"]["GetCurrentWeather"]);
+    }
+
+    public static async Task AddFromObject()
+    {
+        // Arrange
+        Kernel kernel = new();
+
+        // Act
+        kernel.Plugins.AddFromObject(new WeatherPlugin(), s_jsonSerializerOptions, "weather_utils");
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(kernel, kernel.Plugins["weather_utils"]["GetCurrentWeather"]);
+    }
+}
+
+
+===== UnitTests\Core\Plugins\KernelPluginFactoryTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Core.Plugins;
+
+internal sealed class KernelPluginFactoryTests
+{
+    private static readonly Kernel s_kernel = new();
+
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { WeatherJsonSerializerContext.Default, LocationJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateFromGenericParameterType()
+    {
+        // Act
+        KernelPlugin plugin = KernelPluginFactory.CreateFromType<WeatherPlugin>(s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, plugin["GetCurrentWeather"]);
+    }
+
+    public static async Task CreateFromType()
+    {
+        // Act
+        KernelPlugin plugin = KernelPluginFactory.CreateFromType(typeof(WeatherPlugin), s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, plugin["GetCurrentWeather"]);
+    }
+
+    public static async Task CreateFromObject()
+    {
+        // Act
+        KernelPlugin plugin = KernelPluginFactory.CreateFromObject(new WeatherPlugin(), s_jsonSerializerOptions);
+
+        // Assert
+        await GetWeatherFunctionAsserts.AssertGetCurrentWeatherFunctionSchemaAndInvocationResult(s_kernel, plugin["GetCurrentWeather"]);
+    }
+}
+
+
+===== UnitTests\PromptEchoChatCompletionService.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Runtime.CompilerServices;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+
+namespace SemanticKernel.AotTests.UnitTests;
+
+internal sealed class PromptEchoChatCompletionService : IChatCompletionService
+{
+    public IReadOnlyDictionary<string, object?> Attributes => throw new NotImplementedException();
+
+    public Task<IReadOnlyList<ChatMessageContent>> GetChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult<IReadOnlyList<ChatMessageContent>>([new(AuthorRole.Assistant, chatHistory.First().Content)]);
+    }
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+    public async IAsyncEnumerable<StreamingChatMessageContent> GetStreamingChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+    {
+        yield return new StreamingChatMessageContent(AuthorRole.Assistant, chatHistory.First().Content);
+    }
+}
+
+
+===== UnitTests\Search\MockTextSearch.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using Microsoft.SemanticKernel.Data;
+
+namespace SemanticKernel.AotTests.UnitTests.Search;
+
+internal sealed class MockTextSearch : ITextSearch
+{
+    private readonly KernelSearchResults<object>? _objectResults;
+    private readonly KernelSearchResults<TextSearchResult>? _textSearchResults;
+    private readonly KernelSearchResults<string>? _stringResults;
+
+    public MockTextSearch(KernelSearchResults<object>? objectResults)
+    {
+        this._objectResults = objectResults;
+    }
+
+    public MockTextSearch(KernelSearchResults<TextSearchResult>? textSearchResults)
+    {
+        this._textSearchResults = textSearchResults;
+    }
+
+    public MockTextSearch(KernelSearchResults<string>? stringResults)
+    {
+        this._stringResults = stringResults;
+    }
+
+    public Task<KernelSearchResults<object>> GetSearchResultsAsync(string query, TextSearchOptions? searchOptions = null, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(this._objectResults!);
+    }
+
+    public Task<KernelSearchResults<TextSearchResult>> GetTextSearchResultsAsync(string query, TextSearchOptions? searchOptions = null, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(this._textSearchResults!);
+    }
+
+    public Task<KernelSearchResults<string>> SearchAsync(string query, TextSearchOptions? searchOptions = null, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(this._stringResults!);
+    }
+}
+
+
+===== UnitTests\Search\MockVectorizableTextSearch.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using Microsoft.Extensions.VectorData;
+
+namespace SemanticKernel.AotTests.UnitTests.Search;
+
+internal sealed class MockVectorizableTextSearch<TRecord> : IVectorSearchable<TRecord>
+{
+    private readonly IAsyncEnumerable<VectorSearchResult<TRecord>> _searchResults;
+
+    public MockVectorizableTextSearch(IEnumerable<VectorSearchResult<TRecord>> searchResults)
+    {
+        this._searchResults = searchResults.ToAsyncEnumerable();
+    }
+
+    public IAsyncEnumerable<VectorSearchResult<TRecord>> SearchAsync<TInput>(
+        TInput searchValue,
+        int top,
+        VectorSearchOptions<TRecord>? options = default,
+        CancellationToken cancellationToken = default)
+        where TInput : notnull
+    {
+        return this._searchResults;
+    }
+
+    public IAsyncEnumerable<VectorSearchResult<TRecord>> SearchEmbeddingAsync<TVector>(
+        TVector vector,
+        int top,
+        VectorSearchOptions<TRecord>? options = default,
+        CancellationToken cancellationToken = default)
+        where TVector : notnull
+    {
+        return this._searchResults;
+    }
+
+    /// <inheritdoc />
+    public object? GetService(Type serviceType, object? serviceKey = null)
+    {
+        ArgumentNullException.ThrowIfNull(serviceType);
+
+        return
+            serviceKey is null && serviceType.IsInstanceOfType(this) ? this :
+            null;
+    }
+}
+
+
+===== UnitTests\Search\TextSearchExtensionsTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using System.Text.Json;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SemanticKernel.AotTests.JsonSerializerContexts;
+using SemanticKernel.AotTests.Plugins;
+
+namespace SemanticKernel.AotTests.UnitTests.Search;
+
+internal sealed class TextSearchExtensionsTests
+{
+    private static readonly JsonSerializerOptions s_jsonSerializerOptions = new()
+    {
+        TypeInfoResolverChain = { CustomResultJsonSerializerContext.Default }
+    };
+
+    public static async Task CreateWithSearch()
+    {
+        // Arrange
+        var testData = new List<string> { "test-value" };
+        KernelSearchResults<string> results = new(testData.ToAsyncEnumerable());
+        ITextSearch textSearch = new MockTextSearch(results);
+
+        // Act
+        var plugin = textSearch.CreateWithSearch("SearchPlugin", s_jsonSerializerOptions);
+
+        // Assert
+        await AssertSearchFunctionSchemaAndInvocationResult<string>(plugin["Search"], testData[0]);
+    }
+
+    public static async Task CreateWithGetTextSearchResults()
+    {
+        // Arrange
+        var testData = new List<TextSearchResult> { new("test-value") };
+        KernelSearchResults<TextSearchResult> results = new(testData.ToAsyncEnumerable());
+        ITextSearch textSearch = new MockTextSearch(results);
+
+        // Act
+        var plugin = textSearch.CreateWithGetTextSearchResults("SearchPlugin", s_jsonSerializerOptions);
+
+        // Assert
+        await AssertSearchFunctionSchemaAndInvocationResult<TextSearchResult>(plugin["GetTextSearchResults"], testData[0]);
+    }
+
+    public static async Task CreateWithGetSearchResults()
+    {
+        // Arrange
+        var testData = new List<CustomResult> { new("test-value") };
+        KernelSearchResults<object> results = new(testData.ToAsyncEnumerable());
+        ITextSearch textSearch = new MockTextSearch(results);
+
+        // Act
+        var plugin = textSearch.CreateWithGetSearchResults("SearchPlugin", s_jsonSerializerOptions);
+
+        // Assert
+        await AssertSearchFunctionSchemaAndInvocationResult<object>(plugin["GetSearchResults"], testData[0]);
+    }
+
+    #region assert
+    internal static async Task AssertSearchFunctionSchemaAndInvocationResult<T>(KernelFunction function, T expectedResult)
+    {
+        // Assert input parameter schema  
+        AssertSearchFunctionMetadata<T>(function.Metadata);
+
+        // Assert the function result
+        FunctionResult functionResult = await function.InvokeAsync(new(), new() { ["query"] = "Mock Query" });
+
+        var result = functionResult.GetValue<List<T>>()!;
+        Assert.AreEqual(1, result.Count);
+        Assert.AreEqual(expectedResult, result[0]);
+    }
+
+    internal static void AssertSearchFunctionMetadata<T>(KernelFunctionMetadata metadata)
+    {
+        // Assert input parameter schema
+        Assert.AreEqual(3, metadata.Parameters.Count);
+        Assert.AreEqual("{\"description\":\"What to search for\",\"type\":\"string\"}", metadata.Parameters[0].Schema!.ToString());
+        Assert.AreEqual("{\"description\":\"Number of results (default value: 2)\",\"type\":\"integer\"}", metadata.Parameters[1].Schema!.ToString());
+        Assert.AreEqual("{\"description\":\"Number of results to skip (default value: 0)\",\"type\":\"integer\"}", metadata.Parameters[2].Schema!.ToString());
+
+        // Assert return type schema
+        var type = typeof(T).Name;
+        var expectedSchema = type switch
+        {
+            "String" => """{"type":"object","properties":{"TotalCount":{"type":["integer","null"],"default":null},"Metadata":{"type":["object","null"],"default":null},"Results":{"type":"array","items":{"type":"string"}}},"required":["Results"]}""",
+            "TextSearchResult" => """{"type":"object","properties":{"TotalCount":{"type":["integer","null"],"default":null},"Metadata":{"type":["object","null"],"default":null},"Results":{"type":"array","items":{"type":"object","properties":{"Name":{"type":["string","null"]},"Link":{"type":["string","null"]},"Value":{"type":"string"}},"required":["Value"]}}},"required":["Results"]}""",
+            _ => """{"type":"object","properties":{"TotalCount":{"type":["integer","null"],"default":null},"Metadata":{"type":["object","null"],"default":null},"Results":{"type":"array","items":{"type":"object","properties":{"Name":{"type":["string","null"]},"Link":{"type":["string","null"]},"Value":{"type":"string"}},"required":["Value"]}}},"required":["Results"]}"""
+        };
+        Assert.AreEqual(expectedSchema, metadata.ReturnParameter.Schema!.ToString());
+    }
+    #endregion
+}
+
+
+===== UnitTests\Search\VectorStoreTextSearchTests.cs =====
+
+// Copyright (c) Microsoft. All rights reserved.
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.VectorData;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace SemanticKernel.AotTests.UnitTests.Search;
+
+internal sealed class VectorStoreTextSearchTests
+{
+    public static async Task GetTextSearchResultsAsync()
+    {
+        // Arrange
+        var testData = new List<VectorSearchResult<DataModel>>
+        {
+            new(new DataModel { Key = "test-name", Text = "test-result", Link = "test-link" }, 0.5)
+        };
+
+        VectorStoreTextSearch<DataModel> textSearch = new(new MockVectorizableTextSearch<DataModel>(testData));
+
+        // Act
+        KernelSearchResults<TextSearchResult> searchResults = await textSearch.GetTextSearchResultsAsync("query");
+
+        List<TextSearchResult> results = [];
+
+        await foreach (TextSearchResult result in searchResults.Results)
+        {
+            results.Add(result);
+        }
+
+        // Assert
+        Assert.AreEqual(1, results.Count);
+        Assert.AreEqual("test-name", results[0].Name);
+        Assert.AreEqual("test-result", results[0].Value);
+        Assert.AreEqual("test-link", results[0].Link);
+    }
+
+    public static async Task AddVectorStoreTextSearch()
+    {
+        // Arrange
+        var testData = new List<VectorSearchResult<DataModel>>
+        {
+            new(new DataModel { Key = "test-name", Text = "test-result", Link = "test-link" }, 0.5)
+        };
+        var vectorizableTextSearch = new MockVectorizableTextSearch<DataModel>(testData);
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddSingleton<IVectorSearchable<DataModel>>(vectorizableTextSearch);
+
+        // Act
+        serviceCollection.AddVectorStoreTextSearch<DataModel>();
+        var textSearch = serviceCollection.BuildServiceProvider().GetService<VectorStoreTextSearch<DataModel>>();
+        Assert.IsNotNull(textSearch);
+
+        // Assert
+        KernelSearchResults<TextSearchResult> searchResults = await textSearch.GetTextSearchResultsAsync("query");
+
+        List<TextSearchResult> results = [];
+
+        await foreach (TextSearchResult result in searchResults.Results)
+        {
+            results.Add(result);
+        }
+
+        // Assert
+        Assert.AreEqual(1, results.Count);
+        Assert.AreEqual("test-name", results[0].Name);
+        Assert.AreEqual("test-result", results[0].Value);
+        Assert.AreEqual("test-link", results[0].Link);
+    }
+
+    private sealed class DataModel
+    {
+        [TextSearchResultName]
+        public required string Key { get; init; }
+
+        [TextSearchResultValue]
+        public required string Text { get; init; }
+
+        [TextSearchResultLinkAttribute]
+        public required string Link { get; init; }
+    }
+}
+
+

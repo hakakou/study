@@ -76,6 +76,8 @@ public static class MauiProgram
         appBuilder.Services.AddTransient<ViewModels.Page2ViewModel>();
         appBuilder.Services.AddTransient<ViewModels.Page3ViewModel>();
         appBuilder.Services.AddTransient<ViewModels.Page4ViewModel>();
+        appBuilder.Services.AddTransient<ViewModels.Page5ViewModel>();
+        appBuilder.Services.AddTransient<ViewModels.Page6ViewModel>();
         appBuilder.Services.AddTransient<ViewModels.ReplierViewModel>();
         return appBuilder;
     }
