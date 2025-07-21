@@ -6,9 +6,5 @@
     xmlns:local="clr-namespace:MauiStudyApp2"
     Title="MauiStudyApp2">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:Page2}"
-        Route="Page2" />
-
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:Page3}" />
 </Shell>

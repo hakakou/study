@@ -17,7 +17,9 @@ public partial class DefaultViewModel : ObservableObject
             new PageItem { Title = "Page1", Route = typeof(Page1ViewModel) },
             new PageItem { Title = "Page2", Route = typeof(Page2ViewModel) },
             new PageItem { Title = "Page3", Route = typeof(Page3ViewModel) },
-            new PageItem { Title = "Page4", Route = typeof(Page4ViewModel) }
+            new PageItem { Title = "Page4", Route = typeof(Page4ViewModel) },
+            new PageItem { Title = "Page5", Route = typeof(Page5ViewModel) },
+            new PageItem { Title = "Page6", Route = typeof(Page6ViewModel) }
         };
     }
 

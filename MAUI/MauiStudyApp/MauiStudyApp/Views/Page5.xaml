@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			     xmlns:dx="http://schemas.devexpress.com/maui"
+			 xmlns:vm="clr-namespace:MauiStudyApp.ViewModels"
+                          x:Class="MauiStudyApp.Views.Page5">
+
+	<VerticalStackLayout>
+
+		<dx:DXContentPresenter Content="{Binding Customer}"
+			ContentTemplate="{StaticResource customerTemplate }"/>
+		
+	<CollectionView x:Name="collection1" ItemTemplate="{StaticResource customerTemplate}">
+		<CollectionView.ItemsSource>
+			<x:Array Type="{x:Type vm:Customer2}">
+				<vm:Customer2 CustomerName="John Doe"/>
+				<vm:Customer2 CustomerName="Jane Smith"/>
+				<vm:Customer2 CustomerName="Bob Johnson"/>
+			</x:Array>
+		</CollectionView.ItemsSource>
+	</CollectionView>
+		
+		
+	</VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureOpenAIConsole", "OpenAIConsole\AzureOpenAIConsole.csproj", "{09031E52-CDF6-4DA8-917D-40B0A5D94526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticKernelConsole", "SemanticKernelConsole\SemanticKernelConsole.csproj", "{651BB2F6-D3BB-4097-BCD9-9088261878F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAITest", "OpenAITest\OpenAITest.csproj", "{9755216C-D118-4E83-81C5-C596DAB073F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3F47D12-6D2C-46E0-96D3-7532647E6BE2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted", "GettingStarted\GettingStarted.csproj", "{240EFC04-3DF2-DF66-FC1E-AE6C03D25FF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedConfig", "SharedConfig\SharedConfig.csproj", "{AF66E787-02B9-D8B9-F924-A486BD69901D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09031E52-CDF6-4DA8-917D-40B0A5D94526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09031E52-CDF6-4DA8-917D-40B0A5D94526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09031E52-CDF6-4DA8-917D-40B0A5D94526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09031E52-CDF6-4DA8-917D-40B0A5D94526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{651BB2F6-D3BB-4097-BCD9-9088261878F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651BB2F6-D3BB-4097-BCD9-9088261878F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651BB2F6-D3BB-4097-BCD9-9088261878F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651BB2F6-D3BB-4097-BCD9-9088261878F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9755216C-D118-4E83-81C5-C596DAB073F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9755216C-D118-4E83-81C5-C596DAB073F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9755216C-D118-4E83-81C5-C596DAB073F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9755216C-D118-4E83-81C5-C596DAB073F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240EFC04-3DF2-DF66-FC1E-AE6C03D25FF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240EFC04-3DF2-DF66-FC1E-AE6C03D25FF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240EFC04-3DF2-DF66-FC1E-AE6C03D25FF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240EFC04-3DF2-DF66-FC1E-AE6C03D25FF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF66E787-02B9-D8B9-F924-A486BD69901D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF66E787-02B9-D8B9-F924-A486BD69901D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF66E787-02B9-D8B9-F924-A486BD69901D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF66E787-02B9-D8B9-F924-A486BD69901D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A3A805B-E984-43D8-8DB8-63C4227F4633}
+	EndGlobalSection
+EndGlobal
