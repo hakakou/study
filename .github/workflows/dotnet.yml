@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +33,7 @@ jobs:
 
     - name: Test
       working-directory: CSharp/LanguageTests
-      run: dotnet test --no-build --logger "junit;LogFileName=test-results.xml"
+      run: dotnet test --no-build --logger "trx;LogFileName=test-results.trx"
       continue-on-error: true
 
     - name: Publish test report
@@ -36,5 +41,5 @@ jobs:
       uses: dorny/test-reporter@v1
       with:
         name: LanguageTests
-        path: CSharp/LanguageTests/TestResults/test-results.xml
-        reporter: junit
+        path: CSharp/LanguageTests/TestResults/test-results.trx
+        reporter: dotnet-trx
