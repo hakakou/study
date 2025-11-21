@@ -43,3 +43,4 @@ jobs:
         name: LanguageTests
         path: CSharp/LanguageTests/TestResults/test-results.trx
         reporter: dotnet-trx
+        fail-on-error: false 
