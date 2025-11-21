@@ -10,7 +10,7 @@ This repository is organized into different technology areas, each containing mu
 
 Todo: Make a list
 
-## Example `secrets.json` Schema
+## Example `secrets.json` format
 
 ```json
 {
@@ -32,6 +32,6 @@ Todo: Make a list
 }
 ```
 
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img  src="Documents/Animation.gif" /><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img  src="Documents/Animation.gif" /><br>
 > *Happy Coding and learning! 🚀<br>
 > <br>
