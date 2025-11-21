@@ -32,11 +32,6 @@ Todo: Make a list
 }
 ```
 
-> <img style='float:right; margin-top:-10px'   src="Documents/Animation.gif" />
-> <br><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img  src="Documents/Animation.gif" /><br>
 > *Happy Coding and learning! 🚀<br>
-> <br><br>
-
-<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
-<dotlottie-wc src="https://lottie.host/3390fa73-ca2d-4b7b-ad64-51dab890a8a5/Un9TdhYWN4.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
-
+> <br>
