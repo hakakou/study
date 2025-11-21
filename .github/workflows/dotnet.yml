@@ -31,8 +31,10 @@ jobs:
       run: dotnet test --no-build --logger "junit;LogFileName=test-results.xml"
       continue-on-error: true
 
-    - name: Upload test results to GitHub
+    - name: Publish test report
       if: always()
-      uses: actions/upload-test-results@v2
+      uses: dorny/test-reporter@v1
       with:
-        files: CSharp/LanguageTests/TestResults/test-results.xml
+        name: LanguageTests
+        path: CSharp/LanguageTests/TestResults/test-results.xml
+        reporter: junit
