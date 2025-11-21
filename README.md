@@ -1,5 +1,7 @@
 # My Study Repository
 
+[![.NET](https://github.com/hakakou/study/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hakakou/study/actions/workflows/dotnet.yml)
+
 Welcome to my study repository! This collection contains various projects and examples that I use to learn and experiment with different concepts, frameworks, and technologies. Feel free to explore and share.
 
 ## Structure
