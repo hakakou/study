@@ -1,12 +1,10 @@
 # My Study Repository
 
-Welcome to my study repository! This collection contains various projects and examples that I use to learn and experiment with different concepts, frameworks, and technologies. Feel free to explore, learn, and share with friends.
+Welcome to my study repository! This collection contains various projects and examples that I use to learn and experiment with different concepts, frameworks, and technologies. Feel free to explore and share.
 
-## Repository Structure
+## Structure
 
 This repository is organized into different technology areas, each containing multiple projects that explore various concepts and techniques.
-
-## Project Organization
 
 ## Technologies Used
 
@@ -34,6 +32,11 @@ Todo: Make a list
 }
 ```
 
-> <br>
-> *Happy Coding and learning! 🚀*<br>
-> <br>
+> <iframe style='float:right; border:0'   src="https://lottie.host/embed/3390fa73-ca2d-4b7b-ad64-51dab890a8a5/Un9TdhYWN4.lottie"></iframe>
+> <br><br>
+> *Happy Coding and learning! 🚀<br>
+> <br><br><br>
+
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
+<dotlottie-wc src="https://lottie.host/3390fa73-ca2d-4b7b-ad64-51dab890a8a5/Un9TdhYWN4.lottie" style="width: 300px;height: 300px" autoplay loop></dotlottie-wc>
+
