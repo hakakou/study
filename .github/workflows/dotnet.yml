@@ -19,10 +19,13 @@ jobs:
         dotnet-version: 9.0.x
 
     - name: Restore dependencies
+      working-directory: CSharp/LanguageTests
       run: dotnet restore
 
     - name: Build
+      working-directory: CSharp/LanguageTests
       run: dotnet build --no-restore
 
-    - name: Test LanguageTests
-      run: dotnet test CSharp/LanguageTests/LanguageTests.csproj --no-build --verbosity normal
+    - name: Test
+      working-directory: CSharp/LanguageTests
+      run: dotnet test --no-build --verbosity normal
