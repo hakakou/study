@@ -28,5 +28,11 @@ jobs:
 
     - name: Test
       working-directory: CSharp/LanguageTests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --logger "junit;LogFileName=test-results.xml"
       continue-on-error: true
+
+    - name: Upload test results to GitHub
+      if: always()
+      uses: actions/upload-test-results@v2
+      with:
+        files: CSharp/LanguageTests/TestResults/test-results.xml
