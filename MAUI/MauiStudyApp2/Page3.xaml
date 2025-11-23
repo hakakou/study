@@ -7,5 +7,23 @@
              xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              x:Class="MauiStudyApp2.Page3">
 
+    <VerticalStackLayout>
+
+        <local:SegmentedBarChartView
+            Value="{Binding Source={x:Reference slider}, Path=Value}"/>
+        <Slider Minimum="0" Maximum="1" Value="0.2" x:Name="slider"/>
+
+        <GraphicsView HeightRequest="500"  x:Name="graphicsView">
+            <GraphicsView.Drawable>
+                <local:AIDrawable />
+            </GraphicsView.Drawable>
+        </GraphicsView>
+
+        <Button Text="Draw" Clicked="Button_Clicked" />
+
+        <Label Text="This is Page 3" x:Name="result" />
+
+    </VerticalStackLayout>
+
 
 </ContentPage>
