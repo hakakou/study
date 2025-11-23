@@ -14,7 +14,7 @@ public class G1_General_Step1_CreateKernel : ITest
                 apiKey: Conf.OpenAI.ApiKey)
             .Build();
 
-        // Invoke the kernel with a chat prompt and display the result
+        // joplin://x-callback-url/openNote?id=b5675da15b634650871f01e6b4035b68
         string chatPrompt = """
     <message role="user">What is Seattle?</message>
     <message role="system">Respond with JSON.</message>
