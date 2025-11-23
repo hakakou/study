@@ -5,6 +5,7 @@ using SharedConfig;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
+
 public class G1_General_Step2_AddPlugins : ITest
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -43,11 +44,21 @@ public class G1_General_Step2_AddPlugins : ITest
         //    endpoint: new Uri("http://localhost:1234/v1"),
         //    apiKey: "");
 
-        // builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
+        // builder.Services.AddLogging(services =>
+        // services.AddConsole().SetMinimumLevel(LogLevel.Trace));
 
-        builder.Plugins.AddFromType<TimeInformationPlugin>();
-        builder.Plugins.AddFromType<AppointmentPlugin>();
+
+        builder.Plugins.AddFromType<TimeInformation>();
+        //builder.Plugins.AddFromType<AppointmentPlugin>();
         var kernel = builder.Build();
+
+        //KernelFunction function = kernel.CreateFunctionFromMethod(
+        //    typeof(ComputerInformation).GetMethod("GetComputerName")!);
+        //Console.WriteLine(await kernel.InvokeAsync(function));
+
+        // Use kernel for templated prompts that invoke plugins directly
+        Console.WriteLine(await kernel.InvokePromptAsync(
+            "The current time is {{TimeInformation.GetCurrentTime}}. How many days until Easter?"));
 
         // Console.WriteLine(await kernel.InvokePromptAsync("How many days until Christmas?"));
 
@@ -84,23 +95,29 @@ public class G1_General_Step2_AddPlugins : ITest
         } while (userInput is not null);
     }
 
-    public class TimeInformationPlugin
+    public static class ComputerInformation
+    {
+        public static string GetComputerName() => Environment.MachineName;
+    }
+
+    public class TimeInformation
     {
         [KernelFunction]
         [Description("Retrieves the current time in Athens time.")]
         public string GetCurrentTime() => DateTime.Now.ToString("R");
+
     }
 
-    public class AppointmentPlugin
+    public class Appointment
     {
         [KernelFunction]
-        public Appointment BookAppointment(
+        public AppointmentItem BookAppointment(
             [Description("Services provided")] AppointmentType[] services,
             string doctor,
             DateTime time,
             string name)
         {
-            var app = new Appointment
+            var app = new AppointmentItem
             {
                 Id = new Random().Next(1000, 9999),
                 Services = services,
@@ -151,7 +168,7 @@ public class G1_General_Step2_AddPlugins : ITest
         }
     }
 
-    public class Appointment
+    public class AppointmentItem
     {
         public int Id { get; set; }
         public AppointmentType[] Services { get; set; }

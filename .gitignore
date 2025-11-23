@@ -1,4 +1,5 @@
 secrets*.bat
+ExtractCode
 docker_data
 .cr
 licenses.licx
