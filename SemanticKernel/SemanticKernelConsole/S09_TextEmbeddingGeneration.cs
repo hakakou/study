@@ -1,18 +1,25 @@
 ﻿using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Connectors.Qdrant;
 using Microsoft.SemanticKernel.Embeddings;
 using Qdrant.Client;
+using SharedConfig;
 
 #pragma warning disable SKEXP0010
-#pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0001
 
+/*
 
 public class S09_TextEmbeddingGeneration : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var kernel = builder.Build();
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAITextEmbeddingGeneration(
+                modelId: "text-embedding-3-small",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
 
         var textEmbeddingGenerationService = kernel.GetRequiredService<ITextEmbeddingGenerationService>();
 
@@ -75,3 +82,5 @@ public class S09_TextEmbeddingGeneration : ITest
         public string[] Tags { get; set; }
     }
 }
+
+*/

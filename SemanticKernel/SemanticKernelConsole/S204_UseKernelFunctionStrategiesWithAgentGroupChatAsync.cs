@@ -3,19 +3,30 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.Extensions.DependencyInjection;
+using SharedConfig;
 
 
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0110
 
 public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
         string ReviewerName = "ArtDirector";
         string CopyWriterName = "CopyWriter";
 
-        ILoggerFactory LoggerFactory  = builder.Build().Services.GetService<ILoggerFactory>();  
+        var builder = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey);
+        
+        builder.Services.AddLogging(loggingBuilder => 
+            loggingBuilder.AddConsole().SetMinimumLevel(LogLevel.Information));
+
+        var kernel = builder.Build();
+        ILoggerFactory LoggerFactory = kernel.Services.GetService<ILoggerFactory>();  
 
         ChatCompletionAgent agentReviewer =
             new()
@@ -27,7 +38,7 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
         If so, state that it is approved.
         If not, provide insight on how to refine suggested copy without examples.
         """,
-                Kernel = builder.Build(),
+                Kernel = kernel,
                 LoggerFactory = LoggerFactory,
             };
 
@@ -44,7 +55,7 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
         Don't waste time with chit chat.
         Consider suggestions when refining an idea.
         """,
-                Kernel = builder.Build(),
+                Kernel = kernel,
                 LoggerFactory = LoggerFactory,
             };
 
@@ -82,7 +93,7 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
             ExecutionSettings = new()
             {
                 TerminationStrategy =
-                    new KernelFunctionTerminationStrategy(terminationFunction, builder.Build())
+                    new KernelFunctionTerminationStrategy(terminationFunction, kernel)
                     {
                         // Only the art-director may approve.
                         Agents = [agentReviewer],
@@ -95,7 +106,7 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
                     },
 
                 SelectionStrategy =
-                            new KernelFunctionSelectionStrategy(selectionFunction, builder.Build())
+                            new KernelFunctionSelectionStrategy(selectionFunction, kernel)
                             {
                                 // Always start with the writer agent.
                                 InitialAgent = agentWriter,

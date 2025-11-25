@@ -47,4 +47,8 @@ public static class Conf
         public static string SearchEngineId;
         public static string ApiKey;
     }
+
+    public class RunDirectlyAttribute : Attribute
+    {
+    }
 }

@@ -3,12 +3,18 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Functions;
+using SharedConfig;
 using System.ComponentModel;
 
 public class S102_Add_Plugins : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
+        var builder = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey);
+        
         builder.Plugins.AddFromType<TimePlugin>();
         builder.Plugins.AddFromType<WidgetFactory>();
         Kernel kernel = builder.Build();

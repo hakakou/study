@@ -1,14 +1,24 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.OpenAI;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using OpenAI.Files;
 using OpenAI.VectorStores;
+using SharedConfig;
 using System.ClientModel;
 
 public class S211_OpenAIFileSearch : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var provider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Program.ApiKey));
+        /*
+
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
+
+        var provider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Conf.OpenAI.ApiKey));
 
         var agent = await OpenAIAssistantAgent.CreateAsync(
             provider,
@@ -17,7 +27,7 @@ public class S211_OpenAIFileSearch : ITest
                 EnableFileSearch = true,
                 Instructions = "Answer questions only about the included file.",
             },
-            kernel: builder.Build());
+            kernel: kernel);
 
         // Upload File
         OpenAIFileClient fileClient = provider.Client.GetOpenAIFileClient();
@@ -47,5 +57,7 @@ public class S211_OpenAIFileSearch : ITest
         await agent.DeleteAsync();
         await vectorStoreClient.DeleteVectorStoreAsync(vectorResult.VectorStoreId);
         await fileClient.DeleteFileAsync(fileInfo.Id);
+
+        */
     }
 }

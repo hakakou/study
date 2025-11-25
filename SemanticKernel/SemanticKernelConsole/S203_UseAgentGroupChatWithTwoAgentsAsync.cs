@@ -2,13 +2,21 @@
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharedConfig;
 
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0110
 
 public class S203_UseAgentGroupChatWithTwoAgentsAsync : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
+
         ChatCompletionAgent agentReviewer =
             new()
             {
@@ -19,7 +27,7 @@ public class S203_UseAgentGroupChatWithTwoAgentsAsync : ITest
         If it's ready, state that it is APPROVED  (in english) in capitals.
         If not, provide insight on how to refine suggested copy without example, but don't write the word APPROVED.
         """,
-                Kernel = builder.Build(),
+                Kernel = kernel,
             };
 
         ChatCompletionAgent agentWriter =
@@ -32,7 +40,7 @@ public class S203_UseAgentGroupChatWithTwoAgentsAsync : ITest
         Only provide a single proposal per response.
         Consider suggestions when refining an idea.
         """,
-                Kernel = builder.Build(),
+                Kernel = kernel,
             };
 
         AgentGroupChat chat = new(agentWriter, agentReviewer)

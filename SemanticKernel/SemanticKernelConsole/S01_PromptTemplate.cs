@@ -5,20 +5,18 @@ using Spectre.Console;
 
 public class S01_PromptTemplate : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var chatClient = Program.ChatClient;
-
-var promptTemplate = new PromptTemplateConfig()
-{
-    Name = "Product",
-    Description = "Product name generator",
-    Template = @"What is a good name for a company that makes {{product}}?",
-    TemplateFormat = "semantic-kernel",
-    InputVariables = [
-        new() { Name = "product", Description = "The product", IsRequired = true }
-    ]
-};
+        var promptTemplate = new PromptTemplateConfig()
+        {
+            Name = "Product",
+            Description = "Product name generator",
+            Template = @"What is a good name for a company that makes {{product}}?",
+            TemplateFormat = "semantic-kernel",
+            InputVariables = [
+                new() { Name = "product", Description = "The product", IsRequired = true }
+            ]
+        };
 
         var product = "widgets";
         var prompt = promptTemplate.Template.Replace("{{product}}", product);

@@ -7,14 +7,25 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Connectors.Qdrant;
 using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.Embeddings;
+using SharedConfig;
 using System.ComponentModel;
 using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
 
+#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
+/*
+
 public class S306_Search_With_VectorStore : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var kernel = builder.Build();
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIEmbeddingGenerator(
+                modelId: "text-embedding-3-small",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
+
+
         var textEmbeddingGeneration = kernel.GetRequiredService<ITextEmbeddingGenerationService>();
 
         var inMemoryVectorStore = new InMemoryVectorStore();
@@ -78,99 +89,7 @@ public class S306_Search_With_VectorStore : ITest
 
     string[] lines =
     [
-        //"Semantic Kernel is a lightweight, open-source development kit that lets you easily build AI agents and integrate the latest AI models into your C#, Python, or Java codebase. It serves as an efficient middleware that enables rapid delivery of enterprise-grade solutions.",
-        //"Semantic Kernel is a new AI SDK, and a simple and yet powerful programming model that lets you add large language capabilities to your app in just a matter of minutes. It uses natural language prompting to create and execute semantic kernel AI tasks across multiple languages and platforms.",
-        //"A dog is an animal that barks. A cat is an animal that meows. A bird is an animal that chirps. A fish is an animal that swims. A horse is an animal that neighs. A cow is an animal that moos. A pig is an animal that oinks. A sheep is an animal that baas. A goat is an animal that bleats. A chicken is an animal that clucks.",
-        """
-        έχει τα παρακάτω προσόντα
-        Ημ. γεννήσεως: 11/07/2000
-        Πόλη: ΠΑΤΡΑ
-        TK: 26223
-        Περιφερειακή ενότητα:
-        Νομός: Αχαΐας
-        Εκπαίδευση
-        Επιλέξτε το ανώτερο επίπεδο εκπαίδευσής σας: ΠΕ (Πανεπιστημιακή εκπαίδευση)
-        Πανεπιστημιακή εκπαίδευση (ΠΕ)
-        Κατηγορία πτυχίου ΠΕ: ΠΕ ΙΤΑΛΙΚΗΣ ΓΛΩΣΣΑΣ ΚΑΙ ΦΙΛΟΛΟΓΙΑΣ
-        Τίτλος πτυχίου ΠΕ: ΠΕ Ιταλικής Γλώσσας και Φιλολογίας
-        Προέλευση πτυχίου ΠΕ: ΠΑΝΕΠΙΣΤΗΜΙΟ ΕΛΛΑΔΟΣ
-        Βαθμός πτυχίου ΠΕ: 7,09
-        Έτος κτήσης πτυχίου ΠΕ: 2023
-        Αντιγραφό πτυχίου ΠΕ: Λήψη
-        Δημόσια εκπαίδευση (ΔΕ)
-        Κατηγορία πτυχίου ΔΕ: ΔΕ ΔΙΟΙΚΗΤΙΚΟΥ/ΔΙΟΙΚΗΤΙΚΟΥ – ΛΟΓΙΣΤΙΚΟΥ/ΔΙΟΙΚΗΤΙΚΟΥ – ΟΙΚΟΝΟΜΙΚΟΥ/ΔΙΟΙΚΗΤΙΚΩΝ ΓΡΑΜΜΑΤΕΩΝ
-        Προέλευση πτυχίου ΔΕ: ΓΕΝΙΚΟ ΛΥΚΕΙΟ
-        Βαθμός πτυχίου ΔΕ: 16,6
-        Έτος κτήσης πτυχίου ΔΕ: 2018
-        Αντιγραφό πτυχίου ΔΕ: Λήψη
-        Διαθέτετε παιδαγωγική επάρκεια;: Ναι
-        Αντίγραφο παιδαγωγικής επάρκειας: Λήψη
-        Ξένες γλώσσες & Υπολογιστές
-        Υπάρχει ξένη γλώσσα;: Ναι
-        Περιγραφή ξένης γλώσσας: ΑΓΓΛΙΚΑ
-        Επίπεδο ξένης γλώσσας: B2: Καλή γνώση
-        Προέλευση ξένης γλώσσας: Πιστοποίηση
-        Αντιγραφό πτυχίου ξένης γλώσσας: Λήψη
-        Υπάρχει 2η ξένη γλώσσα;: Ναι
-        Περιγραφή 2ης ξένης γλώσσας: ΙΤΑΛΙΚΑ
-        Επίπεδο 2ης ξένης γλώσσας: C2: Άριστη γνώση
-        Προέλευση 2ης ξένης γλώσσας: Πιστοποίηση
-        Αντιγραφό πτυχίου 2ης ξένης γλώσσας: Λήψη
-        Αντιγραφό πτυχίου 2ης ξένης γλώσσας: Λήψη
-        Υπάρχει πτυχίο υπολογιστών;: Ναι
-        Προέλευση πτυχίου υπολογιστών: Πιστοποίηση
-        Επίπεδο πτυχίου υπολογιστών: 3 Ενότητες (Word/Excel/Internet)
-        Αντιγραφό πτυχίου υπολογιστών: Λήψη
-        Έχετε προϋπηρεσία ΙΚΑ μετά το 2002;: Ναι
-        Αντίγραφο ΕΦΚΑ: Λήψη
-        Άδειες οδήγησης
-        Διαθέτετε αδεια οδήγησης αυτοκινήτου (B);: Ναι
-        Ημερομηνία λήξης άδειας οδήγησης: 18/12/2034
-        Αντιγραφό αδείας: Λήψη
-        Οικογενειακή κατάσταση
-        Η οικογενειακή σας κατάσταση είναι...: Άγαμος
-        """,
-
-        """
-        έχει τα παρακάτω προσόντα
-        Ημ. γεννήσεως: 30/07/1974
-        Διεύθυνση: ΛΕΩΦΑΝΤΟΥΣ 4
-        Πόλη: ΠΑΤΡΑ
-        TK: 26335
-        Περιφερειακή ενότητα:
-        Νομός: Αχαΐας
-        Εκπαίδευση
-        Επιλέξτε το ανώτερο επίπεδο εκπαίδευσής σας: ΔΕ (Απόφοιτος Λυκείου οποιοδήποτε τύπου)
-        Δημόσια εκπαίδευση (ΔΕ)
-        Κατηγορία πτυχίου ΔΕ: ΔΕ ΔΙΟΙΚΗΤΙΚΟΥ/ΔΙΟΙΚΗΤΙΚΟΥ – ΛΟΓΙΣΤΙΚΟΥ/ΔΙΟΙΚΗΤΙΚΟΥ – ΟΙΚΟΝΟΜΙΚΟΥ/ΔΙΟΙΚΗΤΙΚΩΝ ΓΡΑΜΜΑΤΕΩΝ
-        Προέλευση πτυχίου ΔΕ: ΓΕΝΙΚΟ ΛΥΚΕΙΟ
-        Βαθμός πτυχίου ΔΕ: 19
-        Έτος κτήσης πτυχίου ΔΕ: 2018
-        Αντιγραφό πτυχίου ΔΕ: Λήψη
-        Ξένες γλώσσες & Υπολογιστές
-        Υπάρχει ξένη γλώσσα;: Ναι
-        Περιγραφή ξένης γλώσσας: ΑΓΓΛΙΚΑ
-        Επίπεδο ξένης γλώσσας: C2: Άριστη γνώση
-        Προέλευση ξένης γλώσσας: Πιστοποίηση
-        Υπάρχει πτυχίο υπολογιστών;: Ναι
-        Προέλευση πτυχίου υπολογιστών: Πιστοποίηση
-        Επίπεδο πτυχίου υπολογιστών: 3 Ενότητες (Word/Excel/Internet)
-        Αντιγραφό πτυχίου υπολογιστών: Λήψη
-        Έχετε προϋπηρεσία ΙΚΑ μετά το 2002;: Ναι
-        Αντίγραφο ΕΦΚΑ: Λήψη
-        Έχετε Προϋπηρεσία ΙΚΑ πρίν το 2002;: Ναι
-        Αντίγραφο ΕΦΚΑ: Λήψη
-        Οικογενειακή κατάσταση
-        Η οικογενειακή σας κατάσταση είναι...: Έγγαμος
-        Πιστοποιητικό οικογενειακής κατάστασης: Λήψη
-        Είστε τέκνο πολύτεκνης οικογένειας;: Ναι
-        Ημερομηνία λήξης πολυτεκνίας: 20/06/2025
-        ΑΣΠΕ πατρικό: Λήψη
-        Οικογενειακή κατάσταση πατρική: Λήψη
-        """
-        //"Semantic Kernel (SK) is a lightweight SDK that lets you mix conventional programming languages, like C# and Python, with the latest in Large Language Model (LLM) AI “prompts” with prompt templating, chaining, and planning capabilities.",
-        //"Semantic Kernel is a lightweight, open-source development kit that lets you easily build AI agents and integrate the latest AI models into your C#, Python, or Java codebase. It serves as an efficient middleware that enables rapid delivery of enterprise-grade solutions. Enterprise ready.",
-        //"With Semantic Kernel, you can easily build agents that can call your existing code.This power lets you automate your business processes with models from OpenAI, Azure OpenAI, Hugging Face, and more! We often get asked though, “How do I architect my solution?” and “How does it actually work?”"
+        // ...existing code...
     ];
 
     public sealed class DataModel
@@ -194,3 +113,4 @@ public class S306_Search_With_VectorStore : ITest
         public ReadOnlyMemory<float> Embedding { get; init; }
     }
 }
+*/

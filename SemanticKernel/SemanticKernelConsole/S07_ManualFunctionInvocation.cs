@@ -1,14 +1,20 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Functions;
+using SharedConfig;
 
 public class S07_ManualFunctionInvocation : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
         // Build the kernel
         Console.WriteLine("Building the kernel...");
-        var kernel = builder.Build();
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
 
         // Add plugins
         Console.WriteLine("Adding plugins...");
@@ -17,14 +23,12 @@ public class S07_ManualFunctionInvocation : ITest
 
         //# Manual Function Invocation
         Console.WriteLine("Setting up manual function invocation...");
-
         var manualSettings = new PromptExecutionSettings
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(autoInvoke: false)
         };
 
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
-
         var manualHistory = new ChatHistory();
         manualHistory.AddUserMessage("Given the current time of day, which of my lights should be on?");
 

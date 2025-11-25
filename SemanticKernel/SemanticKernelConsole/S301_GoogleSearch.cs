@@ -7,7 +7,7 @@ using SharedConfig;
 
 public class S301_GoogleSearch : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
         ITextSearch textSearch = new GoogleTextSearch(
             searchEngineId: Conf.GoogleTextSearch.SearchEngineId,

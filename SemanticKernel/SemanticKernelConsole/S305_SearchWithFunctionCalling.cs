@@ -4,22 +4,28 @@ using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.Plugins.Web.Bing;
 using Microsoft.SemanticKernel.Plugins.Web.Google;
 using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
+using SharedConfig;
 using System.Text.Json;
 
-#pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0050
 
 public class S305_SearchWithFunctionCalling : ITest
 {
-    public async Task Run(IKernelBuilder kernelBuilder)
+    public async Task Run()
     {
-        Kernel kernel = kernelBuilder.Build();
+        Kernel kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
+            
         ITextSearch textSearch = new BingTextSearch("303882ec48a04a2089d34a2ed6441f3c");
 
         // Build a text search plugin with Bing search and add to the kernel
         var searchPlugin = textSearch.CreateWithSearch("SearchPlugin");
         //var searchPlugin = KernelPluginFactory.CreateFromFunctions("SearchPlugin",
         //    "Search specified site", [CreateSearchBySite((BingTextSearch)textSearch)]);
-        //kernel.Plugins.Add(searchPlugin);
+        kernel.Plugins.Add(searchPlugin);
 
         // Invoke prompt and use text search plugin to provide grounding information
         OpenAIPromptExecutionSettings settings = new() { FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() };

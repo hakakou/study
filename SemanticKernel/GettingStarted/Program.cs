@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SharedConfig;
 using Spectre.Console;
 using System.Reflection;
+using static SharedConfig.Conf;
 
 #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -15,8 +16,6 @@ public class Program
     {
         Conf.Init<Program>();
 
-        //var builder = Kernel.CreateBuilder();
-        //builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
         var collection = new ServiceCollection();
 
         var testTypes = Assembly.GetExecutingAssembly().GetTypes()
@@ -59,6 +58,3 @@ public interface ITest
     Task Run();
 }
 
-public class RunDirectlyAttribute : Attribute
-{
-}
