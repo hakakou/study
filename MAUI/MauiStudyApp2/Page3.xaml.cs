@@ -35,7 +35,6 @@ public class CanvasRequest
     public static DrawRectangle[] Commands { get; set; } = [];
 }
 
-
 public class AIDrawable : IDrawable
 {
     public void Draw(ICanvas canvas, RectF dirtyRect)

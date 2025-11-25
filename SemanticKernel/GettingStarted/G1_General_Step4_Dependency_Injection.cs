@@ -7,7 +7,6 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-[RunDirectlyAttribute]
 public class G1_General_Step4_Dependency_Injection : ITest
 {
     public async Task Run()
@@ -16,6 +15,10 @@ public class G1_General_Step4_Dependency_Injection : ITest
 
         collection.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Information));
         collection.AddOpenAIChatClient(
+            modelId: "gpt-5-nano-2025-08-07",
+            apiKey: Conf.OpenAI.ApiKey);
+
+        collection.AddOpenAIChatCompletion(
             modelId: "gpt-5-nano-2025-08-07",
             apiKey: Conf.OpenAI.ApiKey);
 

@@ -10,16 +10,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="S03_GettingStarted_Lights.cs" />
-	  <Compile Remove="S04_DI.cs" />
-	  <Compile Remove="S05_ChatHistory.cs" />
-	  <Compile Remove="S06_Image.cs" />
 	  <Compile Remove="S07_ManualFunctionInvocation.cs" />
 	  <Compile Remove="S08_FunctionChoices.cs" />
 	  <Compile Remove="S09_TextEmbeddingGeneration.cs" />
 	  <Compile Remove="S101_Basics.cs" />
 	  <Compile Remove="S102_Add_Plugins.cs" />
-	  <Compile Remove="S104_Step4_Dependency_Injection.cs" />
 	  <Compile Remove="S105_Filters.cs" />
 	  <Compile Remove="S106_PluginFromOpenApi.cs" />
 	  <Compile Remove="S10_OCR.cs" />
@@ -41,16 +36,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="S03_GettingStarted_Lights.cs" />
-	  <None Include="S04_DI.cs" />
-	  <None Include="S05_ChatHistory.cs" />
-	  <None Include="S06_Image.cs" />
 	  <None Include="S07_ManualFunctionInvocation.cs" />
 	  <None Include="S08_FunctionChoices.cs" />
 	  <None Include="S09_TextEmbeddingGeneration.cs" />
 	  <None Include="S101_Basics.cs" />
 	  <None Include="S102_Add_Plugins.cs" />
-	  <None Include="S104_Step4_Dependency_Injection.cs" />
 	  <None Include="S105_Filters.cs" />
 	  <None Include="S106_PluginFromOpenApi.cs" />
 	  <None Include="S10_OCR.cs" />
@@ -86,7 +76,6 @@
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.67.1-alpha" />
 		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.67.1" />
 		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.67.1" />
-		<PackageReference Include="ObjectDumper.NET" Version="4.3.2" />
 		<PackageReference Include="Spectre.Console.Cli" Version="0.53.0" />
 		<PackageReference Include="System.IO" Version="4.3.0" />
 	</ItemGroup>
