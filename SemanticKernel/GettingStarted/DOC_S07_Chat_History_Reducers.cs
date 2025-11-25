@@ -4,8 +4,9 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SharedConfig;
 using System;
 using System.Threading.Tasks;
+using static SharedConfig.Conf;
 
-
+[RunDirectlyAttribute]
 public class DOC_S07_Chat_History_Reducers : ITest
 {
     public async Task Run()
@@ -26,7 +27,8 @@ public class DOC_S07_Chat_History_Reducers : ITest
 
         var reducer = new ChatHistoryTruncationReducer(targetCount: 2);
 
-        var chatHistory = new ChatHistory("You are a librarian and expert on books about cities");
+        var chatHistory = new ChatHistory(
+            systemMessage: "You are a librarian and expert on books about cities. Respond with max 200 chars.");
 
         string[] userMessages = [
             "Recommend a list of books about Seattle",
@@ -36,34 +38,19 @@ public class DOC_S07_Chat_History_Reducers : ITest
             "Recommend a list of books about London"
         ];
 
-        int totalTokenCount = 0;
-
         foreach (var userMessage in userMessages)
         {
+            Console.WriteLine($">>> User:\n{userMessage}");
             chatHistory.AddUserMessage(userMessage);
 
-            Console.WriteLine($">>> User:\n{userMessage}");
-
             var reducedMessages = await reducer.ReduceAsync(chatHistory);
-
-            Console.WriteLine($"  [Chat history reduced from {chatHistory.Count} to {reducedMessages.Count()} messages]");
             chatHistory = new ChatHistory(reducedMessages);
+            chatHistory.PrintChatHistory();
 
             var response = await chatService.GetChatMessageContentAsync(chatHistory);
-
-            chatHistory.AddAssistantMessage(response.Content!);
-
             Console.WriteLine($">>> Assistant:\n{response.Content!}\n");
-
-            if (response.InnerContent is OpenAI.Chat.ChatCompletion chatCompletion)
-            {
-                var tokenCount = chatCompletion.Usage?.TotalTokenCount ?? 0;
-                totalTokenCount += tokenCount;
-                Console.WriteLine($"  [Tokens used this turn: {tokenCount}]");
-            }
+            chatHistory.AddAssistantMessage(response.Content!);
         }
-
-        Console.WriteLine($"\nTotal Token Count: {totalTokenCount}");
     }
 
     private async Task Example2_SummarizationReducer()
@@ -81,11 +68,10 @@ public class DOC_S07_Chat_History_Reducers : ITest
         var chatService = kernel.GetRequiredService<IChatCompletionService>();
 
         var reducer = new ChatHistorySummarizationReducer(
-            service: chatService,
-            targetCount: 3);
+            service: chatService, targetCount: 2);
 
         var chatHistory = new ChatHistory(
-            systemMessage: "You are a travel advisor helping plan international trips");
+            systemMessage: "You are a travel advisor helping plan international trips. Respond with max 200 chars.");
 
         string[] userMessages = [
             "I'm planning a trip to Japan. What should I know?",
@@ -95,33 +81,19 @@ public class DOC_S07_Chat_History_Reducers : ITest
             "Can you recommend some must-see temples?"
         ];
 
-        int totalTokenCount = 0;
-
         foreach (var userMessage in userMessages)
         {
+            Console.WriteLine($">>> User:\n{userMessage}");
             chatHistory.AddUserMessage(userMessage);
 
-            Console.WriteLine($">>> User:\n{userMessage}");
-
             var reducedMessages = await reducer.ReduceAsync(chatHistory);
-
-            Console.WriteLine($"  [Chat history reduced and summarized from {chatHistory.Count} to {reducedMessages.Count()} messages]");
-            chatHistory = new ChatHistory(reducedMessages);
+            if (reducedMessages != null)
+                chatHistory = new ChatHistory(reducedMessages);
+            chatHistory.PrintChatHistory();
 
             var response = await chatService.GetChatMessageContentAsync(chatHistory, kernel: kernel);
-
-            chatHistory.AddAssistantMessage(response.Content!);
-
             Console.WriteLine($">>> Assistant:\n{response.Content!}\n");
-
-            if (response.InnerContent is OpenAI.Chat.ChatCompletion chatCompletion)
-            {
-                var tokenCount = chatCompletion.Usage?.TotalTokenCount ?? 0;
-                totalTokenCount += tokenCount;
-                Console.WriteLine($"  [Tokens used this turn: {tokenCount}]");
-            }
+            chatHistory.AddAssistantMessage(response.Content!);
         }
-
-        Console.WriteLine($"\nTotal Token Count: {totalTokenCount}");
     }
 }
