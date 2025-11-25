@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.SemanticKernel;
+﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Resources;
+using SharedConfig;
 using System.ComponentModel;
 
 public class S205_JsonResult : ITest
@@ -24,7 +24,7 @@ private const string TutorInstructions =
     }
     """;
 
-public async Task Run(IKernelBuilder builder)
+public async Task Run()
 {
     // Define the agents
     ChatCompletionAgent agent =
@@ -32,7 +32,11 @@ public async Task Run(IKernelBuilder builder)
         {
             Instructions = TutorInstructions,
             Name = TutorName,
-            Kernel = builder.Build(),
+            Kernel = Kernel.CreateBuilder()
+                .AddOpenAIChatCompletion(
+                    modelId: "gpt-4o",
+                    apiKey: Conf.OpenAI.ApiKey)
+                .Build(),
         };
 
     // Create a chat for agent interaction.

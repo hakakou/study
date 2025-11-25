@@ -9,7 +9,6 @@ using System.Text.Json.Serialization;
 
 namespace DOC_S03_GettingStarted_Lights;
 
-[RunDirectlyAttribute]
 public class DOC_S03_GettingStarted_Lights : ITest
 {
     public async Task Run()

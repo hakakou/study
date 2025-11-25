@@ -2,19 +2,24 @@
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharedConfig;
 using System;
 using System.Text.Json.Serialization;
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0110
 
 public class S202_AgentsPlugins : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
         var agent = new ChatCompletionAgent()
         {
             Name = "Seller",
             Instructions = "You are a seller. Answer questions about products.",
-            Kernel = builder.Build(),
+            Kernel = Kernel.CreateBuilder()
+                .AddOpenAIChatCompletion(
+                    modelId: "gpt-4o",
+                    apiKey: Conf.OpenAI.ApiKey)
+                .Build(),
             Arguments = new KernelArguments(new OpenAIPromptExecutionSettings() { FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() }),
         };
 

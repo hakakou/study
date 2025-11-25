@@ -1,13 +1,21 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.OpenAI;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharedConfig;
 using System.ClientModel;
 using System.Collections.ObjectModel;
 
 public class S208_OpenAIAssistantAgent : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run() => await Task.CompletedTask;
+    /*
+    public async Task Run()
     {
-        //var kernel = builder.Build();
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
 
         // Package Microsoft.SemanticKernel.Yaml
         PromptTemplateConfig templateConfig = KernelFunctionYaml.ToPromptTemplateConfig("""
@@ -32,7 +40,7 @@ execution_settings:
 
         //ChatCompletionAgent agent = new ChatCompletionAgent(templateConfig)
         //{
-        //    Kernel = builder.Build(),
+        //    Kernel = kernel,
         //};
 
         //ChatHistory chat = [];
@@ -49,13 +57,13 @@ execution_settings:
 
         // OpenAI specialization
 
-        var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Program.ApiKey));
+        var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Conf.OpenAI.ApiKey));
 
-        /*
-        var clientProvider = OpenAIClientProvider.ForAzureOpenAI(new ApiKeyCredential(""), new Uri(""));
+        
+        //var clientProvider = OpenAIClientProvider.ForAzureOpenAI(new ApiKeyCredential(""), new Uri(""));
         // With Azure.Identity
-        var clientProvider = OpenAIClientProvider.ForAzureOpenAI(new AzureCliCredential(), new Uri(""));
-        */
+        //var clientProvider = OpenAIClientProvider.ForAzureOpenAI(new AzureCliCredential(), new Uri(""));
+        
 
         var openAIagent = await OpenAIAssistantAgent.CreateFromTemplateAsync(
             clientProvider: clientProvider,
@@ -63,7 +71,7 @@ execution_settings:
             {
                 Metadata = AssistantSampleMetadata
             },
-            kernel: builder.Build(),
+            kernel: kernel,
             defaultArguments: new KernelArguments()
             {
                 { "topic", "Dog" },
@@ -80,6 +88,7 @@ execution_settings:
         {
             response.ConsoleOutputAgentChatMessage();
         }
+
     }
 
     protected static readonly ReadOnlyDictionary<string, string> AssistantSampleMetadata =
@@ -87,4 +96,5 @@ execution_settings:
         {
                 { "hksample", bool.TrueString }
         });
+        */
 }

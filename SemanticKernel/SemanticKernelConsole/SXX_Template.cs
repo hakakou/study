@@ -6,8 +6,7 @@ using System.ComponentModel;
 
 public class SXX_Template : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var kernel = builder.Build();
     }
 }

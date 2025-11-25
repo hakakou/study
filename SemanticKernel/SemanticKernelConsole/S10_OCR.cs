@@ -2,13 +2,18 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharedConfig;
 using System.ComponentModel;
 
 public class S10_OCR : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var kernel = builder.Build();
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
 
         byte[] bytes = File.ReadAllBytes("media/OCR2.jpg");
 

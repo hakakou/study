@@ -1,18 +1,24 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharedConfig;
 using System;
-#pragma warning disable SKEXP0110 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0110
 
 public class S201_Agents : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
         var agent = new ChatCompletionAgent()
         {
             Name = "Parrot",
             Instructions = "Repeat the user message in the voice of a pirate",
-            Kernel = builder.Build(),
+            Kernel = Kernel.CreateBuilder()
+                .AddOpenAIChatCompletion(
+                    modelId: "gpt-4o",
+                    apiKey: Conf.OpenAI.ApiKey)
+                .Build(),
         };
 
         ChatHistory chat = [];

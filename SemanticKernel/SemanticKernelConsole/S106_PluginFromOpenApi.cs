@@ -2,13 +2,19 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharedConfig;
 using System.ComponentModel;
 using System.IO;
 
 public class S106_PluginFromOpenApi : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
+        var builder = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey);
+        
         builder.Services.AddSingleton<IMechanicService>(new FakeMechanicService());
         var kernel = builder.Build();
 

@@ -3,12 +3,18 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Filters;
 using SemanticKernelConsole.Functions;
+using SharedConfig;
 using Spectre.Console;
 
 public class S105_Filters : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
+        var builder = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey);
+        
         builder.Plugins.AddFromType<TimePlugin>();
         builder.Services.AddSingleton<IFunctionInvocationFilter, MyFunctionFilter>();
         builder.Services.AddSingleton<IPromptRenderFilter, MyPromptFilter>();

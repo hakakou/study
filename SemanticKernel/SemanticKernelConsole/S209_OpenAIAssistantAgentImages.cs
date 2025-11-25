@@ -1,45 +1,53 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Functions;
+using SharedConfig;
 using System.ClientModel;
 
 public class S209_OpenAIAssistantAgentImages : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Program.ApiKey));
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
 
-        var agent = await OpenAIAssistantAgent.CreateAsync(
-            clientProvider,
-            definition: new OpenAIAssistantDefinition("gpt-4o-mini")
-            {
-                Instructions = "Answer questions about the menu.",
-                Name = "Menu Assistant",
-            },
-            kernel: builder.Build());
+        var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Conf.OpenAI.ApiKey));
 
-        agent.Kernel.Plugins.Add(KernelPluginFactory.CreateFromType<MenuPlugin>());
+        //var agent = await OpenAIAssistantAgent.CreateAsync(
+        //    clientProvider,
+        //    definition: new OpenAIAssistantDefinition("gpt-4o-mini")
+        //    {
+        //        Instructions = "Answer questions about the menu.",
+        //        Name = "Menu Assistant",
+        //    },
+        //    kernel: kernel);
 
-        string threadId = await agent.CreateThreadAsync(
-            new OpenAIThreadCreationOptions { });
+        //agent.Kernel.Plugins.Add(KernelPluginFactory.CreateFromType<MenuPlugin>());
 
-        // Or upload an image:
-        //string fileId = await agent.UploadFileAsync(imageStream, "cat.jpg");
-        //new FileReferenceContent(fileId);
+        //string threadId = await agent.CreateThreadAsync(
+        //    new OpenAIThreadCreationOptions { });
 
-        var message = new ChatMessageContent(AuthorRole.User,
-            [new TextContent("Describe this image."),
-             new ImageContent(new Uri("https://upload.wikimedia.org/wikipedia/commons/5/56/White_shark.jpg"))
-            ]);
+        //// Or upload an image:
+        ////string fileId = await agent.UploadFileAsync(imageStream, "cat.jpg");
+        ////new FileReferenceContent(fileId);
 
-        await agent.AddChatMessageAsync(threadId, message);
-        message.ConsoleOutputAgentChatMessage();
+        //var message = new ChatMessageContent(AuthorRole.User,
+        //    [new TextContent("Describe this image."),
+        //     new ImageContent(new Uri("https://upload.wikimedia.org/wikipedia/commons/5/56/White_shark.jpg"))
+        //    ]);
 
-        var r = agent.InvokeAsync(threadId);
-        await foreach (ChatMessageContent response in r)
-        {
-            response.ConsoleOutputAgentChatMessage();
-        }
+        //await agent.AddChatMessageAsync(threadId, message);
+        //message.ConsoleOutputAgentChatMessage();
+
+        //var r = agent.InvokeAsync(threadId);
+        //await foreach (ChatMessageContent response in r)
+        //{
+        //    response.ConsoleOutputAgentChatMessage();
+        //}
     }
 }

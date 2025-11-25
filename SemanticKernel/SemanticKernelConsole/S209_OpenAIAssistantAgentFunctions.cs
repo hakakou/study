@@ -1,14 +1,24 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Functions;
+using SharedConfig;
 using System.ClientModel;
 
 public class S209_OpenAIAssistantAgentFunctions : ITest
 {
-    public async Task Run(IKernelBuilder builder)
+    public async Task Run()
     {
-        var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Program.ApiKey));
+        var kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: "gpt-4o",
+                apiKey: Conf.OpenAI.ApiKey)
+            .Build();
+
+        /*
+
+        var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Conf.OpenAI.ApiKey));
 
         var agent = await OpenAIAssistantAgent.CreateAsync(
             clientProvider,
@@ -17,7 +27,7 @@ public class S209_OpenAIAssistantAgentFunctions : ITest
                 Instructions = "Answer questions about the menu.",
                 Name = "Menu Assistant",
             },
-            kernel: builder.Build());
+            kernel: kernel);
 
         agent.Kernel.Plugins.Add(KernelPluginFactory.CreateFromType<MenuPlugin>());
 
@@ -33,5 +43,7 @@ public class S209_OpenAIAssistantAgentFunctions : ITest
         {
             response.ConsoleOutputAgentChatMessage();
         }
+
+        */
     }
 }
