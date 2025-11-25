@@ -8,14 +8,6 @@ using System.Text.Json.Serialization;
 
 public class G1_General_Step2_AddPlugins : ITest
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum AppointmentType
-    {
-        Checkup,
-        Prescription,
-        Urgent
-    }
-
     public async Task Run()
     {
         // Azure AI Foundry: This platform extends the capabilities of Azure OpenAI by providing
@@ -166,6 +158,14 @@ public class G1_General_Step2_AddPlugins : ITest
                 };
             }
         }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum AppointmentType
+    {
+        Checkup,
+        Prescription,
+        Urgent
     }
 
     public class AppointmentItem

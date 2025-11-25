@@ -30,9 +30,13 @@ public static class MauiProgram
 
         var key = builder.Configuration["OpenAI:ApiKey"];
 
+        //builder.Services.AddOpenAIChatClient(
+        //    modelId: "gpt-5-nano-2025-08-07",
+        //    apiKey: key);
+
         builder.Services.AddOpenAIChatClient(
-            modelId: "gpt-5-nano-2025-08-07",
-            apiKey: key);
+            modelId: "deepseek/deepseek-r1-0528-qwen3-8b",
+            endpoint: new Uri("http://localhost:1234/v1"));
 
         var kernelBuilder = builder.Services.AddKernel();
         kernelBuilder.Plugins.AddFromType<Drawer>();
