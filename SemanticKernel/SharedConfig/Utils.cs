@@ -1,8 +1,10 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using Spectre.Console;
 
 public static class Utils
 {
@@ -15,11 +17,23 @@ public static class Utils
 
     public static void PrintChatHistory(this ChatHistory history)
     {
+        var allContent = new List<string>();
         int messageNumber = 1;
+        
         foreach (var message in history)
         {
             var authorName = !string.IsNullOrEmpty(message.AuthorName) ? $" ({message.AuthorName})" : "";
-            Console.WriteLine($"\n{messageNumber}) {message.Role}{authorName}:");
+            
+            var roleColor = message.Role.ToString().ToLower() switch
+            {
+                "user" => "green",
+                "assistant" => "blue",
+                "system" => "yellow",
+                "tool" => "purple",
+                _ => "white"
+            };
+            
+            allContent.Add($"[bold {roleColor}]{messageNumber}) {message.Role}{authorName}:[/]");
 
             if (message.Items != null && message.Items.Count > 0)
             {
@@ -28,33 +42,33 @@ public static class Utils
                     switch (item)
                     {
                         case TextContent textContent:
-                            Console.WriteLine($"  [Text] {textContent.Text}");
+                            allContent.Add($"  [cyan][[Text]][/] {textContent.Text.EscapeMarkup()}");
                             break;
                         case ImageContent imageContent:
-                            Console.WriteLine($"  [Image] {imageContent.Uri}");
+                            allContent.Add($"  [magenta][[Image]][/] [link]{imageContent.Uri}[/]");
                             break;
                         case FunctionCallContent functionCall:
-                            Console.WriteLine($"  [FunctionCall] {functionCall.PluginName}.{functionCall.FunctionName}");
-                            Console.WriteLine($"    Id: {functionCall.Id}");
+                            allContent.Add($"  [yellow][[FunctionCall]][/] [bold]{functionCall.PluginName}.{functionCall.FunctionName}[/]");
+                            allContent.Add($"    [dim]Id:[/] {functionCall.Id}");
                             if (functionCall.Arguments != null)
                             {
-                                Console.WriteLine($"    Arguments: {string.Join(", ", functionCall.Arguments.Select(kvp => $"{kvp.Key}={kvp.Value}"))}");
+                                allContent.Add($"    [dim]Arguments:[/] {string.Join(", ", functionCall.Arguments.Select(kvp => $"{kvp.Key}={kvp.Value}"))}");
                             }
                             break;
                         case FunctionResultContent functionResult:
-                            Console.WriteLine($"  [FunctionResult] {functionResult.PluginName}.{functionResult.FunctionName}");
-                            Console.WriteLine($"    CallId: {functionResult.CallId}");
-                            Console.WriteLine($"    Result: {functionResult.Result}");
+                            allContent.Add($"  [green][[FunctionResult]][/] [bold]{functionResult.PluginName}.{functionResult.FunctionName}[/]");
+                            allContent.Add($"    [dim]CallId:[/] {functionResult.CallId}");
+                            allContent.Add($"    [dim]Result:[/] {functionResult.Result?.ToString()?.EscapeMarkup()}");
                             break;
                         default:
-                            Console.WriteLine($"  [Unknown] {item}");
+                            allContent.Add($"  [red][[Unknown]][/] {item}");
                             break;
                     }
                 }
             }
             else if (!string.IsNullOrEmpty(message.Content))
             {
-                Console.WriteLine($"  {message.Content}");
+                allContent.Add($"  {message.Content.EscapeMarkup()}");
             }
 
             if (message.Metadata?.TryGetValue("Usage", out object? usage) ?? false)
@@ -71,18 +85,28 @@ public static class Utils
                         var totalTokens = totalTokensProp.GetValue(usage);
                         var inputTokens = inputTokensProp.GetValue(usage);
                         var outputTokens = outputTokensProp.GetValue(usage);
-                        Console.WriteLine($"  [Usage] Tokens: {totalTokens}, Input: {inputTokens}, Output: {outputTokens}");
+                        allContent.Add($"  [orange1][[Usage]][/] Tokens: [bold]{totalTokens}[/], Input: {inputTokens}, Output: {outputTokens}");
                     }
                 }
             }
 
+            allContent.Add("");
             messageNumber++;
         }
+
+        var panel = new Panel(string.Join("\n", allContent))
+        {
+            Header = new PanelHeader("Chat History", Justify.Center),
+            Border = BoxBorder.Rounded,
+            BorderStyle = new Style(Color.Blue)
+        };
+
+        AnsiConsole.Write(panel);
     }
 
     public static void PrintSectionHeader(string title, char separatorChar = '=', int width = 80)
     {
-        Console.WriteLine(title);
-        Console.WriteLine(new string(separatorChar, width - 1));
+        AnsiConsole.MarkupLine($"[bold cyan]{title.EscapeMarkup()}[/]");
+        AnsiConsole.MarkupLine($"[cyan]{new string(separatorChar, width - 1)}[/]");
     }
 }

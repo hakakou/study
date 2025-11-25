@@ -24,7 +24,6 @@
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.67.1-alpha" />
 		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.67.1" />
 		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.67.1" />
-		<PackageReference Include="Spectre.Console.Cli" Version="0.53.0" />
 		<PackageReference Include="System.IO" Version="4.3.0" />
 	</ItemGroup>
 

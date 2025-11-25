@@ -7,7 +7,7 @@ using SharedConfig;
 using System;
 using static SharedConfig.Conf;
 
-[RunDirectlyAttribute]
+
 public class DOC_Chat_Completion_Services : ITest
 {
     public async Task Run()
