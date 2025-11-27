@@ -1,23 +1,22 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.SemanticKernel;
+﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SharedConfig;
-using System.ComponentModel;
 
+
+[RunDirectlyAttribute]
 public class S10_OCR : ITest
 {
     public async Task Run()
     {
         var kernel = Kernel.CreateBuilder()
             .AddOpenAIChatCompletion(
-                modelId: "gpt-4o",
+                modelId: "gpt-5-nano-2025-08-07",
                 apiKey: Conf.OpenAI.ApiKey)
             .Build();
 
         byte[] bytes = File.ReadAllBytes("media/OCR2.jpg");
 
-        var chatHistory = new ChatHistory("Your job is to OCR official documents. Document will probably be in Greek. Also write the type of document.");
+        var chatHistory = new ChatHistory("Η δουλειά σου είναι να κάνεις OCR επίσημων εγγράφων. Το έγγραφο πιθανότατα θα είναι στα Ελληνικά. Επίσης γράψε και τον τύπο του εγγράφου.");
         chatHistory.AddUserMessage(
         [
             new ImageContent(bytes, "image/jpeg"),
@@ -27,5 +26,4 @@ public class S10_OCR : ITest
         var reply = await chatCompletionService.GetChatMessageContentAsync(chatHistory);
         Console.WriteLine(reply.Content);
     }
-
 }

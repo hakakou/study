@@ -1,10 +1,9 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using System;
+using Spectre.Console;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Spectre.Console;
 
 public static class Utils
 {
@@ -26,11 +25,11 @@ public static class Utils
     {
         var allContent = new List<string>();
         int messageNumber = 1;
-        
+
         foreach (var message in history)
         {
             var authorName = !string.IsNullOrEmpty(message.AuthorName) ? $" ({message.AuthorName})" : "";
-            
+
             var roleColor = message.Role.ToString().ToLower() switch
             {
                 "user" => "green",
@@ -39,7 +38,7 @@ public static class Utils
                 "tool" => "purple",
                 _ => "white"
             };
-            
+
             allContent.Add($"[bold {roleColor}]{messageNumber}) {message.Role}{authorName}:[/]");
 
             if (message.Items != null && message.Items.Count > 0)
@@ -51,9 +50,11 @@ public static class Utils
                         case TextContent textContent:
                             allContent.Add($"  [cyan][[Text]][/] {textContent.Text.EscapeMarkup()}");
                             break;
+
                         case ImageContent imageContent:
                             allContent.Add($"  [magenta][[Image]][/] [link]{imageContent.Uri}[/]");
                             break;
+
                         case FunctionCallContent functionCall:
                             allContent.Add($"  [yellow][[FunctionCall]][/] [bold]{functionCall.PluginName}.{functionCall.FunctionName}[/]");
                             allContent.Add($"    [dim]Id:[/] {functionCall.Id}");
@@ -62,11 +63,13 @@ public static class Utils
                                 allContent.Add($"    [dim]Arguments:[/] {string.Join(", ", functionCall.Arguments.Select(kvp => $"{kvp.Key}={kvp.Value}"))}");
                             }
                             break;
+
                         case FunctionResultContent functionResult:
                             allContent.Add($"  [green][[FunctionResult]][/] [bold]{functionResult.PluginName}.{functionResult.FunctionName}[/]");
                             allContent.Add($"    [dim]CallId:[/] {functionResult.CallId}");
                             allContent.Add($"    [dim]Result:[/] {functionResult.Result?.ToString()?.EscapeMarkup()}");
                             break;
+
                         default:
                             allContent.Add($"  [red][[Unknown]][/] {item}");
                             break;
@@ -110,5 +113,4 @@ public static class Utils
 
         AnsiConsole.Write(panel);
     }
-
 }

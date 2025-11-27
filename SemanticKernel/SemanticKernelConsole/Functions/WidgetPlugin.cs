@@ -1,23 +1,18 @@
-﻿using Microsoft.SemanticKernel;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.OpenApi.Extensions;
+using Microsoft.SemanticKernel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Extensions;
 
 namespace SemanticKernelConsole.Functions
 {
-
     public class WidgetFactory
     {
         [KernelFunction]
         [Description("Creates a new widget of the specified type and colors")]
-        public WidgetDetails CreateWidget([Description("The type of widget to be created")] WidgetType widgetType, 
+        public WidgetDetails CreateWidget([Description("The type of widget to be created")] WidgetType widgetType,
             [Description("The colors of the widget to be created")] WidgetColor[] widgetColors)
         {
-            // Microsoft.OpenApi.Extensions - GetDisplayName returns the attribute 
+            // Microsoft.OpenApi.Extensions - GetDisplayName returns the attribute
             var colors = string.Join('-', widgetColors.Select(c => c.GetDisplayName()).ToArray());
             return new()
             {
@@ -58,4 +53,3 @@ namespace SemanticKernelConsole.Functions
         public WidgetColor[] Colors { get; init; }
     }
 }
-

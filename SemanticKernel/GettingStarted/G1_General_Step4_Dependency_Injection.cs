@@ -1,11 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
-using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 
 public class G1_General_Step4_Dependency_Injection : ITest
 {
@@ -33,7 +29,7 @@ public class G1_General_Step4_Dependency_Injection : ITest
         // Invoke the kernel with a templated prompt and stream the results to the display
         KernelArguments arguments = new(settings)
             { { "topic", "Athens, Greece?" } };
-        
+
         await foreach (var update in
                   kernel.InvokePromptStreamingAsync(
                   "What time is  it in {{$topic}}?", arguments))

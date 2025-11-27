@@ -1,6 +1,5 @@
-﻿using OpenAI.Chat;
+﻿using OpenAI.Files;
 using OpenAI.FineTuning;
-using OpenAI.Files;
 using System.ClientModel;
 using System.Text.Json.Serialization;
 
@@ -24,7 +23,6 @@ public class FineTuningClientTests
         var job = await client.CreateFineTuningJobAsync(BinaryContent.Create(jsonStream), waitUntilCompleted: true);
 
         Console.WriteLine(job.Dump());
-
     }
 
     [Test]
@@ -36,7 +34,6 @@ public class FineTuningClientTests
 
         void UploadFiles()
         {
-
             OpenAIFileClient fileClient = new OpenAIFileClient("sk-proj-XXX");
 
             BinaryData fileContent = BinaryData.FromString("""
@@ -89,5 +86,6 @@ public class FineTuningClientTests
         public long? Weight { get; set; }
     }
 
-    public enum Role { Assistant, System, User };
+    public enum Role
+    { Assistant, System, User };
 }

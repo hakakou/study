@@ -1,9 +1,8 @@
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel;
-using System.Text.Json;
 using OpenAI.Assistants;
-using Microsoft.SemanticKernel.Agents;
 
 public static class ObjectExtensions
 {
@@ -76,5 +75,4 @@ public static class ObjectExtensions
             Console.WriteLine($"  [Usage] Tokens: {totalTokens}, Input: {inputTokens}, Output: {outputTokens}");
         }
     }
-
 }

@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net9.0</TargetFramework>
@@ -8,15 +7,6 @@
 		<Nullable>enable</Nullable>
 		<UserSecretsId>313b34db-f412-4570-a9df-1a7bdea20aaa</UserSecretsId>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Haka\S03_GettingStarted_Lights.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="DOC_S06_Image.cs" />
-	  <None Include="DOC_S03_GettingStarted_Lights.cs" />
-	</ItemGroup>
  
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.17.1" />
@@ -45,5 +35,15 @@
 		<None Update="**/*.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="media/*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="SharedConfig" />
 	</ItemGroup>
 </Project>

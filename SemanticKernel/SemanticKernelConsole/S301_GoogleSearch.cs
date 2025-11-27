@@ -1,5 +1,4 @@
-﻿using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Data;
+﻿using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.Plugins.Web.Google;
 using SharedConfig;
 
@@ -16,7 +15,7 @@ public class S301_GoogleSearch : ITest
         var query = "What is the Semantic Kernel?";
 
         // Search and return results
-        KernelSearchResults<string> searchResults = 
+        KernelSearchResults<string> searchResults =
             await textSearch.SearchAsync(query, new() { Top = 4 });
 
         await foreach (string result in searchResults.Results)
@@ -25,9 +24,9 @@ public class S301_GoogleSearch : ITest
         }
 
         // Search and return results as TextSearchResult items
-        KernelSearchResults<TextSearchResult> textResults = 
+        KernelSearchResults<TextSearchResult> textResults =
             await textSearch.GetTextSearchResultsAsync(query, new() { Top = 4 });
-        
+
         Console.WriteLine("\n--- Text Search Results ---\n");
         await foreach (TextSearchResult result in textResults.Results)
         {
@@ -36,7 +35,7 @@ public class S301_GoogleSearch : ITest
             Console.WriteLine($"Link:  {result.Link}");
         }
 
-        KernelSearchResults<object> objectResults = 
+        KernelSearchResults<object> objectResults =
             await textSearch.GetSearchResultsAsync("What is an elevator", new() { Top = 4 });
 
         await foreach (Google.Apis.CustomSearchAPI.v1.Data.Result result in objectResults.Results)

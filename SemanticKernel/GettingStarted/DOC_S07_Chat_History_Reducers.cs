@@ -1,11 +1,6 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
-using System;
-using System.Threading.Tasks;
-using static SharedConfig.Conf;
-
 
 public class DOC_S07_Chat_History_Reducers : ITest
 {

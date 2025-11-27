@@ -19,5 +19,3 @@ namespace SemanticKernelConsole.Functions
             string menuItem) => "$9.99";
     }
 }
-
-

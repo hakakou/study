@@ -1,16 +1,15 @@
-﻿using Azure;
-using Azure.AI.OpenAI;
+﻿using Azure.AI.OpenAI;
 using OpenAI.Chat;
 using SharedConfig;
 using Spectre.Console;
 using System.ClientModel;
 
-class Program
+internal class Program
 {
     public static AzureOpenAIClient AzureClient;
     public static ChatClient ChatClient;
 
-    static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
         Conf.Init<Program>();
 
@@ -48,30 +47,39 @@ class Program
             case nameof(T01_Intro):
                 await T01_Intro.Run();
                 break;
+
             case nameof(T02_ZeroShot_Demo1):
                 await T02_ZeroShot_Demo1.Run();
                 break;
+
             case nameof(T03_ZeroShot_Demo2):
                 await T03_ZeroShot_Demo2.Run();
                 break;
+
             case nameof(T04_ZeroShot_Demo2_Refinement):
                 await T04_ZeroShot_Demo2_Refinement.Run();
                 break;
+
             case nameof(T05_Chatbot_Hotel):
                 await T05_Chatbot_Hotel.Run();
                 break;
+
             case nameof(T06_HomemadeFunctionCalling):
                 await T06_HomemadeFunctionCalling.Run();
                 break;
+
             case nameof(T07_FunctionCalling):
                 await T07_FunctionCalling.Run();
                 break;
+
             case nameof(T08_Embeddings):
                 await T08_Embeddings.Run();
                 break;
+
             case nameof(T09_Rag):
                 await T09_Rag.Run();
                 break;
+
             case nameof(T10_Rag_Enhanced):
                 await T10_Rag_Enhanced.Run();
                 break;

@@ -1,9 +1,8 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SharedConfig;
-using System;
+
 #pragma warning disable SKEXP0110
 
 public class S201_Agents : ITest

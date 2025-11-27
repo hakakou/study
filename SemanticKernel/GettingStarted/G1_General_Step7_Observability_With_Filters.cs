@@ -2,9 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
 using System.ComponentModel;
-
 
 public class G1_General_Step7_Observability_With_Filters : ITest
 {
@@ -17,7 +15,7 @@ public class G1_General_Step7_Observability_With_Filters : ITest
 
         kernelBuilder.Plugins.AddFromType<TimeInformation>();
 
-        kernelBuilder.Services.AddLogging(loggingBuilder => 
+        kernelBuilder.Services.AddLogging(loggingBuilder =>
             loggingBuilder.AddConsole().SetMinimumLevel(LogLevel.Information));
         kernelBuilder.Services.AddSingleton<IFunctionInvocationFilter, MyFunctionFilter>();
 

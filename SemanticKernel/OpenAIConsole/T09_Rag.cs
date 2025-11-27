@@ -4,12 +4,12 @@ using OpenAI.Embeddings;
 using SharedConfig;
 using System.ClientModel;
 
-class T09_Rag
+internal class T09_Rag
 {
     private static EmbeddingClient embeddingClient;
     private static ChatClient chatClient;
     private static Dictionary<int, float[]> vectorStore = new();
-    static string[] documents;
+    private static string[] documents;
 
     public static async Task Run()
     {

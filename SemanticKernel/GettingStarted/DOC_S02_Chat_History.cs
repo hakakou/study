@@ -1,12 +1,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using SharedConfig;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-
-public class DOC_Chat_History : ITest
+public class DOC_S02_Chat_History : ITest
 {
     public async Task Run()
     {
@@ -20,7 +15,7 @@ public class DOC_Chat_History : ITest
 
         // Example 1: Basic chat history
         Utils.PrintSectionHeader("Example 1: Basic Chat History");
-        
+
         ChatHistory chatHistory = [];
         chatHistory.AddSystemMessage("You are a helpful assistant.");
         chatHistory.AddUserMessage("What's available to order?");
@@ -125,5 +120,4 @@ public class DOC_Chat_History : ITest
 
         Console.WriteLine($"\nAssistant: {response.Content}");
     }
-
 }

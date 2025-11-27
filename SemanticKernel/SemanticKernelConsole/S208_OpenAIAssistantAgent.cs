@@ -1,13 +1,7 @@
-﻿using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Agents.OpenAI;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
-using System.ClientModel;
-using System.Collections.ObjectModel;
-
-public class S208_OpenAIAssistantAgent : ITest
+﻿public class S208_OpenAIAssistantAgent : ITest
 {
     public async Task Run() => await Task.CompletedTask;
+
     /*
     public async Task Run()
     {
@@ -59,11 +53,9 @@ execution_settings:
 
         var clientProvider = OpenAIClientProvider.ForOpenAI(new ApiKeyCredential(Conf.OpenAI.ApiKey));
 
-        
         //var clientProvider = OpenAIClientProvider.ForAzureOpenAI(new ApiKeyCredential(""), new Uri(""));
         // With Azure.Identity
         //var clientProvider = OpenAIClientProvider.ForAzureOpenAI(new AzureCliCredential(), new Uri(""));
-        
 
         var openAIagent = await OpenAIAssistantAgent.CreateFromTemplateAsync(
             clientProvider: clientProvider,
@@ -88,7 +80,6 @@ execution_settings:
         {
             response.ConsoleOutputAgentChatMessage();
         }
-
     }
 
     protected static readonly ReadOnlyDictionary<string, string> AssistantSampleMetadata =

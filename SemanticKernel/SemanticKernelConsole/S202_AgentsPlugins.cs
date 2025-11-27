@@ -3,8 +3,8 @@ using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SharedConfig;
-using System;
 using System.Text.Json.Serialization;
+
 #pragma warning disable SKEXP0110
 
 public class S202_AgentsPlugins : ITest

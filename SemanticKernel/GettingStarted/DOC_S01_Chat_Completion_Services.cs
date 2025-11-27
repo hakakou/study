@@ -3,12 +3,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
-using System;
-using static SharedConfig.Conf;
 
-
-public class DOC_Chat_Completion_Services : ITest
+public class DOC_S01_Chat_Completion_Services : ITest
 {
     public async Task Run()
     {
@@ -58,5 +54,4 @@ public class DOC_Chat_Completion_Services : ITest
 
         Console.WriteLine($"Assistant: {response.Content}");
     }
-
 }

@@ -1,24 +1,20 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
-using SharedConfig;
-using System;
-
 
 public class G1_General_Step6_Responsible_AI : ITest
 {
     public async Task Run()
     {
         var builder = Kernel.CreateBuilder();
-        
+
         builder.AddOpenAIChatCompletion(
             modelId: "gpt-4o",
             apiKey: Conf.OpenAI.ApiKey);
-        
+
         builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConsole().SetMinimumLevel(LogLevel.Information));
         builder.Services.AddSingleton<IPromptRenderFilter, MyPromptFilter>();
         builder.Services.AddSingleton<IPromptRenderFilter, ObservabilityPromptFilter>();
-
 
         var kernel = builder.Build();
 
@@ -40,9 +36,9 @@ public class G1_General_Step6_Responsible_AI : ITest
             {
                 context.Arguments["card_number"] = "**** **** **** ****";
             }
-            
+
             await next(context);
-            
+
             context.RenderedPrompt += " NO RACISM";
 
             // Tell me useful information about credit card number **** **** **** ****? NO RACISM

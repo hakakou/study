@@ -1,10 +1,5 @@
 ﻿using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Agents.OpenAI;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SemanticKernelConsole.Functions;
 using SharedConfig;
-using System.ClientModel;
 
 public class S209_OpenAIAssistantAgentFunctions : ITest
 {

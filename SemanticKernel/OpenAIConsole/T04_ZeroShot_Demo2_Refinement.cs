@@ -1,7 +1,7 @@
 ﻿using OpenAI.Chat;
 using Spectre.Console;
 
-class T04_ZeroShot_Demo2_Refinement
+internal class T04_ZeroShot_Demo2_Refinement
 {
     public static async Task Run()
     {
@@ -9,7 +9,7 @@ class T04_ZeroShot_Demo2_Refinement
 
         ChatCompletion completion2 = await chatClient.CompleteChatAsync(
     [
-        new UserChatMessage(@"Determine at most three topics that are being discussed in the following text, delimited by triple backticks. 
+        new UserChatMessage(@"Determine at most three topics that are being discussed in the following text, delimited by triple backticks.
 Format the response as a line of at most 2 words, separated by commas.
 ```Language models have revolutionized the way we interact with technology, empowering us to
 generate creative content, explore new ideas, and enhance our communication. LLMs offer immense
