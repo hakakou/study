@@ -1,7 +1,5 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
-
 
 public class G1_General_Step1_CreateKernel : ITest
 {
@@ -51,7 +49,7 @@ public class G1_General_Step1_CreateKernel : ITest
             {
                 ResponseFormat = "json_object"
             }) { { "topic", "chocolate" } };
-        
+
         Console.WriteLine(await kernel.InvokePromptAsync(
             "Create a recipe for a {{$topic}} cake in JSON format", arguments));
     }

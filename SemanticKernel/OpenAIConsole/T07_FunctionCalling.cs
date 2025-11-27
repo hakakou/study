@@ -149,6 +149,7 @@ public class T07_FunctionCalling
     {
         public WeatherInfoRequest WeatherInfoRequest { get; set; }
     }
+
     public class WeatherInfoRequest
     {
         public string city { get; set; }

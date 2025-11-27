@@ -1,10 +1,8 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-
 
 public class G1_General_Step2_AddPlugins : ITest
 {
@@ -38,7 +36,6 @@ public class G1_General_Step2_AddPlugins : ITest
 
         // builder.Services.AddLogging(services =>
         // services.AddConsole().SetMinimumLevel(LogLevel.Trace));
-
 
         builder.Plugins.AddFromType<TimeInformation>();
         //builder.Plugins.AddFromType<AppointmentPlugin>();
@@ -97,7 +94,6 @@ public class G1_General_Step2_AddPlugins : ITest
         [KernelFunction]
         [Description("Retrieves the current time in Athens time.")]
         public string GetCurrentTime() => DateTime.Now.ToString("R");
-
     }
 
     public class Appointment

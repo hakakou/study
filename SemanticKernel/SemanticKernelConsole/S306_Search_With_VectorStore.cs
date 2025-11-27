@@ -1,17 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.VectorData;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.InMemory;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Connectors.Qdrant;
-using Microsoft.SemanticKernel.Data;
-using Microsoft.SemanticKernel.Embeddings;
-using SharedConfig;
-using System.ComponentModel;
-using static Google.Protobuf.Compiler.CodeGeneratorResponse.Types;
-
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+﻿#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
 /*
 
@@ -24,7 +11,6 @@ public class S306_Search_With_VectorStore : ITest
                 modelId: "text-embedding-3-small",
                 apiKey: Conf.OpenAI.ApiKey)
             .Build();
-
 
         var textEmbeddingGeneration = kernel.GetRequiredService<ITextEmbeddingGenerationService>();
 

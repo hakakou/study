@@ -2,10 +2,7 @@
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.Plugins.Web.Bing;
-using Microsoft.SemanticKernel.Plugins.Web.Google;
-using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 using SharedConfig;
-using System.Text.Json;
 
 #pragma warning disable SKEXP0050
 
@@ -18,7 +15,7 @@ public class S305_SearchWithFunctionCalling : ITest
                 modelId: "gpt-4o",
                 apiKey: Conf.OpenAI.ApiKey)
             .Build();
-            
+
         ITextSearch textSearch = new BingTextSearch("303882ec48a04a2089d34a2ed6441f3c");
 
         // Build a text search plugin with Bing search and add to the kernel
@@ -32,7 +29,6 @@ public class S305_SearchWithFunctionCalling : ITest
         KernelArguments arguments = new(settings);
         Console.WriteLine(await kernel.InvokePromptAsync("What is the Semantic Kernel?", arguments));
     }
-
 
     private static KernelFunction CreateSearchBySite(BingTextSearch textSearch)
     {
@@ -50,6 +46,4 @@ public class S305_SearchWithFunctionCalling : ITest
 
         return textSearch.CreateSearch(options, new TextSearchOptions() { Top = 10 });
     }
-
-
 }

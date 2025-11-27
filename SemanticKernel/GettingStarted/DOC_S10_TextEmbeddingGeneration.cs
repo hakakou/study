@@ -1,17 +1,9 @@
 ﻿using Microsoft.Extensions.AI;
-using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Connectors.Qdrant;
-using Microsoft.SemanticKernel.Embeddings;
 using OpenAI.Embeddings;
-using Qdrant.Client;
-using SharedConfig;
-using static SharedConfig.Conf;
 
 #pragma warning disable SKEXP0010
 #pragma warning disable SKEXP0001
-
 
 [RunDirectlyAttribute]
 public class DOC_S10_TextEmbeddingGeneration : ITest
@@ -40,9 +32,9 @@ public class DOC_S10_TextEmbeddingGeneration : ITest
         var embeddingService = kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
 
         // Generate embedding for a single text
-        ReadOnlyMemory<float> embedding = 
+        ReadOnlyMemory<float> embedding =
             await embeddingService.GenerateVectorAsync("Hello, Semantic Kernel!");
-        
+
         Console.WriteLine($"Generated embedding with {embedding.Length} dimensions");
         Console.WriteLine($"First 5 values: {string.Join(", ", embedding.Slice(0, 5).ToArray().Select(v => v.ToString("F4")))}\n");
 
@@ -68,6 +60,4 @@ public class DOC_S10_TextEmbeddingGeneration : ITest
         Console.WriteLine(
             $"First 5 values: {string.Join(", ", embedding.ToFloats()[..5].ToArray().Select(v => v.ToString("F4")))}");
     }
-
 }
-

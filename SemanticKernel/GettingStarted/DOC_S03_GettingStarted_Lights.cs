@@ -1,7 +1,6 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 

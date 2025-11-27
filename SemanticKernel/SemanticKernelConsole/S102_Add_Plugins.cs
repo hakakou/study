@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
+﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Functions;
 using SharedConfig;
-using System.ComponentModel;
 
 public class S102_Add_Plugins : ITest
 {
@@ -14,7 +11,7 @@ public class S102_Add_Plugins : ITest
             .AddOpenAIChatCompletion(
                 modelId: "gpt-4o",
                 apiKey: Conf.OpenAI.ApiKey);
-        
+
         builder.Plugins.AddFromType<TimePlugin>();
         builder.Plugins.AddFromType<WidgetFactory>();
         Kernel kernel = builder.Build();
@@ -28,8 +25,10 @@ public class S102_Add_Plugins : ITest
             "The current time is {{TimePlugin.GetCurrentUtcTime}}. How many days until Christmas?"));
 
         // Example 3. Invoke the kernel with a prompt and allow the AI to automatically invoke functions
-        OpenAIPromptExecutionSettings settings = new() { 
-            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() };
+        OpenAIPromptExecutionSettings settings = new()
+        {
+            FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+        };
         Console.WriteLine(await kernel.InvokePromptAsync(
             "How many days until Christmas? Explain your thinking.", new(settings)));
 

@@ -14,7 +14,7 @@ public class S105_Filters : ITest
             .AddOpenAIChatCompletion(
                 modelId: "gpt-4o",
                 apiKey: Conf.OpenAI.ApiKey);
-        
+
         builder.Plugins.AddFromType<TimePlugin>();
         builder.Services.AddSingleton<IFunctionInvocationFilter, MyFunctionFilter>();
         builder.Services.AddSingleton<IPromptRenderFilter, MyPromptFilter>();

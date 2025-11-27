@@ -1,12 +1,4 @@
-﻿using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Agents.OpenAI;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using OpenAI.Files;
-using OpenAI.VectorStores;
-using SharedConfig;
-using System.ClientModel;
-
-public class S211_OpenAIFileSearch : ITest
+﻿public class S211_OpenAIFileSearch : ITest
 {
     public async Task Run()
     {

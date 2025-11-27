@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.Extensions.DependencyInjection;
 using SharedConfig;
-
 
 #pragma warning disable SKEXP0110
 
@@ -21,12 +19,12 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
             .AddOpenAIChatCompletion(
                 modelId: "gpt-4o",
                 apiKey: Conf.OpenAI.ApiKey);
-        
-        builder.Services.AddLogging(loggingBuilder => 
+
+        builder.Services.AddLogging(loggingBuilder =>
             loggingBuilder.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         var kernel = builder.Build();
-        ILoggerFactory LoggerFactory = kernel.Services.GetService<ILoggerFactory>();  
+        ILoggerFactory LoggerFactory = kernel.Services.GetService<ILoggerFactory>();
 
         ChatCompletionAgent agentReviewer =
             new()
@@ -86,10 +84,9 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
                 {{$history}}
                 """, safeParameterNames: "history");
 
-
         AgentGroupChat chat = new(agentWriter, agentReviewer)
         {
-            LoggerFactory= LoggerFactory,
+            LoggerFactory = LoggerFactory,
             ExecutionSettings = new()
             {
                 TerminationStrategy =

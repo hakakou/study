@@ -1,10 +1,9 @@
-﻿using OpenAI.Chat;
+﻿using Azure.AI.OpenAI;
+using SharedConfig;
 using Spectre.Console;
 using System.ClientModel;
-using Azure.AI.OpenAI;
-using SharedConfig;
 
-class T08_Embeddings
+internal class T08_Embeddings
 {
     public static async Task Run()
     {
@@ -17,7 +16,6 @@ class T08_Embeddings
         // Get embeddings for the sentences
         var sentence1 = await embeddingClient.GenerateEmbeddingAsync("She works in tech since 2010, after graduating");
         var sentence2 = await embeddingClient.GenerateEmbeddingAsync("Verify inputs don't exceed the maximum length");
-       
 
         // Calculate the dot product of the embeddings
         double dot = 0.0;

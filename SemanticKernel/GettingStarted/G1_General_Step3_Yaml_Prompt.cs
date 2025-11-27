@@ -1,9 +1,4 @@
-using Microsoft.Identity.Client;
 using Microsoft.SemanticKernel;
-using SharedConfig;
-using Spectre.Console;
-using static SharedConfig.Conf;
-
 
 public class G1_General_Step3_Yaml_Prompt : ITest
 {

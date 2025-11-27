@@ -1,17 +1,14 @@
-﻿using Azure.AI.OpenAI;
-using OpenAI.Chat;
+﻿using OpenAI.Chat;
 using Spectre.Console;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-class T06_HomemadeFunctionCalling
+internal class T06_HomemadeFunctionCalling
 {
     public static async Task Run()
     {
         var chatClient = Program.ChatClient;
 
         var list = new List<ChatMessage>() {
-
             new SystemChatMessage("""
 You are a helpful assistant. Your task is to converse in a friendly manner with the user.
 If the user's request requires it, you can use external tools to answer their questions. Ask the
@@ -42,7 +39,6 @@ Markdown code snippet formatted in the following schema:
 "tool_input": string \ The input to the action, formatted as json
 }
 
-
 **Option #2:**
 Use this if you want to respond directly to the user.
 Markdown code snippet formatted in the following schema:
@@ -60,7 +56,7 @@ Remember to always respond with one of the two Options and NOTHING else.
 
         var opts = new ChatCompletionOptions()
         {
-            ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat() 
+            ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat()
         };
         ChatCompletion completion = await chatClient.CompleteChatAsync(list, opts);
 
@@ -70,7 +66,7 @@ Remember to always respond with one of the two Options and NOTHING else.
             list.Add(new UserChatMessage(userMessage));
             AnsiConsole.MarkupLine("[green]BOT:[/]");
 
-            var chatCompletionsResponse = (await chatClient.CompleteChatAsync(list,opts)).Value;
+            var chatCompletionsResponse = (await chatClient.CompleteChatAsync(list, opts)).Value;
             var llmResponse = chatCompletionsResponse.Content[0].Text;
             var deserializedResponse = Json<ChatCompletionResponse>(llmResponse);
 
@@ -92,12 +88,14 @@ Remember to respond with a markdown code snippet of
 a json blob with a single action,
 and NOTHING else.";
                         list.Add(new UserChatMessage(getAnswerMessage));
-                        tempResponse = (await chatClient.CompleteChatAsync(list,opts)).Value.Content[0].Text;
+                        tempResponse = (await chatClient.CompleteChatAsync(list, opts)).Value.Content[0].Text;
                         deserializedResponse = Json<ChatCompletionResponse>(tempResponse);
                         break;
+
                     case "Email":
                         // Implement Email function call here
                         break;
+
                     case "StockMarket":
                         // Implement StockMarket function call here
                         break;
@@ -127,7 +125,7 @@ and NOTHING else.";
         }
         else
         {
-            throw new Exception("No JSON object found in the input string: "+input);
+            throw new Exception("No JSON object found in the input string: " + input);
         }
     }
 
@@ -135,6 +133,5 @@ and NOTHING else.";
     {
         public string tool { get; set; }
         public string tool_input { get; set; }
-
     }
 }

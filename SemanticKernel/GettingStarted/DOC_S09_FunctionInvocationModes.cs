@@ -1,12 +1,9 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
 using System.ComponentModel;
-using static SharedConfig.Conf;
 
 namespace DOC_S09_FunctionInvocationModes;
-
 
 public class DOC_S09_FunctionInvocationModes : ITest
 {
@@ -242,7 +239,7 @@ public class DOC_S09_FunctionInvocationModes : ITest
             }
 
             // Create a chat message to preserve the function calls in the chat history
-            ChatMessageContent fcContent = new ChatMessageContent(role: authorRole 
+            ChatMessageContent fcContent = new ChatMessageContent(role: authorRole
                 ?? default, content: null);
             chatHistory.Add(fcContent);
 

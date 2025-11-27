@@ -5,7 +5,6 @@ namespace SharedConfig;
 
 public static class Conf
 {
-
     public static void Init<T>() where T : class
     {
         var config = new ConfigurationBuilder()
@@ -47,8 +46,8 @@ public static class Conf
         public static string SearchEngineId;
         public static string ApiKey;
     }
+}
 
-    public class RunDirectlyAttribute : Attribute
-    {
-    }
+public class RunDirectlyAttribute : Attribute
+{
 }

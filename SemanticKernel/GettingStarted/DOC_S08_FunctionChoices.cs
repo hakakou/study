@@ -1,10 +1,8 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-
 
 namespace DOC_S08_FunctionChoices;
 
@@ -22,7 +20,7 @@ public class DOC_S08_FunctionChoices : ITest
     private async Task DemonstrateAutoFunctionChoiceBehavior()
     {
         Utils.PrintSectionHeader("Auto Function Choice Behavior");
-        
+
         var kernel = Kernel.CreateBuilder()
             .AddOpenAIChatCompletion(modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey)
             .Build();
@@ -51,7 +49,7 @@ public class DOC_S08_FunctionChoices : ITest
     private async Task DemonstrateRequiredFunctionChoiceBehavior()
     {
         Utils.PrintSectionHeader("Required Function Choice Behavior");
-        
+
         var kernel = Kernel.CreateBuilder()
             .AddOpenAIChatCompletion(modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey)
             .Build();
@@ -80,7 +78,7 @@ public class DOC_S08_FunctionChoices : ITest
     private async Task DemonstrateNoneFunctionChoiceBehavior()
     {
         Utils.PrintSectionHeader("None Function Choice Behavior");
-        
+
         var kernel = Kernel.CreateBuilder()
             .AddOpenAIChatCompletion(modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey)
             .Build();
@@ -109,7 +107,7 @@ public class DOC_S08_FunctionChoices : ITest
     private async Task DemonstrateAutoWithSpecificFunctions()
     {
         Utils.PrintSectionHeader("Auto Function Choice Behavior with Specific Functions");
-        
+
         IKernelBuilder builder = Kernel.CreateBuilder();
         builder.AddOpenAIChatCompletion(modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey);
         builder.Plugins.AddFromType<LightsPlugin>("Lights");
@@ -134,7 +132,7 @@ public class DOC_S08_FunctionChoices : ITest
     private async Task DemonstrateYamlPromptWithFunctionChoice()
     {
         Utils.PrintSectionHeader("YAML Prompt with Function Choice Behavior");
-        
+
         IKernelBuilder builder = Kernel.CreateBuilder();
         builder.AddOpenAIChatCompletion(modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey);
         builder.Plugins.AddFromType<LightsPlugin>("Lights");
@@ -156,8 +154,6 @@ public class DOC_S08_FunctionChoices : ITest
         Console.WriteLine(result);
     }
 }
-
-
 
 public class LightsPlugin
 {

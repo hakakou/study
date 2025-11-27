@@ -1,7 +1,7 @@
 ﻿using OpenAI.Chat;
 using Spectre.Console;
 
-class T01_Intro
+internal class T01_Intro
 {
     public static async Task Run()
     {

@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
-using System.Text.Json;
 using Microsoft.SemanticKernel;
+using System.Text.Json;
 
 namespace Resources;
+
 /// <summary>
 /// Supports parsing json from a text block that may contain literals delimiters:
 /// <list type="table">

@@ -1,14 +1,13 @@
 ﻿using OpenAI.Chat;
 using Spectre.Console;
 
-class T05_Chatbot_Hotel
+internal class T05_Chatbot_Hotel
 {
     public static async Task Run()
     {
         var chatClient = Program.ChatClient;
 
         var list = new List<ChatMessage>() {
-
             new SystemChatMessage(@"Suppose you want to build a booking chatbot for a hotel brand group. A reasonable system prompt
 might look something like this:
 You are a HotelBot, an automated service to collect hotel bookings within a hotel brand group,
