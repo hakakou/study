@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using static SharedConfig.Conf;
 
-[RunDirectlyAttribute]
+
 public class DOC_S07_Chat_History_Reducers : ITest
 {
     public async Task Run()

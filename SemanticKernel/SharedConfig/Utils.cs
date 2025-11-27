@@ -15,6 +15,13 @@ public static class Utils
         return JsonSerializer.Serialize(obj, s_jsonOptionsCache);
     }
 
+    public static void PrintSectionHeader(string title, char separatorChar = '=', int width = 80)
+    {
+        var rule = new Rule($"[cyan]{title.EscapeMarkup()}[/]");
+        rule.LeftJustified();
+        AnsiConsole.Write(rule);
+    }
+
     public static void PrintChatHistory(this ChatHistory history)
     {
         var allContent = new List<string>();
@@ -104,9 +111,4 @@ public static class Utils
         AnsiConsole.Write(panel);
     }
 
-    public static void PrintSectionHeader(string title, char separatorChar = '=', int width = 80)
-    {
-        AnsiConsole.MarkupLine($"[bold cyan]{title.EscapeMarkup()}[/]");
-        AnsiConsole.MarkupLine($"[cyan]{new string(separatorChar, width - 1)}[/]");
-    }
 }
