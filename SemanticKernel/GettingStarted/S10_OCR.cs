@@ -1,9 +1,7 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using SharedConfig;
 
 
-[RunDirectlyAttribute]
 public class S10_OCR : ITest
 {
     public async Task Run()
