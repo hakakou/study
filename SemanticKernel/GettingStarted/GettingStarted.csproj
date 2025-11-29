@@ -10,6 +10,7 @@
  
 	<ItemGroup>
 		<PackageReference Include="Azure.Identity" Version="1.17.1" />
+		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.5.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
 		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.67.1" />
@@ -24,6 +25,7 @@
 		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.67.1" />
 		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.67.1" />
 		<PackageReference Include="ObjectDumper.NET" Version="4.3.2" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
 		<PackageReference Include="System.IO" Version="4.3.0" />
 	</ItemGroup>
  

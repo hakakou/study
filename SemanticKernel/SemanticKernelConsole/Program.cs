@@ -4,9 +4,6 @@ using Spectre.Console;
 using System.Reflection;
 
 
-#pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
 public class Program
 {
     public static ServiceProvider ServiceProvider;
@@ -50,9 +47,4 @@ public class Program
         Console.WriteLine();
         Console.WriteLine();
     }
-}
-
-public interface ITest
-{
-    Task Run();
 }

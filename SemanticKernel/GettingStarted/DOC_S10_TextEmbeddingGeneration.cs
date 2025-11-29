@@ -1,17 +1,19 @@
-﻿using Microsoft.Extensions.AI;
+﻿using Azure.AI.OpenAI;
+using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using OpenAI.Embeddings;
+using System.ClientModel;
 
 #pragma warning disable SKEXP0010
 #pragma warning disable SKEXP0001
 
-[RunDirectlyAttribute]
 public class DOC_S10_TextEmbeddingGeneration : ITest
 {
     public async Task Run()
     {
-        await AddDirectlyToKernelExample();
-        await StandaloneInstanceExample();
+        await d();
+        //await AddDirectlyToKernelExample();
+        //await StandaloneInstanceExample();
     }
 
     /// <summary>
@@ -59,5 +61,30 @@ public class DOC_S10_TextEmbeddingGeneration : ITest
         Console.WriteLine($"Generated embedding with {embedding.ToFloats().Length} dimensions");
         Console.WriteLine(
             $"First 5 values: {string.Join(", ", embedding.ToFloats()[..5].ToArray().Select(v => v.ToString("F4")))}");
+    }
+
+
+    async Task d()
+    {
+        var azureClient = new AzureOpenAIClient(
+                new Uri(Conf.AzureOpenAI.Endpoint),
+                new ApiKeyCredential(Conf.AzureOpenAI.ApiKey));
+
+        var embeddingClient = azureClient.GetEmbeddingClient("text-embedding-3-small");
+
+        // Get embeddings for the sentences
+        var sentence1 = await embeddingClient.GenerateEmbeddingAsync("She works in tech since 2010, after graduating");
+        var sentence2 = await embeddingClient.GenerateEmbeddingAsync("Verify inputs don't exceed the maximum length");
+
+        // Calculate the dot product of the embeddings
+        double dot = 0.0;
+        var floats1 = sentence1.Value.ToFloats().ToArray();
+        var floats2 = sentence2.Value.ToFloats().ToArray();
+        for (int n = 0; n < floats1.Length; n++)
+        {
+            dot += floats1[0] * floats2[0];
+        }
+
+        Console.WriteLine($"Dot product: {dot}");
     }
 }

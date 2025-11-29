@@ -1,41 +1,38 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
-public class DOC_S01_Chat_Completion_Services : ITest
+[RunDirectly]
+public class DOC_S01_Chat_Completion_Services(IChatCompletionService chat, Kernel kernel)
+    : ITestBuilder
 {
-    public async Task Run()
+    public static void Build(IServiceCollection services)
     {
-        var services = new ServiceCollection();
-        services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Information));
-
-        var kernelBuilder = services.AddKernel()
-            .AddOpenAIChatCompletion(
+        services.AddKernel().AddOpenAIChatCompletion(
                 modelId: "gpt-4o",
                 apiKey: Conf.OpenAI.ApiKey
         );
+    }
 
-        var serviceProvider = services.BuildServiceProvider();
-
-        // note services == kernelBuilder.Services
-
-        var kernel = serviceProvider.GetRequiredService<Kernel>();
-        var chatCompletionService = serviceProvider.GetRequiredService<IChatCompletionService>();
+    public async Task Run(IServiceProvider serviceProvider)
+    {
+        // Generates logs, traces and metrics
+        await kernel.InvokePromptAsync("Why is the sky blue in one sentence?");
 
         ChatHistory history = [];
         history.AddUserMessage("Explain quantum computing in simple terms.");
 
-        Console.Write("Assistant: ");
+        // Generates partial traces and metrics but no logs
+        //var response = await chat.GetChatMessageContentAsync(history, kernel: kernel);
+        //Console.WriteLine(response.Content);
 
-        await foreach (var message in chatCompletionService.GetStreamingChatMessageContentsAsync(
-            history, kernel: kernel))
-        {
-            Console.Write(message.Content);
-        }
-
-        Console.WriteLine();
+        // Generates only partial trances
+        //await foreach (var message in chat.GetStreamingChatMessageContentsAsync(
+        //    history, kernel: kernel))
+        //{
+        //    Console.Write(message.Content);
+        //}
     }
 
     private async Task Example3_StandaloneInstance()
