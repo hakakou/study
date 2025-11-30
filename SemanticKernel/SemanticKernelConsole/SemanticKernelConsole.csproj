@@ -31,6 +31,7 @@
 	  <ProjectReference Include="..\SharedConfig\SharedConfig.csproj" />
 	</ItemGroup>
 
+	
 	<ItemGroup>
 		<None Update="**/*.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -41,5 +42,9 @@
 		<None Update="media\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="SharedConfig" />
 	</ItemGroup>
 </Project>

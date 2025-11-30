@@ -59,22 +59,13 @@ var testTypes = Assembly.GetExecutingAssembly().GetTypes()
 
 foreach (var type in testTypes)
 {
-    if (typeof(ITestBuilder).IsAssignableFrom(type))
-    {
-        type.GetMethod("Build")?.Invoke(null, [services]);
-    }
     services.AddTransient(type);
 }
-
-var serviceProvider = services.BuildServiceProvider();
 
 var directRunType = testTypes.SingleOrDefault(t => t.GetCustomAttribute<RunDirectlyAttribute>() != null);
 if (directRunType != null)
 {
-    var test = (serviceProvider.GetRequiredService(directRunType) as ITest)!;
-    await test.Run();
-    if (test is ITestBuilder t)
-        await t.Run(serviceProvider);
+    await RunTestType(directRunType);
 }
 else
 {
@@ -86,11 +77,16 @@ else
     var selectedType = testTypes.FirstOrDefault(t => t.Name == selectedFunction);
     if (selectedType != null)
     {
-        var test = (serviceProvider.GetRequiredService(selectedType) as ITest)!;
-        await test.Run();
-        if (test is ITestBuilder t)
-            await t.Run(serviceProvider);
+        await RunTestType(selectedType);
     }
 }
 
 Console.WriteLine();
+
+async Task RunTestType(Type testType)
+{
+    testType.GetMethod("Build")?.Invoke(null, new object[] { services });
+    var serviceProvider = services.BuildServiceProvider();
+    var test = (serviceProvider.GetRequiredService(testType) as ITest)!;
+    await test.Run();
+}

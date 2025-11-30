@@ -8,8 +8,8 @@ internal class T08_Embeddings
     public static async Task Run()
     {
         var azureClient = new AzureOpenAIClient(
-                    new Uri(Conf.AzureAIFoundry.Endpoint),
-                    new ApiKeyCredential(Conf.AzureAIFoundry.ApiKey));
+                    new Uri(Conf.AzureFoundry.Endpoint),
+                    new ApiKeyCredential(Conf.AzureFoundry.ApiKey));
 
         var embeddingClient = azureClient.GetEmbeddingClient("text-embedding-3-large");
 

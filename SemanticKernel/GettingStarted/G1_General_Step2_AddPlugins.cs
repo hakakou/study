@@ -15,9 +15,9 @@ public class G1_General_Step2_AddPlugins : ITest
         // of its offerings, enabling a unified service, endpoint, and credential management.
 
         var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(
-            Conf.AzureAIFoundry.DeploymentName,
-            Conf.AzureAIFoundry.Endpoint,
-            Conf.AzureAIFoundry.ApiKey);
+            Conf.AzureFoundry.DeploymentName,
+            Conf.AzureFoundry.Endpoint,
+            Conf.AzureFoundry.ApiKey);
 
         // Azure OpenAI: This service provides access to advanced language models developed by
         // OpenAI, such as GPT-4, GPT-3, Codex, and others. It focuses on delivering language AI

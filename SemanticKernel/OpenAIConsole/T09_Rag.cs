@@ -16,8 +16,8 @@ internal class T09_Rag
         chatClient = Program.ChatClient;
 
         var azureClient = new AzureOpenAIClient(
-                    new Uri(Conf.AzureAIFoundry.Endpoint),
-                    new ApiKeyCredential(Conf.AzureAIFoundry.ApiKey));
+                    new Uri(Conf.AzureFoundry.Endpoint),
+                    new ApiKeyCredential(Conf.AzureFoundry.ApiKey));
 
         embeddingClient = azureClient.GetEmbeddingClient("text-embedding-3-large");
 

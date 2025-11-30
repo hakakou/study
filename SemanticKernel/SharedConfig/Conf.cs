@@ -15,12 +15,12 @@ public static class Conf
             .Build();
 
         Conf.OpenAI.ApiKey = config["OpenAI:ApiKey"];
-        Conf.AzureOpenAI.DeploymentName = config["AzureOpenAI:DeploymentName"];
-        Conf.AzureOpenAI.Endpoint = config["AzureOpenAI:Endpoint"];
-        Conf.AzureOpenAI.ApiKey = config["AzureOpenAI:ApiKey"];
-        Conf.AzureAIFoundry.DeploymentName = config["AzureAIFoundry:DeploymentName"];
-        Conf.AzureAIFoundry.Endpoint = config["AzureAIFoundry:Endpoint"];
-        Conf.AzureAIFoundry.ApiKey = config["AzureAIFoundry:ApiKey"];
+
+        Conf.AzureFoundry.DeploymentName = config["AzureFoundry:DeploymentName"];
+        Conf.AzureFoundry.Endpoint = config["AzureFoundry:Endpoint"];
+        Conf.AzureFoundry.ApiKey = config["AzureFoundry:ApiKey"];
+        Conf.AzureFoundry.EmbeddingDeploymentName = config["AzureFoundry:EmbeddingDeploymentName"];
+
         Conf.GoogleTextSearch.SearchEngineId = config["GoogleTextSearch:SearchEngineId"];
         Conf.GoogleTextSearch.ApiKey = config["GoogleTextSearch:ApiKey"];
         Conf.ApplicationInsights.ConnectionString = config["ApplicationInsights:ConnectionString"];
@@ -31,16 +31,10 @@ public static class Conf
         public static string ApiKey;
     }
 
-    public static class AzureOpenAI
+    public static class AzureFoundry
     {
         public static string DeploymentName;
-        public static string Endpoint;
-        public static string ApiKey;
-    }
-
-    public static class AzureAIFoundry
-    {
-        public static string DeploymentName;
+        public static string EmbeddingDeploymentName;
         public static string Endpoint;
         public static string ApiKey;
     }
@@ -64,10 +58,4 @@ public class RunDirectlyAttribute : Attribute
 public interface ITest
 {
     Task Run() => Task.CompletedTask;
-}
-
-public interface ITestBuilder : ITest
-{
-    Task Run(IServiceProvider serviceProvider);
-    // void Build(IServiceCollection services, ILoggerFactory factory);
 }

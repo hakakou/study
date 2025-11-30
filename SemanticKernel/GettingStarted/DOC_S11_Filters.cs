@@ -31,9 +31,9 @@ public class DOC_S11_Filters : ITest
 
         // Add chat completion service
         builder.AddAzureOpenAIChatCompletion(
-            deploymentName: Conf.AzureOpenAI.DeploymentName,
-            endpoint: Conf.AzureOpenAI.Endpoint,
-            apiKey: Conf.AzureOpenAI.ApiKey);
+            deploymentName: Conf.AzureFoundry.DeploymentName,
+            endpoint: Conf.AzureFoundry.Endpoint,
+            apiKey: Conf.AzureFoundry.ApiKey);
 
         // Add the logging filter using dependency injection
         builder.Services.AddSingleton<IFunctionInvocationFilter, LoggingFilter>();
@@ -66,9 +66,9 @@ public class DOC_S11_Filters : ITest
         var builder = Kernel.CreateBuilder();
 
         builder.AddAzureOpenAIChatCompletion(
-            deploymentName: Conf.AzureOpenAI.DeploymentName,
-            endpoint: Conf.AzureOpenAI.Endpoint,
-            apiKey: Conf.AzureOpenAI.ApiKey);
+            deploymentName: Conf.AzureFoundry.DeploymentName,
+            endpoint: Conf.AzureFoundry.Endpoint,
+            apiKey: Conf.AzureFoundry.ApiKey);
 
         // Add the prompt render filter
         builder.Services.AddSingleton<IPromptRenderFilter, SafePromptFilter>();
@@ -98,9 +98,9 @@ public class DOC_S11_Filters : ITest
         var builder = Kernel.CreateBuilder();
 
         builder.AddAzureOpenAIChatCompletion(
-            deploymentName: Conf.AzureOpenAI.DeploymentName,
-            endpoint: Conf.AzureOpenAI.Endpoint,
-            apiKey: Conf.AzureOpenAI.ApiKey);
+            deploymentName: Conf.AzureFoundry.DeploymentName,
+            endpoint: Conf.AzureFoundry.Endpoint,
+            apiKey: Conf.AzureFoundry.ApiKey);
 
         // Add the auto function invocation filter
         builder.Services.AddSingleton<IAutoFunctionInvocationFilter, EarlyTerminationFilter>();
@@ -132,9 +132,9 @@ public class DOC_S11_Filters : ITest
         var builder = Kernel.CreateBuilder();
 
         builder.AddAzureOpenAIChatCompletion(
-            deploymentName: Conf.AzureOpenAI.DeploymentName,
-            endpoint: Conf.AzureOpenAI.Endpoint,
-            apiKey: Conf.AzureOpenAI.ApiKey);
+            deploymentName: Conf.AzureFoundry.DeploymentName,
+            endpoint: Conf.AzureFoundry.Endpoint,
+            apiKey: Conf.AzureFoundry.ApiKey);
 
         // Add the dual mode filter
         builder.Services.AddSingleton<IFunctionInvocationFilter, DualModeFilter>();
@@ -171,9 +171,9 @@ public class DOC_S11_Filters : ITest
         var builder = Kernel.CreateBuilder();
         
         builder.AddAzureOpenAIChatCompletion(
-            deploymentName: Conf.AzureOpenAI.DeploymentName,
-            endpoint: Conf.AzureOpenAI.Endpoint,
-            apiKey: Conf.AzureOpenAI.ApiKey);
+            deploymentName: Conf.AzureFoundry.DeploymentName,
+            endpoint: Conf.AzureFoundry.Endpoint,
+            apiKey: Conf.AzureFoundry.ApiKey);
 
         var kernel = builder.Build();
 

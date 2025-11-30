@@ -7,13 +7,14 @@ using System.ClientModel;
 #pragma warning disable SKEXP0010
 #pragma warning disable SKEXP0001
 
+
 public class DOC_S10_TextEmbeddingGeneration : ITest
 {
     public async Task Run()
     {
-        await d();
-        //await AddDirectlyToKernelExample();
-        //await StandaloneInstanceExample();
+        await AddDirectlyToKernelExample();
+        // await GenerateEmbeddings();
+        // await StandaloneInstanceExample();
     }
 
     /// <summary>
@@ -52,7 +53,7 @@ public class DOC_S10_TextEmbeddingGeneration : ITest
 
         var embeddingGenerator =
             new EmbeddingClient(
-                model: "text-embedding-3-small",
+                model: "text-embedding-3-large",
                 apiKey: Conf.OpenAI.ApiKey);
 
         var embedding =
@@ -64,13 +65,13 @@ public class DOC_S10_TextEmbeddingGeneration : ITest
     }
 
 
-    async Task d()
+    async Task GenerateEmbeddings()
     {
         var azureClient = new AzureOpenAIClient(
-                new Uri(Conf.AzureOpenAI.Endpoint),
-                new ApiKeyCredential(Conf.AzureOpenAI.ApiKey));
+                new Uri(Conf.AzureFoundry.Endpoint),
+                new ApiKeyCredential(Conf.AzureFoundry.ApiKey));
 
-        var embeddingClient = azureClient.GetEmbeddingClient("text-embedding-3-small");
+        var embeddingClient = azureClient.GetEmbeddingClient(Conf.AzureFoundry.EmbeddingDeploymentName);
 
         // Get embeddings for the sentences
         var sentence1 = await embeddingClient.GenerateEmbeddingAsync("She works in tech since 2010, after graduating");

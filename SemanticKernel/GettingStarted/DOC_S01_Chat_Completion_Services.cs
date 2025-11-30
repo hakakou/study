@@ -3,9 +3,8 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
-[RunDirectly]
 public class DOC_S01_Chat_Completion_Services(IChatCompletionService chat, Kernel kernel)
-    : ITestBuilder
+    : ITest
 {
     public static void Build(IServiceCollection services)
     {

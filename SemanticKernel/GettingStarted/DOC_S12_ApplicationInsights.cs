@@ -107,9 +107,9 @@ public class DOC_S12_ApplicationInsights : ITest
         kernelBuilder.Services.AddSingleton(loggerFactory);
 
         kernelBuilder.AddAzureOpenAIChatCompletion(
-            deploymentName: Conf.AzureOpenAI.DeploymentName,
-            endpoint: Conf.AzureOpenAI.Endpoint,
-            apiKey: Conf.AzureOpenAI.ApiKey);
+            deploymentName: Conf.AzureFoundry.DeploymentName,
+            endpoint: Conf.AzureFoundry.Endpoint,
+            apiKey: Conf.AzureFoundry.ApiKey);
 
         var kernel = kernelBuilder.Build();
 

@@ -13,7 +13,7 @@ internal class Program
     {
         Conf.Init<Program>();
 
-        var apiKey = Conf.AzureOpenAI.ApiKey;
+        var apiKey = Conf.AzureFoundry.ApiKey;
         if (string.IsNullOrWhiteSpace(apiKey))
         {
             AnsiConsole.MarkupLine("[red]API key not found. Please set the AzureOpenAI:ApiKey environment variable.[/]");
@@ -21,10 +21,10 @@ internal class Program
         }
 
         AzureClient = new AzureOpenAIClient(
-            new Uri(Conf.AzureOpenAI.Endpoint),
-            new ApiKeyCredential(Conf.AzureOpenAI.ApiKey));
+            new Uri(Conf.AzureFoundry.Endpoint),
+            new ApiKeyCredential(Conf.AzureFoundry.ApiKey));
 
-        ChatClient = AzureClient.GetChatClient(Conf.AzureOpenAI.DeploymentName);
+        ChatClient = AzureClient.GetChatClient(Conf.AzureFoundry.DeploymentName);
 
         var selectedFunction = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
