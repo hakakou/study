@@ -1,6 +1,6 @@
 ﻿using Azure.AI.OpenAI;
 using OpenAI.Chat;
-using SharedConfig;
+
 using Spectre.Console;
 using System.ClientModel;
 

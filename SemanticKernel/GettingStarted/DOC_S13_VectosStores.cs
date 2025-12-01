@@ -5,21 +5,105 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.Qdrant;
 using Qdrant.Client;
 
-
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
-public class DOC_S13_VectosStores(IEmbeddingGenerator<string, Embedding<float>>
-    embeddingClient) : ITest
+public class DOC_S13_VectosStores(
+    IEmbeddingGenerator<string, Embedding<float>> embeddingClient) : ITest
 {
     public static void Build(IServiceCollection services)
     {
-        services.AddKernel().AddOpenAIEmbeddingGenerator(
-            modelId: "text-embedding-3-large", // 3072
-            apiKey: Conf.OpenAI.ApiKey
-        );
+        services.AddKernel().DefaultEmbeddings();
     }
 
     public async Task Run()
+    {
+        var vectorStore = new QdrantVectorStore(new QdrantClient("localhost"), ownsClient: true,
+        new QdrantVectorStoreOptions
+        {
+            EmbeddingGenerator = embeddingClient
+        });
+
+        // Choose a collection from the database and specify the type of key and record stored in it via Generic parameters.
+        var collection = vectorStore.GetCollection<ulong, Hotel>("skhotels2");
+
+        await SearchWithFilter(collection, "I want a relaxing vacation", []);
+
+        await SearchWithFilter(collection, "I want a relaxing vacation", ["pets"]);
+
+        await HybridSearch(collection, "I want a relaxing vacation", []);
+        await HybridSearch(collection, "I want a relaxing vacation", ["dog"]);
+
+        //await HybridSearch(collection, "I'm looking for a hotel where customer happiness is the priority.",
+        //    ["happiness", "hotel", "customer"]);
+    }
+
+    private async Task SearchWithFilter(QdrantCollection<ulong, Hotel> collection,
+        string query, string[] tags)
+    {
+        Console.WriteLine($"\nSearching for: '{query}'");
+        Console.WriteLine($"Keywords: {string.Join(", ", tags)}");
+        Console.WriteLine(new string('-', 60));
+
+        var searchEmbedding = await embeddingClient.GenerateAsync(query);
+
+        VectorSearchOptions<Hotel> vectorSearchOptions = null;
+        if (tags.Length > 0)
+        {
+            var tag0 = tags[0];
+            vectorSearchOptions = new VectorSearchOptions<Hotel>
+            {
+                Filter = r => r.Tags.Contains(tag0)
+            };
+        }
+
+        // Perform the search with the filter
+        var searchResult = collection.SearchAsync(searchEmbedding, top: 3, vectorSearchOptions);
+
+        // Iterate over the search results
+        await foreach (var result in searchResult)
+        {
+            Console.WriteLine($"Hotel: {result.Record.HotelName}");
+            Console.WriteLine($"Description: {result.Record.Description}");
+            Console.WriteLine($"Tags: {string.Join(", ", result.Record.Tags)}");
+            Console.WriteLine($"Score: {result.Score:F4}");
+            Console.WriteLine();
+        }
+    }
+
+    private async Task HybridSearch(QdrantCollection<ulong, Hotel> collection,
+        string query, string[] keywords)
+    {
+        // Hybrid search combines vector similarity search with keyword search
+        // This provides better results by leveraging both semantic understanding and exact keyword matches
+
+        Console.WriteLine($"\nSearching for: '{query}'");
+        Console.WriteLine($"Keywords: {string.Join(", ", keywords)}");
+        Console.WriteLine(new string('-', 60));
+
+        // Generate a vector for the search text
+        var searchEmbedding = await embeddingClient.GenerateAsync(query);
+
+        // Cast the collection to IKeywordHybridSearchable to access hybrid search functionality
+        var hybridSearchableCollection = collection as IKeywordHybridSearchable<Hotel>;
+
+        // Perform hybrid search: combines vector similarity with keyword matching
+        // The keywords help find documents that contain specific terms
+        // while the vector ensures semantic relevance
+        var searchResult = hybridSearchableCollection.HybridSearchAsync(
+            searchEmbedding.Vector,
+            keywords,
+            top: 3);
+
+        // Iterate over the search results
+        await foreach (var result in searchResult)
+        {
+            Console.WriteLine($"Hotel: {result.Record.HotelName}");
+            Console.WriteLine($"Description: {result.Record.Description}");
+            Console.WriteLine($"Tags: {string.Join(", ", result.Record.Tags)}");
+            Console.WriteLine($"Score: {result.Score:F4}");
+            Console.WriteLine();
+        }
+    }
+
+    private async Task Upsert()
     {
         Utils.PrintSectionHeader("Connect to Database and Manage Collections");
 
@@ -37,7 +121,7 @@ public class DOC_S13_VectosStores(IEmbeddingGenerator<string, Embedding<float>>
         await collection.EnsureCollectionExistsAsync();
 
         // Upsert 20 hotel records
-        // await UpsertHotelExamplesAsync(collection);
+        await UpsertHotelExamplesAsync(collection);
 
         // Retrieve the upserted record
         Hotel? retrievedHotel = await collection.GetAsync(3);
@@ -46,20 +130,6 @@ public class DOC_S13_VectosStores(IEmbeddingGenerator<string, Embedding<float>>
             Console.WriteLine($"Retrieved hotel: {retrievedHotel.HotelName}");
             Console.WriteLine($"Description: {retrievedHotel.Description}");
             Console.WriteLine($"Tags: {string.Join(", ", retrievedHotel.Tags)}");
-        }
-
-        Utils.PrintSectionHeader("Example 3: Vector Search");
-
-        // Generate a vector for your search text
-        var searchEmbedding = await embeddingClient.GenerateAsync("I'm looking for a hotel for families with kids.");
-
-        // Inspect the returned hotel
-        await foreach (var record in collection.SearchAsync(searchEmbedding, top: 3))
-        {
-            Console.WriteLine($"Found hotel: {record.Record.HotelName}");
-            Console.WriteLine($"Description: {record.Record.Description}");
-            Console.WriteLine($"Score: {record.Score}");
-            Console.WriteLine($"Tags: {string.Join(", ", record.Record.Tags)}");
         }
     }
 

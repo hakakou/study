@@ -2,7 +2,7 @@
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.Plugins.Web.Bing;
-using SharedConfig;
+
 
 #pragma warning disable SKEXP0050
 

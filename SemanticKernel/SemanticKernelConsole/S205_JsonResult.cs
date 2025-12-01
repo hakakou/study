@@ -3,7 +3,7 @@ using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Resources;
-using SharedConfig;
+
 
 public class S205_JsonResult : ITest
 {

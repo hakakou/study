@@ -1,15 +1,16 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-public class DOC_S06_Image : ITest
+public class DOC_S06_Image (IChatCompletionService chatCompletionService) : ITest
 {
+    public static void Build(IServiceCollection services)
+    {
+        services.AddKernel().DefaultChatCompletion();
+    }
+
     public async Task Run()
     {
-        var kernel = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: "gpt-4o",
-                apiKey: Conf.OpenAI.ApiKey)
-            .Build();
 
         var chatHistory = new ChatHistory("Your job is describing images.");
         chatHistory.AddUserMessage(
@@ -19,7 +20,6 @@ public class DOC_S06_Image : ITest
             // or bytes[]
         ]);
 
-        var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
         var reply = await chatCompletionService.GetChatMessageContentAsync(chatHistory);
         Console.WriteLine(reply.Content);
     }

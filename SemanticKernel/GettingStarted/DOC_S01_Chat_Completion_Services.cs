@@ -3,18 +3,15 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
-public class DOC_S01_Chat_Completion_Services(IChatCompletionService chat, Kernel kernel)
-    : ITest
+public class DOC_S01_Chat_Completion_Services(
+    IChatCompletionService chat, Kernel kernel) : ITest
 {
     public static void Build(IServiceCollection services)
     {
-        services.AddKernel().AddOpenAIChatCompletion(
-                modelId: "gpt-4o",
-                apiKey: Conf.OpenAI.ApiKey
-        );
+        services.AddKernel().DefaultChatCompletion();
     }
 
-    public async Task Run(IServiceProvider serviceProvider)
+    public async Task Run()
     {
         // Generates logs, traces and metrics
         await kernel.InvokePromptAsync("Why is the sky blue in one sentence?");

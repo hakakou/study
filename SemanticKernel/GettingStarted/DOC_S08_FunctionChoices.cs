@@ -1,13 +1,17 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace DOC_S08_FunctionChoices;
-
-public class DOC_S08_FunctionChoices : ITest
+public class DOC_S08_FunctionChoices() : ITest
 {
+    public static void Build(IServiceCollection services)
+    {
+        services.AddKernel().DefaultChatCompletion();
+    }
+
     public async Task Run()
     {
         await DemonstrateAutoFunctionChoiceBehavior();
@@ -153,79 +157,80 @@ public class DOC_S08_FunctionChoices : ITest
         var result = await kernel.InvokeAsync(promptFunction);
         Console.WriteLine(result);
     }
-}
 
-public class LightsPlugin
-{
-    // Mock data for the lights
-    private readonly List<LightModel> lights = new()
+
+    public class LightsPlugin
+    {
+        // Mock data for the lights
+        private readonly List<LightModel> lights = new()
    {
       new LightModel { Id = 1, Name = "Table Lamp", IsOn = false },
       new LightModel { Id = 2, Name = "Porch light", IsOn = false },
       new LightModel { Id = 3, Name = "Chandelier", IsOn = true }
    };
 
-    [KernelFunction("get_lights")]
-    [Description("Gets a list of lights and their current state")]
-    [return: Description("An array of lights")]
-    public async Task<List<LightModel>> GetLightsAsync()
-    {
-        return lights;
-    }
-
-    [KernelFunction("change_state")]
-    [Description("Changes the state of the light")]
-    [return: Description("The updated state of the light; will return null if the light does not exist")]
-    public async Task<LightModel?> ChangeStateAsync(int id, bool isOn)
-    {
-        var light = lights.FirstOrDefault(light => light.Id == id);
-
-        if (light == null)
+        [KernelFunction("get_lights")]
+        [Description("Gets a list of lights and their current state")]
+        [return: Description("An array of lights")]
+        public async Task<List<LightModel>> GetLightsAsync()
         {
-            return null;
+            return lights;
         }
 
-        // Update the light with the new state
-        light.IsOn = isOn;
-
-        return light;
-    }
-
-    [KernelFunction("create_light")]
-    [Description("Creates a new light")]
-    [return: Description("The new light and it's state")]
-    public async Task<LightModel?> CreateLightAsync(string lightName, bool isOn)
-    {
-        var light = new LightModel
+        [KernelFunction("change_state")]
+        [Description("Changes the state of the light")]
+        [return: Description("The updated state of the light; will return null if the light does not exist")]
+        public async Task<LightModel?> ChangeStateAsync(int id, bool isOn)
         {
-            Id = lights.Count + 1,
-            Name = lightName,
-            IsOn = isOn
-        };
-        lights.Add(light);
+            var light = lights.FirstOrDefault(light => light.Id == id);
 
-        return light;
+            if (light == null)
+            {
+                return null;
+            }
+
+            // Update the light with the new state
+            light.IsOn = isOn;
+
+            return light;
+        }
+
+        [KernelFunction("create_light")]
+        [Description("Creates a new light")]
+        [return: Description("The new light and it's state")]
+        public async Task<LightModel?> CreateLightAsync(string lightName, bool isOn)
+        {
+            var light = new LightModel
+            {
+                Id = lights.Count + 1,
+                Name = lightName,
+                IsOn = isOn
+            };
+            lights.Add(light);
+
+            return light;
+        }
     }
-}
 
-public class LightModel
-{
-    [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public class LightModel
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
 
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
-    [JsonPropertyName("is_on")]
-    public bool? IsOn { get; set; }
-}
+        [JsonPropertyName("is_on")]
+        public bool? IsOn { get; set; }
+    }
 
-public class TimePlugin
-{
-    /// <summary>
-    /// Retrieves the current time in UTC.
-    /// </summary>
-    /// <returns>The current time in UTC. </returns>
-    [KernelFunction, Description("Retrieves the current time in UTC.")]
-    public string GetCurrentUtcTime() => DateTime.UtcNow.ToString("R");
+    public class TimePlugin
+    {
+        /// <summary>
+        /// Retrieves the current time in UTC.
+        /// </summary>
+        /// <returns>The current time in UTC. </returns>
+        [KernelFunction, Description("Retrieves the current time in UTC.")]
+        public string GetCurrentUtcTime() => DateTime.UtcNow.ToString("R");
+    }
 }

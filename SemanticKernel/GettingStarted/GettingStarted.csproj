@@ -9,6 +9,7 @@
 	</PropertyGroup>
  
 	<ItemGroup>
+		<PackageReference Include="Anthropic.SDK" Version="5.8.0" />
 		<PackageReference Include="Azure.Identity" Version="1.17.1" />
 		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.5.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />

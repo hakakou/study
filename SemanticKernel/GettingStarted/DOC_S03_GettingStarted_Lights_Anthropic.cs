@@ -7,13 +7,14 @@ using System.Text.Json.Serialization;
 
 // https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide?pivots=programming-language-csharp
 
-public class DOC_S03_GettingStarted_Lights(
+public class DOC_S03_GettingStarted_Lights_Anthropic(
     Kernel kernel, IChatCompletionService chatCompletionService) : ITest
 {
     public static void Build(IServiceCollection services)
     {
-        services.AddKernel().DefaultChatCompletion()
-          .Plugins.AddFromType<LightsPlugin>("Lights");
+        // https://github.com/tghamm/Anthropic.SDK
+        services.AddKernel().DefaultAnthropic()
+            .Plugins.AddFromType<LightsPlugin>("Lights");
     }
 
     public async Task Run()
@@ -21,6 +22,7 @@ public class DOC_S03_GettingStarted_Lights(
         OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
+            ModelId = Conf.AzureAnthropic.DeploymentName,
         };
 
         // Create a history store the conversation

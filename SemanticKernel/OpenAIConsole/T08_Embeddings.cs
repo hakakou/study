@@ -1,5 +1,5 @@
 ﻿using Azure.AI.OpenAI;
-using SharedConfig;
+
 using Spectre.Console;
 using System.ClientModel;
 

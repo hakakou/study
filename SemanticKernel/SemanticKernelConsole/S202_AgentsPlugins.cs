@@ -2,7 +2,7 @@
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using SharedConfig;
+
 using System.Text.Json.Serialization;
 
 #pragma warning disable SKEXP0110

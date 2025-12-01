@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedConfig;
+
 using Spectre.Console;
 using System.Reflection;
 

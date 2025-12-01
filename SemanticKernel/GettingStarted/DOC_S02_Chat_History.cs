@@ -1,18 +1,17 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-public class DOC_S02_Chat_History : ITest
+public class DOC_S02_Chat_History(
+    IChatCompletionService chatCompletionService, Kernel kernel) : ITest
 {
+    public static void Build(IServiceCollection services)
+    {
+        services.AddKernel().DefaultChatCompletion();
+    }
+
     public async Task Run()
     {
-        var kernel = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: "gpt-4o",
-                apiKey: Conf.OpenAI.ApiKey)
-            .Build();
-
-        var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
-
         // Example 1: Basic chat history
         Utils.PrintSectionHeader("Example 1: Basic Chat History");
 

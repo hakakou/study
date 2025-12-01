@@ -1,7 +1,7 @@
 ﻿using Azure.AI.OpenAI;
 using OpenAI.Chat;
 using OpenAI.Embeddings;
-using SharedConfig;
+
 using System.ClientModel;
 
 internal class T09_Rag

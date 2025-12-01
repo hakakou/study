@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
-using SharedConfig;
+
 
 public class S106_PluginFromOpenApi : ITest
 {

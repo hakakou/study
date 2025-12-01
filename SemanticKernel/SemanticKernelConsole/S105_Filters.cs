@@ -3,7 +3,6 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SemanticKernelConsole.Filters;
 using SemanticKernelConsole.Functions;
-using SharedConfig;
 using Spectre.Console;
 
 public class S105_Filters : ITest

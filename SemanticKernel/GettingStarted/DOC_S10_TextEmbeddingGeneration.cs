@@ -7,7 +7,6 @@ using System.ClientModel;
 #pragma warning disable SKEXP0010
 #pragma warning disable SKEXP0001
 
-
 public class DOC_S10_TextEmbeddingGeneration : ITest
 {
     public async Task Run()
@@ -68,10 +67,10 @@ public class DOC_S10_TextEmbeddingGeneration : ITest
     async Task GenerateEmbeddings()
     {
         var azureClient = new AzureOpenAIClient(
-                new Uri(Conf.AzureFoundry.Endpoint),
-                new ApiKeyCredential(Conf.AzureFoundry.ApiKey));
+                new Uri(Conf.AzureFoundryEmbeddings.Endpoint),
+                new ApiKeyCredential(Conf.AzureFoundryEmbeddings.ApiKey));
 
-        var embeddingClient = azureClient.GetEmbeddingClient(Conf.AzureFoundry.EmbeddingDeploymentName);
+        var embeddingClient = azureClient.GetEmbeddingClient(Conf.AzureFoundryEmbeddings.DeploymentName);
 
         // Get embeddings for the sentences
         var sentence1 = await embeddingClient.GenerateEmbeddingAsync("She works in tech since 2010, after graduating");

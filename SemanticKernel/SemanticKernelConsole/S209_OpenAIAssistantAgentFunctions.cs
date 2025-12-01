@@ -1,5 +1,5 @@
 ﻿using Microsoft.SemanticKernel;
-using SharedConfig;
+
 
 public class S209_OpenAIAssistantAgentFunctions : ITest
 {

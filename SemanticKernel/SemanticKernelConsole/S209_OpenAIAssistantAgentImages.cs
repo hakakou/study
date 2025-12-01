@@ -1,6 +1,6 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.OpenAI;
-using SharedConfig;
+
 using System.ClientModel;
 
 public class S209_OpenAIAssistantAgentImages : ITest
