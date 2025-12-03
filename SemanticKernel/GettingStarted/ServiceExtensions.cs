@@ -5,6 +5,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0050
 
 public static class ServiceExtensions
 {
@@ -23,6 +24,19 @@ public static class ServiceExtensions
                     deploymentName: Conf.AzureFoundryEmbeddings.DeploymentName, // 3072
                     endpoint: Conf.AzureFoundryEmbeddings.Endpoint,
                     apiKey: Conf.AzureFoundryEmbeddings.ApiKey);
+    }
+
+    public static IKernelBuilder GoogleTextSearch(this IKernelBuilder services)
+    {
+        return services.AddGoogleTextSearch(
+                    searchEngineId: Conf.GoogleTextSearch.SearchEngineId,
+                    apiKey: Conf.GoogleTextSearch.ApiKey);
+    }
+
+    public static IKernelBuilder BingTextSearch(this IKernelBuilder services)
+    {
+        return services.AddBingTextSearch(
+                    apiKey: Conf.BingTextSearch.ApiKey);
     }
 
     public static IKernelBuilder DefaultAnthropic(this IKernelBuilder services)

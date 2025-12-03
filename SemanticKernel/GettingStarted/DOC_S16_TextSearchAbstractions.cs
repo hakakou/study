@@ -4,10 +4,13 @@ using Microsoft.SemanticKernel.Plugins.Web.Google;
 
 #pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
-public class S301_GoogleSearch : ITest
+
+public class DOC_S16_TextSearchAbstractions : ITest
 {
     public async Task Run()
     {
+        Utils.PrintSectionHeader("Google Text Search");
+
         ITextSearch textSearch = new GoogleTextSearch(
             searchEngineId: Conf.GoogleTextSearch.SearchEngineId,
             apiKey: Conf.GoogleTextSearch.ApiKey);
@@ -27,13 +30,16 @@ public class S301_GoogleSearch : ITest
         KernelSearchResults<TextSearchResult> textResults =
             await textSearch.GetTextSearchResultsAsync(query, new() { Top = 4 });
 
-        Console.WriteLine("\n--- Text Search Results ---\n");
+        Utils.PrintSectionHeader("Google Text Search Results as TextSearchResult");
+
         await foreach (TextSearchResult result in textResults.Results)
         {
             Console.WriteLine($"Name:  {result.Name}");
             Console.WriteLine($"Value: {result.Value}");
             Console.WriteLine($"Link:  {result.Link}");
         }
+
+        Utils.PrintSectionHeader("Google Text Search Results as Object");
 
         KernelSearchResults<object> objectResults =
             await textSearch.GetSearchResultsAsync("What is an elevator", new() { Top = 4 });

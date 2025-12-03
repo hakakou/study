@@ -6,7 +6,7 @@ using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 
 #pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
-public class S304_RagWithBingTextSearchUsingCustomSiteAsync : ITest
+public class DOC_S19_TextSearch : ITest
 {
     public async Task Run()
     {
@@ -16,7 +16,7 @@ public class S304_RagWithBingTextSearchUsingCustomSiteAsync : ITest
                 apiKey: Conf.OpenAI.ApiKey)
             .Build();
 
-        ITextSearch textSearch = new BingTextSearch(Conf.BingTextSearch.ApiKey);
+        ITextSearch textSearch = new BingTextSearch("303882ec48a04a2089d34a2ed6441f3c");
 
         // https://learn.microsoft.com/en-us/bing/search-apis/bing-web-search/reference/query-parameters
         var options = new KernelFunctionFromMethodOptions()

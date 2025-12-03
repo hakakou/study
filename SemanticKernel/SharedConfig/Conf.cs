@@ -31,6 +31,8 @@ public static class Conf
         Conf.GoogleTextSearch.SearchEngineId = config["GoogleTextSearch:SearchEngineId"];
         Conf.GoogleTextSearch.ApiKey = config["GoogleTextSearch:ApiKey"];
 
+        Conf.BingTextSearch.ApiKey = config["BingTextSearch:ApiKey"];
+
         Conf.ApplicationInsights.ConnectionString = config["ApplicationInsights:ConnectionString"];
     }
 
@@ -63,6 +65,11 @@ public static class Conf
     public static class GoogleTextSearch
     {
         public static string SearchEngineId;
+        public static string ApiKey;
+    }
+
+    public static class BingTextSearch
+    {
         public static string ApiKey;
     }
 

@@ -3,6 +3,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 // https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide?pivots=programming-language-csharp
@@ -66,7 +67,10 @@ public class DOC_S03_GettingStarted_Lights(
         [KernelFunction("get_lights")]
         [Description("Gets a list of lights and their current state")]
         [return: Description("An array of lights")]
-        public async Task<List<LightModel>> GetLightsAsync()
+        public async Task<List<LightModel>> GetLightsAsync(
+            Kernel kernel, KernelArguments args,
+            CultureInfo cu, IFormatProvider fp, CancellationToken token,
+            IAIServiceSelector s)
         {
             return lights;
         }

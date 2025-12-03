@@ -1,27 +1,26 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Data;
-using Microsoft.SemanticKernel.Plugins.Web.Google;
 using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 
 
-#pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
-public class S303_RagWithBingTextSearchIncludingTimeStampedCitationsAsync : ITest
+[RunDirectly]
+public class DOC_S18_TextSearch(Kernel kernel, ITextSearch textSearch) : ITest
 {
+
+    public static void Build(IServiceCollection services)
+    {
+        services.AddKernel()
+            .DefaultChatCompletion()
+            .GoogleTextSearch();
+
+        services.AddLogging(c =>
+            c.AddConsole().SetMinimumLevel(LogLevel.Trace));
+    }
+
     public async Task Run()
     {
-        var kernel = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: "gpt-4o",
-                apiKey: Conf.OpenAI.ApiKey)
-            .Build();
-
-        ITextSearch textSearch = new GoogleTextSearch(
-            searchEngineId: Conf.GoogleTextSearch.SearchEngineId,
-            apiKey: Conf.GoogleTextSearch.ApiKey);
-
-        var query = "Most important news today in Greece?";
-
         /*
         // Debug: Print raw search results
         KernelSearchResults<TextSearchResult> textResults =
@@ -39,24 +38,27 @@ public class S303_RagWithBingTextSearchIncludingTimeStampedCitationsAsync : ITes
         // Creates a plugin from an ITextSearch implementation.
         // The plugin will have a single function called `GetSearchResults`
         // which will return a IEnumerable{TextSearchResult}
-        var searchPlugin = textSearch.CreateWithGetSearchResults("SearchPlugin");
+        var searchPlugin = textSearch.CreateWithGetTextSearchResults("SearchPlugin");
         kernel.Plugins.Add(searchPlugin);
 
         var promptTemplate = $$$"""
-        {{#with (SearchPlugin-GetSearchResults query)}}
-            {{#each this}}
-            {{this}}
+        {{#with (SearchPlugin-GetTextSearchResults query)}}  
+            {{#each this}}  
+            Name: {{Name}}
+            Value: {{Value}}
+            Link: {{Link}}
             -----------------
-            {{/each}}
-        {{/with}}
+            {{/each}}  
+        {{/with}}  
 
         {{query}}
 
-        Include citations to and the date of the relevant information where it is referenced in the response.
-        Note: Local time is {{{DateTime.Now.ToString("u")}}}
+        Write 5-7 points summarizing the topic above. Don't end with a conclusion.
+        Include citations to the relevant information where it is referenced in the response.
         """;
 
-        KernelArguments arguments = new() { { "query", query } };
+        KernelArguments arguments = new() { { "query", "What is a wiki?" } };
+
         // package Microsoft.SemanticKernel.PromptTemplates.Handlebars
         HandlebarsPromptTemplateFactory promptTemplateFactory = new();
 

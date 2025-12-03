@@ -11,6 +11,7 @@ using Spectre.Console;
 using System.Reflection;
 
 Console.Clear();
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 Conf.Init<Program>();
 

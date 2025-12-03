@@ -6,7 +6,7 @@ using Microsoft.SemanticKernel.Plugins.Web.Bing;
 
 #pragma warning disable SKEXP0050
 
-public class S305_SearchWithFunctionCalling : ITest
+public class DOC_S20_TextSearch : ITest
 {
     public async Task Run()
     {
@@ -16,7 +16,7 @@ public class S305_SearchWithFunctionCalling : ITest
                 apiKey: Conf.OpenAI.ApiKey)
             .Build();
 
-        ITextSearch textSearch = new BingTextSearch(Conf.BingTextSearch.ApiKey);
+        ITextSearch textSearch = new BingTextSearch("303882ec48a04a2089d34a2ed6441f3c");
 
         // Build a text search plugin with Bing search and add to the kernel
         var searchPlugin = textSearch.CreateWithSearch("SearchPlugin");
