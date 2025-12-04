@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.AI;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -7,14 +6,15 @@ using System.Text;
 
 #pragma warning disable SKEXP0001
 
+[RunDirectly]
 public class DOC_S11_Filters : ITest
 {
     public async Task Run()
     {
-        //await FunctionInvocationFilterExample();
-        //await PromptRenderFilterExample();
-        //await AutoFunctionInvocationFilterExample();
-        //await DualModeFilterExample();
+        await FunctionInvocationFilterExample();
+        await PromptRenderFilterExample();
+        await AutoFunctionInvocationFilterExample();
+        await DualModeFilterExample();
         await ChatCompletionServiceWithFiltersExample();
     }
 
@@ -252,6 +252,12 @@ public sealed class LoggingFilter : IFunctionInvocationFilter
             context.Function.PluginName,
             context.Function.Name);
 
+        var metadata = context.Result?.Metadata;
+        if (metadata is not null && metadata.ContainsKey("Usage"))
+        {
+            _logger.LogInformation($"Token usage: {metadata["Usage"]?.AsJson()}");
+        }
+
         Console.WriteLine($"[FILTER] Function completed: {context.Function.PluginName}.{context.Function.Name}");
 
         // You can modify the result here if needed
@@ -283,6 +289,13 @@ public sealed class SafePromptFilter : IPromptRenderFilter
 
         // Example 1: Add a safety instruction to all prompts (Responsible AI)
         context.RenderedPrompt = $"{context.RenderedPrompt}\n\nIMPORTANT: Provide accurate and helpful information only.";
+
+
+        if (context.Arguments.ContainsName("topic"))
+        {
+            if (context.Arguments["topic"]?.ToString() == "chocolate")
+                context.Arguments["topic"] = "****";
+        }
 
         // Example 2: Redact potential PII (this is a simple example, real PII detection would be more sophisticated)
         // context.RenderedPrompt = RedactPII(context.RenderedPrompt);

@@ -1,23 +1,26 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.Plugins.Web.Bing;
 
-
 #pragma warning disable SKEXP0050
 
-public class S305_SearchWithFunctionCalling : ITest
+public class DOC_S22_TextSearch(Kernel kernel, ITextSearch textSearch) : ITest
 {
+    public static void Build(IServiceCollection services)
+    {
+        services.AddKernel()
+            .DefaultChatCompletion()
+            .BingTextSearch();
+
+        services.AddLogging(c =>
+            c.AddConsole().SetMinimumLevel(LogLevel.Trace));
+    }
+
     public async Task Run()
     {
-        Kernel kernel = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: "gpt-4o",
-                apiKey: Conf.OpenAI.ApiKey)
-            .Build();
-
-        ITextSearch textSearch = new BingTextSearch(Conf.BingTextSearch.ApiKey);
-
         // Build a text search plugin with Bing search and add to the kernel
         var searchPlugin = textSearch.CreateWithSearch("SearchPlugin");
         //var searchPlugin = KernelPluginFactory.CreateFromFunctions("SearchPlugin",

@@ -81,7 +81,7 @@ public static class Utils
                 allContent.Add($"  {message.Content.EscapeMarkup()}");
             }
 
-            if (message.Metadata?.TryGetValue("Usage", out object? usage) ?? false)
+            if (message.Metadata?.TryGetValue("Usage", out object usage) ?? false)
             {
                 if (usage != null)
                 {

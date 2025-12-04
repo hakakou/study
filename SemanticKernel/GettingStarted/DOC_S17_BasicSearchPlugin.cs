@@ -2,7 +2,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Data;
 
-public class DOC_S17_GoogleSearch(Kernel kernel, ITextSearch textSearch) : ITest
+public class DOC_S17_BasicSearchPlugin(Kernel kernel, ITextSearch textSearch) : ITest
 {
     public static void Build(IServiceCollection services)
     {

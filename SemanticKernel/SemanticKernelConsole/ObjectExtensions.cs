@@ -38,7 +38,7 @@ public static class ObjectExtensions
         {
             if (item is AnnotationContent annotation)
             {
-                Console.WriteLine($"  [{item.GetType().Name}] {annotation.Quote}: File #{annotation.FileId}");
+                Console.WriteLine($"  [{item.GetType().Name}] {annotation.Label}: File #{annotation.ReferenceId}");
             }
             else if (item is FileReferenceContent fileReference)
             {

@@ -5,15 +5,14 @@ using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
 
 
-[RunDirectly]
-public class DOC_S18_TextSearch(Kernel kernel, ITextSearch textSearch) : ITest
+public class DOC_S18_TextSearch_PluginWithFilter(Kernel kernel, ITextSearch textSearch) : ITest
 {
 
     public static void Build(IServiceCollection services)
     {
         services.AddKernel()
             .DefaultChatCompletion()
-            .GoogleTextSearch();
+            .TavilyTextSearch();
 
         services.AddLogging(c =>
             c.AddConsole().SetMinimumLevel(LogLevel.Trace));
@@ -21,27 +20,20 @@ public class DOC_S18_TextSearch(Kernel kernel, ITextSearch textSearch) : ITest
 
     public async Task Run()
     {
-        /*
-        // Debug: Print raw search results
-        KernelSearchResults<TextSearchResult> textResults =
-            await textSearch.GetTextSearchResultsAsync(query);
-        await foreach (TextSearchResult result in textResults.Results)
-        {
-            Console.WriteLine($"Name: {result.Name}");
-            Console.WriteLine($"Value: {result.Value}");
-            Console.WriteLine($"Link: {result.Link}");
-            //Console.WriteLine($"Date Last Crawled: {result.}");
-            Console.WriteLine("-----------------");
-        }
-        */
+        var filter = new TextSearchFilter().Equality("days", "30");
 
-        // Creates a plugin from an ITextSearch implementation.
-        // The plugin will have a single function called `GetSearchResults`
-        // which will return a IEnumerable{TextSearchResult}
-        var searchPlugin = textSearch.CreateWithGetTextSearchResults("SearchPlugin");
+        var searchOptions = new TextSearchOptions() { Filter = filter };
+        
+        // Tavily: topic,time_range,days,include_domain,exclude_domain
+        // Google: cr,dateRestrict,exactTerms,excludeTerms,filter,gl,hl,linkSite,lr,orTerms,rights,siteSearch
+
+        // Build a text search plugin and add to the kernel
+        var searchPlugin = KernelPluginFactory.CreateFromFunctions("SearchPlugin",
+            "Search specified site", [textSearch.CreateGetTextSearchResults(searchOptions: searchOptions)]);
+
         kernel.Plugins.Add(searchPlugin);
 
-        var promptTemplate = $$$"""
+        var promptTemplate = """
         {{#with (SearchPlugin-GetTextSearchResults query)}}  
             {{#each this}}  
             Name: {{Name}}
@@ -53,11 +45,10 @@ public class DOC_S18_TextSearch(Kernel kernel, ITextSearch textSearch) : ITest
 
         {{query}}
 
-        Write 5-7 points summarizing the topic above. Don't end with a conclusion.
         Include citations to the relevant information where it is referenced in the response.
         """;
 
-        KernelArguments arguments = new() { { "query", "What is a wiki?" } };
+        KernelArguments arguments = new() { { "query", "Latest gadgets?" } };
 
         // package Microsoft.SemanticKernel.PromptTemplates.Handlebars
         HandlebarsPromptTemplateFactory promptTemplateFactory = new();

@@ -18,6 +18,15 @@ public static class ServiceExtensions
                 );
     }
 
+    public static IKernelBuilder LocalChatCompletion(this IKernelBuilder services)
+    {
+        return services.AddOpenAIChatCompletion(
+                    //modelId: "deepseek/deepseek-r1-0528-qwen3-8b",
+                    modelId: "openai/gpt-oss-20b",
+                    endpoint: new Uri( "http://127.0.0.1:1234/v1"),
+                    apiKey: ""
+                );
+    }
     public static IKernelBuilder DefaultEmbeddings(this IKernelBuilder services)
     {
         return services.AddAzureOpenAIEmbeddingGenerator(
@@ -33,8 +42,16 @@ public static class ServiceExtensions
                     apiKey: Conf.GoogleTextSearch.ApiKey);
     }
 
+    public static IKernelBuilder TavilyTextSearch(this IKernelBuilder services)
+    {
+        return services.AddTavilyTextSearch(
+                    apiKey: Conf.TavilyTextSearch.ApiKey);
+    }
+
+
     public static IKernelBuilder BingTextSearch(this IKernelBuilder services)
     {
+        // Grounding with Bing Search: Very expensive, $35 / 1000 transactions
         return services.AddBingTextSearch(
                     apiKey: Conf.BingTextSearch.ApiKey);
     }
