@@ -121,11 +121,11 @@ public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
         // Invoke chat and display messages.
         ChatMessageContent input = new(AuthorRole.User, "concept: one use cups made out of gelatin.");
         chat.AddChatMessage(input);
-        input.ConsoleOutputAgentChatMessage();
+        input.PrintChatMessageContent();
 
         await foreach (ChatMessageContent response in chat.InvokeAsync())
         {
-            response.ConsoleOutputAgentChatMessage();
+            response.PrintChatMessageContent();
         }
 
         Console.WriteLine($"\n[IS COMPLETED: {chat.IsComplete}]");

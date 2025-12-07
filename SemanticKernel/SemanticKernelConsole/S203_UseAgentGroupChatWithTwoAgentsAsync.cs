@@ -67,11 +67,11 @@ Write a short story about demographic crisis in the future. Assume that the popu
         //Chapter titles should include verses from ancient greek philosophers.
 
         chat.AddChatMessage(input);
-        input.ConsoleOutputAgentChatMessage();
+        input.PrintChatMessageContent();
 
         await foreach (ChatMessageContent response in chat.InvokeAsync())
         {
-            response.ConsoleOutputAgentChatMessage();
+            response.PrintChatMessageContent();
         }
 
         Console.WriteLine($"\n[IS COMPLETED: {chat.IsComplete}]");

@@ -20,9 +20,8 @@ public class FineTuningClientTests
     public async Task TestFileUpload()
     {
         using var jsonStream = File.OpenRead("FineTuneExample.json");
-        var job = await client.CreateFineTuningJobAsync(BinaryContent.Create(jsonStream), waitUntilCompleted: true);
-
-        Console.WriteLine(job.Dump());
+        //var job = await client.GetJobAsync(BinaryContent.Create(jsonStream), waitUntilCompleted: true);
+        //Console.WriteLine(job.Dump());
     }
 
     [Test]
@@ -69,8 +68,8 @@ public class FineTuningClientTests
         BinaryData input = BinaryData.FromString(json);
         using BinaryContent content = BinaryContent.Create(input);
 
-        var operation = client.CreateFineTuningJob(content, waitUntilCompleted: false);
-        Console.WriteLine(operation.Dump());
+        //var operation = client.CreateFineTuningJob(content, waitUntilCompleted: false);
+        //Console.WriteLine(operation.Dump());
     }
 
     public partial class Message

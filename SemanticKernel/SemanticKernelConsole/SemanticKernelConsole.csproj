@@ -10,20 +10,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity" Version="1.17.1" />
+		<PackageReference Include="Azure.Identity" Version="1.18.0-beta.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.67.1" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.OpenAI" Version="1.67.1-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.67.1-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.67.1-alpha" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.67.1" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.67.1" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.67.1-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.67.1" />
-		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.67.1-alpha" />
-		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.67.1" />
-		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.67.1" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Abstractions" Version="1.68.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.68.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.OpenAI" Version="1.68.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.68.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.68.0-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.68.0" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.68.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.68.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.68.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.68.0-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.68.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.68.0" />
 		<PackageReference Include="System.IO" Version="4.3.0" />
 	</ItemGroup>
 

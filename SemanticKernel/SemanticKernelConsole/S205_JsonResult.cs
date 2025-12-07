@@ -61,11 +61,11 @@ public class S205_JsonResult : ITest
         {
             ChatMessageContent message = new(AuthorRole.User, input);
             chat.AddChatMessage(message);
-            message.ConsoleOutputAgentChatMessage();
+            message.PrintChatMessageContent();
 
             await foreach (ChatMessageContent response in chat.InvokeAsync(agent))
             {
-                response.ConsoleOutputAgentChatMessage();
+                response.PrintChatMessageContent();
 
                 Console.WriteLine($"[IS COMPLETED: {chat.IsComplete}]");
             }

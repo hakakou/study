@@ -24,11 +24,11 @@ public class S201_Agents : ITest
         ChatMessageContent message = new(AuthorRole.User, "this is my new car");
         chat.Add(message);
 
-        message.ConsoleOutputAgentChatMessage();
+        message.PrintChatMessageContent();
         await foreach (ChatMessageContent response in agent.InvokeAsync(chat))
         {
             chat.Add(response);
-            response.ConsoleOutputAgentChatMessage();
+            response.PrintChatMessageContent();
         }
 
         // Compare to

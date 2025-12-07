@@ -6,7 +6,6 @@ using System.Text;
 
 #pragma warning disable SKEXP0001
 
-[RunDirectly]
 public class DOC_S11_Filters : ITest
 {
     public async Task Run()

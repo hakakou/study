@@ -29,11 +29,11 @@ public class S202_AgentsPlugins : ITest
         ChatMessageContent message = new(AuthorRole.User, "what products do you have and their price?");
         chat.Add(message);
 
-        message.ConsoleOutputAgentChatMessage();
+        message.PrintChatMessageContent();
         await foreach (ChatMessageContent response in agent.InvokeAsync(chat))
         {
             chat.Add(response);
-            response.ConsoleOutputAgentChatMessage();
+            response.PrintChatMessageContent();
 
             var inp = Console.ReadLine();
             chat.Add(new(AuthorRole.User, inp));
