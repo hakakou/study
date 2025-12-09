@@ -18,6 +18,7 @@
 		<PackageReference Include="Microsoft.Extensions.VectorData.Abstractions" Version="9.7.0" />
 		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.68.0" />
 		<PackageReference Include="Microsoft.SemanticKernel.Agents.OpenAI" Version="1.68.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.AzureAI " Version="1.68.0-preview" />
 		<PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.68.0-preview" />
 		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.68.0-alpha" />
 		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.68.0" />

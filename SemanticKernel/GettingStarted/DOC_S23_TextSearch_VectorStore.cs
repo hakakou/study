@@ -35,13 +35,13 @@ public class DOC_S23_TextSearch_VectorStore(
         // Setup: Create and populate the vector store collection
         var collection = await SetupVectorStoreCollectionAsync();
 
-        //await Example1_BasicTextSearchAsync(collection);
-        //await Example2_BasicTextSearchAsync(collection);
-        //await Example1_HybridTextSearchAsync(collection);
-        //await Example2_TextSearchInPromptAsync(collection);
-        //await Example3_FunctionCallingAsync(collection);
+        await Example1_BasicTextSearchAsync(collection);
+        await Example2_BasicTextSearchAsync(collection);
+        await Example1_HybridTextSearchAsync(collection);
+        await Example2_TextSearchInPromptAsync(collection);
+        await Example3_FunctionCallingAsync(collection);
         await Example4_CustomSearchFunctionAsync(collection);
-        //await Example5_CustomMappersAsync(collection);
+        await Example5_CustomMappersAsync(collection);
     }
 
     /// <summary>

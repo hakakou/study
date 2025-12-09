@@ -1,12 +1,10 @@
 ﻿using Anthropic.SDK;
 using Azure.AI.OpenAI;
-using Azure.Identity;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
-using OpenAI;
 using OpenAI.Assistants;
 using System.ClientModel;
 using System.Net.Http.Headers;
@@ -14,6 +12,7 @@ using System.Net.Http.Headers;
 #pragma warning disable SKEXP0010
 #pragma warning disable SKEXP0050
 
+// https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-types/assistant-agent
 public static class ServiceExtensions
 {
     public static IKernelBuilder DefaultChatCompletion(this IKernelBuilder services)
@@ -83,6 +82,8 @@ public static class ServiceExtensions
                     endpoint: Conf.AzureFoundryEmbeddings.Endpoint,
                     apiKey: Conf.AzureFoundryEmbeddings.ApiKey);
     }
+
+    // ITextSearch
 
     public static IKernelBuilder GoogleTextSearch(this IKernelBuilder services)
     {

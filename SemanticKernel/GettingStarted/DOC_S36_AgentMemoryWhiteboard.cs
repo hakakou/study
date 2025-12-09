@@ -1,11 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel.Memory;
 
-[RunDirectly]
 public class DOC_S36_AgentMemoryWhiteboard(
     Kernel kernel,
     IChatClient chatCompletionService,

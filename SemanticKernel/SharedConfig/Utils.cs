@@ -21,19 +21,30 @@ public static class Utils
         return JsonSerializer.Serialize(obj, s_jsonOptionsCache);
     }
 
-    public static async Task<AgentThread> InvokeAgentAsync(this Agent agent, 
+    public static async Task<AgentThread> InvokeAgentAsync(this Agent agent,
         AgentThread thread, string input, KernelArguments? arguments = null)
     {
         if (agent is null) throw new ArgumentNullException(nameof(agent));
 
-        ChatMessageContent message = new(AuthorRole.User, input);
-        message.PrintChatMessageContent();
-
-        await foreach (AgentResponseItem<ChatMessageContent> response in agent.InvokeAsync(message, thread,
-            options: new() { KernelArguments = arguments }))
+        if (input == null)
         {
-            response.Message.PrintChatMessageContent();
-            thread = response.Thread;
+            await foreach (AgentResponseItem<ChatMessageContent> response in agent.InvokeAsync(thread,
+                options: new() { KernelArguments = arguments }))
+            {
+                response.Message.PrintChatMessageContent();
+                thread = response.Thread;
+            }
+        }
+        else
+        {
+            ChatMessageContent message = new(AuthorRole.User, input);
+            message.PrintChatMessageContent();
+            await foreach (AgentResponseItem<ChatMessageContent> response in agent.InvokeAsync(message, thread,
+                options: new() { KernelArguments = arguments }))
+            {
+                response.Message.PrintChatMessageContent();
+                thread = response.Thread;
+            }
         }
 
         return thread;
