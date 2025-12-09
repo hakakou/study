@@ -1,8 +1,10 @@
+using Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
+
 
 public class DOC_S30_Agents(Kernel kernel) : ITest
 {
@@ -12,70 +14,128 @@ public class DOC_S30_Agents(Kernel kernel) : ITest
             .DefaultChatCompletion();
 
         services.AddLogging(c =>
-            c.AddConsole().SetMinimumLevel(LogLevel.Information));
+            c.AddConsole().SetMinimumLevel(LogLevel.Trace));
     }
 
     public async Task Run()
     {
         Console.WriteLine("=== Semantic Kernel Agents Demo ===\n");
 
-        //await Example1_NonStreamingAgentInvocationAsync();
-        await Example2_StreamingAgentInvocationAsync();
+        await Example1_NonStreamingAgentInvocationAsync();
+        await UseTemplateForChatCompletionAgent();
+        //await Example2_StreamingAgentInvocationAsync();
     }
 
-    /// <summary>
-    /// Example 1: Non-streaming agent invocation demonstrating different ways to pass messages
-    /// </summary>
     private async Task Example1_NonStreamingAgentInvocationAsync()
     {
         Utils.PrintSectionHeader("Example 1: Non-Streaming Agent Invocation");
 
-        // Create an agent with specific instructions
-        var agent = new ChatCompletionAgent()
+        // Define the agent
+        ChatCompletionAgent agent =
+            new()
+            {
+                Name = "Joker",
+                Instructions = "You are good at telling jokes.",
+                Kernel = kernel,
+            };
+
+        AgentThread? thread = null;
+
+        thread = await agent.InvokeAgentAsync(thread, "Tell me a joke about a pirate.");
+        await agent.InvokeAgentAsync(thread, "Now add some emojis to the joke.");
+    }
+
+    private async Task Example_InvokeAgentAsync()
+    {
+        Utils.PrintSectionHeader("With history");
+
+        ChatCompletionAgent agent = new()
         {
-            Name = "TravelAdvisor",
-            Instructions = "You are a helpful travel advisor. Provide concise and accurate information about travel destinations. Never more that 4 sentances.",
+            Name = "Joker",
+            Instructions = "You are good at telling jokes.",
             Kernel = kernel,
         };
 
-        var result = await agent.InvokeAsync("What is the capital of France?").FirstAsync();
-        var thread = result.Thread;
-        result.Message.PrintChatMessageContent();
+        var thread = new ChatHistoryAgentThread(
+        [
+           new ChatMessageContent(AuthorRole.User, "Tell me a joke about a pirate."),
+           new ChatMessageContent(AuthorRole.Assistant, "Why did the pirate go to school? Because he wanted to improve his \"arrrrrrrrrticulation\""),
+        ]);
 
-        // 2. Invoke with a string (converted to User message)
-        Console.WriteLine("[Invocation 2] Agent with string input:\n");
-        await foreach (var response in agent.InvokeAsync("What is the capital of France?", thread))
+        await agent.InvokeAgentAsync(thread, "Now add some emojis to the joke.");
+        await agent.InvokeAgentAsync(thread, "Now make the joke sillier.");
+    }
+
+    public async Task UseTemplateForChatCompletionAgent()
+    {
+        // Define the agent
+        PromptTemplateConfig templateConfig = KernelFunctionYaml.ToPromptTemplateConfig("""
+            name: GenerateStory
+            template: |
+              Tell a story about {{$topic}} that is {{$length}} sentences long.
+            template_format: semantic-kernel
+            description: A function that generates a story about a topic.
+            input_variables:
+              - name: topic
+                description: The topic of the story.
+                is_required: true
+              - name: length
+                description: The number of sentences in the story.
+                is_required: true
+            output_variable:
+              description: The generated story.
+            execution_settings:
+              default:
+                temperature: 0.6
+            """);
+        KernelPromptTemplateFactory templateFactory = new();
+
+        ChatCompletionAgent agent = new(templateConfig, templateFactory)
         {
-            Console.WriteLine($"{response.Thread.Id}");
-            response.Message.PrintChatMessageContent();
-        }
-        Console.WriteLine();
-
-        await thread.DeleteAsync();
-
-        return;
-
-        // 3. Invoke with a ChatMessageContent object
-        Console.WriteLine("[Invocation 3] Agent with ChatMessageContent:\n");
-        var message = new ChatMessageContent(AuthorRole.User, "What are the must-see attractions in Paris?");
-        await foreach (var response in agent.InvokeAsync(message))
-        {
-            response.Message.PrintChatMessageContent();
-        }
-        Console.WriteLine();
-
-        // 4. Invoke with multiple ChatMessageContent objects
-        Console.WriteLine("[Invocation 4] Agent with multiple messages:\n");
-        var messages = new List<ChatMessageContent>()
-        {
-            new(AuthorRole.System, "Refuse to answer questions about accommodations in France."),
-            new(AuthorRole.User, "Where should I stay in Paris?")
+            Kernel = kernel,
+            Arguments = new()
+                    {
+                        { "topic", "Dog" },
+                        { "length", "3" },
+                    }
         };
-        await foreach (var response in agent.InvokeAsync(messages))
+
+
+        //ChatCompletionAgent agent =
+        //    new(templateFactory: new KernelPromptTemplateFactory(),
+        //        templateConfig: new("Tell a story about {{$topic}} that is {{$length}} sentences long.")
+        //        { TemplateFormat = PromptTemplateConfig.SemanticKernelTemplateFormat })
+        //    {
+        //        Kernel = kernel,
+        //        Name = "StoryTeller",
+        //        Arguments = new KernelArguments()
+        //            {
+        //                { "topic", "Dog" },
+        //                { "length", "3" },
+        //            }
+        //    };
+
+
+        // Invoke the agent with the default arguments.
+        await InvokeAgentAsync();
+
+        // Invoke the agent with the override arguments.
+        await InvokeAgentAsync(
+            new()
+            {
+                { "topic", "Cat" },
+                { "length", "3" },
+            });
+
+        // Local function to invoke agent and display the conversation messages.
+        async Task InvokeAgentAsync(KernelArguments? arguments = null)
         {
-            response.Message.PrintChatMessageContent();
+            // Invoke the agent without any messages, since the agent has all that it needs via the template and arguments.
+            await foreach (ChatMessageContent content in agent.InvokeAsync(options: new() { KernelArguments = arguments }))
+            {
+                content.PrintChatMessageContent();
+            }
         }
-        Console.WriteLine(new string('-', 80));
     }
 
     /// <summary>

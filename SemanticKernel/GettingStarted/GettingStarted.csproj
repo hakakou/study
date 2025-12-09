@@ -12,6 +12,7 @@
 		<PackageReference Include="Anthropic.SDK" Version="5.8.0" />
 		<PackageReference Include="Azure.Identity" Version="1.18.0-beta.2" />
 		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.6.0-beta.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.VectorData.Abstractions" Version="9.7.0" />
@@ -48,7 +49,7 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<NoWarn>$(NoWarn);SKEXP0001;SKEXP0130;SKEXP0070</NoWarn>
+		<NoWarn>$(NoWarn);SKEXP0001;SKEXP0130;SKEXP0070;SKEXP0050;SKEXP0010</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup>

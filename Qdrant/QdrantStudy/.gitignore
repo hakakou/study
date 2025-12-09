@@ -1,0 +1,20 @@
+# ONNX models (download using download_model.py)
+models/
+
+# Qdrant storage
+qdrant_storage/
+
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.cache
+.vs/
+
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc

@@ -10,7 +10,6 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Functions;
 using System.ComponentModel;
 
-[RunDirectly]
 public class DOC_S33_AgentContextualFunctions(
     Kernel kernel,
     IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator) : ITest
@@ -22,7 +21,7 @@ public class DOC_S33_AgentContextualFunctions(
             .DefaultEmbeddings();
 
         services.AddLogging(c =>
-            c.AddConsole().SetMinimumLevel(LogLevel.Information));
+            c.AddConsole().SetMinimumLevel(LogLevel.Trace));
     }
 
     public async Task Run()
@@ -99,7 +98,7 @@ public class DOC_S33_AgentContextualFunctions(
         Console.WriteLine("\n" + new string('-', 80));
 
         // Demonstrate custom context embedding provider
-        await DemonstrateCustomContextEmbedding();
+        //await DemonstrateCustomContextEmbedding();
     }
 
     /// <summary>

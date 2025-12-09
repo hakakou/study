@@ -1,10 +1,17 @@
 ﻿using Anthropic.SDK;
+using Azure.AI.OpenAI;
+using Azure.Identity;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
+using OpenAI;
+using OpenAI.Assistants;
+using System.ClientModel;
+using System.Net.Http.Headers;
 
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning disable SKEXP0010
 #pragma warning disable SKEXP0050
 
 public static class ServiceExtensions
@@ -18,12 +25,54 @@ public static class ServiceExtensions
                 );
     }
 
+    public static IKernelBuilder DefaultOpenAIAssistantClient(this IKernelBuilder services)
+    {
+        // var client = OpenAIAssistantAgent.CreateOpenAIClient(new ApiKeyCredential(Conf.OpenAI.ApiKey));
+
+        var clientAzure = OpenAIAssistantAgent.CreateAzureOpenAIClient(
+            new ApiKeyCredential(Conf.AzureFoundry.ApiKey),
+            new Uri(Conf.AzureFoundry.Endpoint));
+
+        AssistantClient assistant = clientAzure.GetAssistantClient();
+        services.Services.AddSingleton(assistant);
+        return services;
+    }
+
+    public static IKernelBuilder DefaultChatClient(this IKernelBuilder services)
+    {
+        IChatClient clientAzure = new AzureOpenAIClient(
+            new Uri(Conf.AzureFoundry.Endpoint),
+            new ApiKeyCredential(Conf.AzureFoundry.ApiKey))
+            .GetChatClient(Conf.AzureFoundry.DeploymentName)
+            .AsIChatClient();
+
+        services.Services.AddSingleton<IChatClient>(clientAzure);
+        return services;
+    }
+
+    public static void DefaultMem0Provider(this IServiceCollection services)
+    {
+        services.AddHttpClient(name: "mem0", configureClient: options =>
+        {
+            options.BaseAddress = new Uri("https://api.mem0.ai");
+            options.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Token", Conf.Mem0.ApiKey);
+        });
+    }
+
+    public static IKernelBuilder DefaultChatCompletionOpenAI(this IKernelBuilder services)
+    {
+        return services.AddOpenAIChatCompletion(
+                    modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey
+                );
+    }
+
     public static IKernelBuilder LocalChatCompletion(this IKernelBuilder services)
     {
         return services.AddOpenAIChatCompletion(
                     //modelId: "deepseek/deepseek-r1-0528-qwen3-8b",
                     modelId: "openai/gpt-oss-20b",
-                    endpoint: new Uri( "http://127.0.0.1:1234/v1"),
+                    endpoint: new Uri("http://127.0.0.1:1234/v1"),
                     apiKey: ""
                 );
     }

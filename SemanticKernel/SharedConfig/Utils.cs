@@ -1,4 +1,5 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Azure.AI.Agents.Persistent;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
@@ -8,7 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using static SharedConfig.Conf;
+using System.Threading.Tasks;
+using UsageDetails = Microsoft.Extensions.AI.UsageDetails;
 
 public static class Utils
 {
@@ -17,6 +19,24 @@ public static class Utils
     public static string AsJson(this object obj)
     {
         return JsonSerializer.Serialize(obj, s_jsonOptionsCache);
+    }
+
+    public static async Task<AgentThread> InvokeAgentAsync(this Agent agent, 
+        AgentThread thread, string input, KernelArguments? arguments = null)
+    {
+        if (agent is null) throw new ArgumentNullException(nameof(agent));
+
+        ChatMessageContent message = new(AuthorRole.User, input);
+        message.PrintChatMessageContent();
+
+        await foreach (AgentResponseItem<ChatMessageContent> response in agent.InvokeAsync(message, thread,
+            options: new() { KernelArguments = arguments }))
+        {
+            response.Message.PrintChatMessageContent();
+            thread = response.Thread;
+        }
+
+        return thread;
     }
 
     public static void PrintSectionHeader(string title, char separatorChar = '=', int width = 80)
@@ -29,7 +49,7 @@ public static class Utils
     public static void PrintChatMessageContent(this ChatMessageContent message)
     {
         // Include ChatMessageContent.AuthorName in output, if present.
-        string authorExpression = message.Role == AuthorRole.User ? string.Empty : $" - {message.AuthorName ?? "*"}";
+        string authorExpression = message.Role == AuthorRole.User ? string.Empty : FormatAuthor();
 
         // Determine role color
         var roleColor = message.Role.ToString().ToLower() switch
@@ -65,7 +85,22 @@ public static class Utils
         {
             if (item is AnnotationContent annotation)
             {
-                AnsiConsole.MarkupLine($"  [cyan][[{item.GetType().Name}]][/] {annotation.Label.EscapeMarkup()}: File #{annotation.ReferenceId}");
+                if (annotation.Kind == AnnotationKind.UrlCitation)
+                {
+                    AnsiConsole.MarkupLine($"  [cyan][[{item.GetType().Name}]][/] {annotation.Label.EscapeMarkup()}: {annotation.ReferenceId.EscapeMarkup()} - {annotation.Title?.EscapeMarkup()}");
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine($"  [cyan][[{item.GetType().Name}]][/] {annotation.Label.EscapeMarkup()}: File #{annotation.ReferenceId}");
+                }
+            }
+            else if (item is ActionContent action)
+            {
+                AnsiConsole.MarkupLine($"  [cyan][[{item.GetType().Name}]][/] {action.Text.EscapeMarkup()}");
+            }
+            else if (item is ReasoningContent reasoning)
+            {
+                AnsiConsole.MarkupLine($"  [cyan][[{item.GetType().Name}]][/] {(string.IsNullOrWhiteSpace(reasoning.Text) ? "Thinking..." : reasoning.Text.EscapeMarkup())}");
             }
             else if (item is FileReferenceContent fileReference)
             {
@@ -87,19 +122,29 @@ public static class Utils
             }
         }
 
-        if (message.Metadata?.TryGetValue("Usage", out object usage) ?? false)
+        if (message.Metadata?.TryGetValue("Usage", out object? usage) ?? false)
         {
             if (usage is RunStepTokenUsage assistantUsage)
             {
                 WriteUsage(assistantUsage.TotalTokenCount, assistantUsage.InputTokenCount, assistantUsage.OutputTokenCount);
             }
+            else if (usage is RunStepCompletionUsage agentUsage)
+            {
+                WriteUsage(agentUsage.TotalTokens, agentUsage.PromptTokens, agentUsage.CompletionTokens);
+            }
             else if (usage is OpenAI.Chat.ChatTokenUsage chatUsage)
             {
                 WriteUsage(chatUsage.TotalTokenCount, chatUsage.InputTokenCount, chatUsage.OutputTokenCount);
             }
+            else if (usage is UsageDetails usageDetails)
+            {
+                WriteUsage(usageDetails.TotalTokenCount ?? 0, usageDetails.InputTokenCount ?? 0, usageDetails.OutputTokenCount ?? 0);
+            }
         }
 
-        void WriteUsage(int totalTokens, int inputTokens, int outputTokens)
+        string FormatAuthor() => message.AuthorName is not null ? $" - {message.AuthorName}" : string.Empty;
+
+        void WriteUsage(long totalTokens, long inputTokens, long outputTokens)
         {
             AnsiConsole.MarkupLine($"  [orange1][[Usage]][/] Tokens: [bold]{totalTokens}[/], Input: {inputTokens}, Output: {outputTokens}");
         }

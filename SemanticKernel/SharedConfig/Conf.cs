@@ -32,7 +32,9 @@ public static class Conf
         Conf.GoogleTextSearch.ApiKey = config["GoogleTextSearch:ApiKey"];
 
         Conf.BingTextSearch.ApiKey = config["BingTextSearch:ApiKey"];
-        Conf.TavilyTextSearch   .ApiKey = config["TavilyTextSearch:ApiKey"];
+        Conf.TavilyTextSearch.ApiKey = config["TavilyTextSearch:ApiKey"];
+
+        Conf.Mem0.ApiKey = config["Mem0:ApiKey"];
 
         Conf.ApplicationInsights.ConnectionString = config["ApplicationInsights:ConnectionString"];
     }
@@ -75,6 +77,11 @@ public static class Conf
     }
 
     public static class BingTextSearch
+    {
+        public static string ApiKey;
+    }
+
+    public static class Mem0
     {
         public static string ApiKey;
     }

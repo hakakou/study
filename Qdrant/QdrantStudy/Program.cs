@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using System.Text.Json;
+
+Console.WriteLine("====================================");
