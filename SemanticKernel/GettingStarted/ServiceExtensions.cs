@@ -1,8 +1,11 @@
 ﻿using Anthropic.SDK;
+using Azure.AI.Agents.Persistent;
 using Azure.AI.OpenAI;
+using Azure.Identity;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Agents.AzureAI;
 using Microsoft.SemanticKernel.Agents.OpenAI;
 using Microsoft.SemanticKernel.ChatCompletion;
 using OpenAI.Assistants;
@@ -17,23 +20,34 @@ public static class ServiceExtensions
 {
     public static IKernelBuilder DefaultChatCompletion(this IKernelBuilder services)
     {
+        Console.WriteLine($"Model: {Conf.AzureFoundry.DeploymentName}");
+
         return services.AddAzureOpenAIChatCompletion(
                     deploymentName: Conf.AzureFoundry.DeploymentName,
                     endpoint: Conf.AzureFoundry.Endpoint,
                     apiKey: Conf.AzureFoundry.ApiKey
                 );
+        //return services.AddOpenAIChatCompletion(
+        //            modelId: "gpt-4o", apiKey: Conf.OpenAI.ApiKey
+        //        );
     }
 
     public static IKernelBuilder DefaultOpenAIAssistantClient(this IKernelBuilder services)
     {
         // var client = OpenAIAssistantAgent.CreateOpenAIClient(new ApiKeyCredential(Conf.OpenAI.ApiKey));
-
         var clientAzure = OpenAIAssistantAgent.CreateAzureOpenAIClient(
             new ApiKeyCredential(Conf.AzureFoundry.ApiKey),
             new Uri(Conf.AzureFoundry.Endpoint));
 
         AssistantClient assistant = clientAzure.GetAssistantClient();
         services.Services.AddSingleton(assistant);
+        return services;
+    }
+
+    public static IKernelBuilder DefaultAzureAIAgentClient(this IKernelBuilder services)
+    {
+        PersistentAgentsClient client = AzureAIAgent.CreateAgentsClient(
+             Conf.AzureFoundry.Endpoint, new AzureCliCredential());
         return services;
     }
 

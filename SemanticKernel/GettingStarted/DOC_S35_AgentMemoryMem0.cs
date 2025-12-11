@@ -5,10 +5,8 @@ using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Memory;
 
-
 public class DOC_S35_AgentMemoryMem0(
-    Kernel kernel,
-    IHttpClientFactory httpClientFactory) : ITest
+    Kernel kernel, IHttpClientFactory httpClientFactory) : ITest
 {
     public static void Build(IServiceCollection services)
     {
@@ -85,7 +83,7 @@ public class DOC_S35_AgentMemoryMem0(
 
             // Second conversation - agent recalls the information
             Console.WriteLine("\n[Conversation 2] Agent recalls user preferences:\n");
-            
+
             await foreach (var response in agent.InvokeAsync(
                 "What do you know about me?",
                 agentThread))

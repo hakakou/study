@@ -9,12 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using UsageDetails = Microsoft.Extensions.AI.UsageDetails;
 
 public static class Utils
 {
     private static readonly JsonSerializerOptions s_jsonOptionsCache = new() { WriteIndented = true };
+    private static readonly object s_lock = new object();
 
     public static string AsJson(this object obj)
     {
@@ -55,6 +57,22 @@ public static class Utils
         var rule = new Rule($"[cyan]{title.EscapeMarkup()}[/]");
         rule.LeftJustified();
         AnsiConsole.Write(rule);
+    }
+
+    public static ValueTask PrintResponseCallback(ChatMessageContent response)
+    {
+        response.PrintChatMessageContent();
+        return ValueTask.CompletedTask;
+    }
+
+    public static void PrintChatMessageContent(this StreamingChatMessageContent content)
+    {
+        AnsiConsole.Markup($"\n[bold blue]# {content.Role}:[/] ");
+        foreach (var chunk in content.Items)
+        {
+            AnsiConsole.Markup(chunk.ToString().EscapeMarkup());
+        }
+        AnsiConsole.MarkupLine(string.Empty);
     }
 
     public static void PrintChatMessageContent(this ChatMessageContent message)
@@ -157,7 +175,7 @@ public static class Utils
 
         void WriteUsage(long totalTokens, long inputTokens, long outputTokens)
         {
-            AnsiConsole.MarkupLine($"  [orange1][[Usage]][/] Tokens: [bold]{totalTokens}[/], Input: {inputTokens}, Output: {outputTokens}");
+            AnsiConsole.MarkupLine($"→ [orange1][[Usage]][/] Tokens: [bold]{totalTokens}[/], Input: {inputTokens}, Output: {outputTokens}");
         }
     }
 

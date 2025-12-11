@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Connectors.InMemory;
@@ -9,10 +8,9 @@ using Microsoft.SemanticKernel.Data;
 #pragma warning disable SKEXP0001
 #pragma warning disable SKEXP0020
 
-[RunDirectly]
+
 public class DOC_S37_AgentRAGTextSearchProvider(
-    Kernel kernel,
-    IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator) : ITest
+    Kernel kernel, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator) : ITest
 {
     public static void Build(IServiceCollection services)
     {
@@ -157,7 +155,7 @@ public class DOC_S37_AgentRAGTextSearchProvider(
                 SearchNamespace = "finance/annual"
             });
 
-       
+
         // Create a TextSearchStore with namespace filtering - only finance/annual documents
         var textSearchProvider = new TextSearchProvider(
             filteredTextSearchStore,

@@ -36,6 +36,9 @@ public static class Conf
 
         Conf.Mem0.ApiKey = config["Mem0:ApiKey"];
 
+        Conf.MicrosoftFoundry.Endpoint = config["MicrosoftFoundry:Endpoint"];
+        Conf.MicrosoftFoundry.ApiKey = config["MicrosoftFoundry:ApiKey"];
+
         Conf.ApplicationInsights.ConnectionString = config["ApplicationInsights:ConnectionString"];
     }
 
@@ -83,6 +86,12 @@ public static class Conf
 
     public static class Mem0
     {
+        public static string ApiKey;
+    }
+
+    public static class MicrosoftFoundry
+    {
+        public static string Endpoint;
         public static string ApiKey;
     }
 

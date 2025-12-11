@@ -5,6 +5,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
 
+
 public class DOC_S30_Agents(Kernel kernel) : ITest
 {
     public static void Build(IServiceCollection services)
@@ -22,7 +23,7 @@ public class DOC_S30_Agents(Kernel kernel) : ITest
 
         //await Example1_NonStreamingAgentInvocationAsync();
         await Example_HistoryRetentionAsync();
-        await Example_UseTemplateForChatCompletionAgent();
+        // await Example_UseTemplateForChatCompletionAgent();
         // await Example2_StreamingAgentInvocationAsync();
     }
 
