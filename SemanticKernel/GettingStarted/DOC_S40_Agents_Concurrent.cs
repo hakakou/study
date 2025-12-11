@@ -11,17 +11,13 @@ public class DOC_S40_Agents_Concurrent(Kernel kernel, ILoggerFactory loggerFacto
 {
     public static void Build(IServiceCollection services)
     {
-        services.AddKernel()
-             .DefaultChatCompletion();
-
+        services.AddKernel().DefaultChatCompletion();
         //services.AddLogging(c =>
         //    c.AddConsole().SetMinimumLevel(LogLevel.Trace));
     }
 
     public async Task Run()
     {
-        //await new TaskCompletionSourceDemo2().RunDemo();
-        //return;
         // Description seems to be required!
         var coderCSharp = new ChatCompletionAgent()
         {
@@ -39,12 +35,21 @@ public class DOC_S40_Agents_Concurrent(Kernel kernel, ILoggerFactory loggerFacto
             Kernel = kernel,
         };
 
+        var coderDelphi = new ChatCompletionAgent()
+        {
+            Name = "DelphiCoder",
+            Description = "An agent that writes Delphi code",
+            Instructions = "Write a simple Delphi function based on the user message",
+            Kernel = kernel,
+        };
+
         var panels = new AgentPanels();
 
         // Define the orchestration
-        ConcurrentOrchestration orchestration = new(coderRust, coderCSharp)
+        ConcurrentOrchestration orchestration = new(coderRust, coderCSharp, coderDelphi)
         {
             LoggerFactory = loggerFactory,
+            // Set one or the other callback to see results
             //ResponseCallback = Utils.PrintResponseCallback,
             StreamingResponseCallback = panels.StreamingResultCallback,
         };
@@ -53,7 +58,7 @@ public class DOC_S40_Agents_Concurrent(Kernel kernel, ILoggerFactory loggerFacto
         InProcessRuntime runtime = new InProcessRuntime();
 
         await runtime.StartAsync();
-        
+
         // Start panels in the background
         var panelsTask = panels.Start();
 
@@ -62,7 +67,6 @@ public class DOC_S40_Agents_Concurrent(Kernel kernel, ILoggerFactory loggerFacto
 
         // Wait for the final result to ensure all streaming is complete
         string[] output = await result.GetValueAsync(TimeSpan.FromSeconds(30));
-
 
         // Optional: ensure runtime is fully idle
         await runtime.RunUntilIdleAsync();
