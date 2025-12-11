@@ -5,9 +5,6 @@ using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-
-#pragma warning disable SKEXP0110
-
 public class S204_UseKernelFunctionStrategiesWithAgentGroupChatAsync : ITest
 {
     public async Task Run()

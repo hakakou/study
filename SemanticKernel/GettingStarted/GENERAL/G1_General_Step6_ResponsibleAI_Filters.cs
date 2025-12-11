@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 
-public class G1_General_Step6_Responsible_AI : ITest
+public class G1_General_Step6_ResponsibleAI_Filters : ITest
 {
     public async Task Run()
     {
