@@ -15,7 +15,7 @@
 
         <GraphicsView HeightRequest="500"  x:Name="graphicsView">
             <GraphicsView.Drawable>
-                <local:AIDrawable />
+                <local:DemoDrawable />
             </GraphicsView.Drawable>
         </GraphicsView>
 

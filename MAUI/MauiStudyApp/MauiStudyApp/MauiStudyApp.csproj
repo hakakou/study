@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
+		<TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<UseMaui>true</UseMaui>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -40,7 +40,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="35.6.5" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.11" />
 		<PackageReference Include="DevExpress.Data" Version="25.1.*" />
 		<PackageReference Include="DevExpress.Maui.Controls" Version="25.1.*" />
 		<PackageReference Include="DevExpress.Maui.CollectionView" Version="25.1.*" />
@@ -50,12 +50,12 @@
 		<PackageReference Include="DevExpress.Maui.Scheduler" Version="25.1.*" />
 		<PackageReference Include="DevExpress.Maui.Gauges" Version="25.1.*" />
 		<PackageReference Include="DevExpress.Maui.Charts" Version="25.1.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="12.3.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
 		<ProjectReference Include="..\MauiStudyApp.Infrastructure\MauiStudyApp.Infrastructure.csproj" />
 	</ItemGroup>
 

@@ -10,6 +10,7 @@ using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
+[RunDirectly]
 public class DOC_S41_ConcurrentWithStructuredOutput(Kernel kernel, IChatCompletionService chatCompletionService) : ITest
 {
 

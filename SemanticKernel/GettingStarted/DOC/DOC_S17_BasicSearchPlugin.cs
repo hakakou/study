@@ -3,8 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Data;
 
-[RunDirectly]
-
 public class DOC_S17_BasicSearchPlugin(Kernel kernel, ITextSearch textSearch) : ITest
 {
     public static void Build(IServiceCollection services)

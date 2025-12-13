@@ -125,7 +125,10 @@ public class App(Kernel kernel, ITextSearch textSearch, IWebDriver driver)
                         row.Education = result.Education;
                         row.Notes = result.Notes;
 
-                        AnsiConsole.MarkupLine($"[green]{row.Surname.Trim().EscapeMarkup()}[/] {row.Notes.Trim().EscapeMarkup()}");
+                        var markup = new Markup($"[yellow]{row.Surname.Trim().EscapeMarkup()}[/] " +
+                            $"{row.Notes.Trim().EscapeMarkup()} ([white]{row.Certainty}[/])");
+                        AnsiConsole.Write(markup);
+                        AnsiConsole.WriteLine();
 
                         task.Increment(1);
                     }
@@ -140,7 +143,7 @@ public class App(Kernel kernel, ITextSearch textSearch, IWebDriver driver)
                     try
                     {
                         // Make a copy of the latest file after each row is processed for viewing.
-                        // Ignore errors (in case the file is open in Excel).
+                        // Ignore errors (in case the file is open).
                         File.Copy(f, latest, true);
                     }
                     catch { }
