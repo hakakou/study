@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.12.35506.116
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11304.174 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureOpenAIConsole", "OpenAIConsole\AzureOpenAIConsole.csproj", "{09031E52-CDF6-4DA8-917D-40B0A5D94526}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedConfig", "SharedConfig\SharedConfig.csproj", "{AF66E787-02B9-D8B9-F924-A486BD69901D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QdrantStudy", "..\Qdrant\QdrantStudy\QdrantStudy.csproj", "{DE956830-AE77-86C0-D025-363C2B00D813}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{6C0F928A-B28D-D207-D239-598F22CCD0B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{DE956830-AE77-86C0-D025-363C2B00D813}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE956830-AE77-86C0-D025-363C2B00D813}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE956830-AE77-86C0-D025-363C2B00D813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0F928A-B28D-D207-D239-598F22CCD0B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0F928A-B28D-D207-D239-598F22CCD0B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0F928A-B28D-D207-D239-598F22CCD0B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0F928A-B28D-D207-D239-598F22CCD0B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

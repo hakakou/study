@@ -89,6 +89,7 @@ public static class ServiceExtensions
                     apiKey: ""
                 );
     }
+
     public static IKernelBuilder DefaultEmbeddings(this IKernelBuilder services)
     {
         return services.AddAzureOpenAIEmbeddingGenerator(

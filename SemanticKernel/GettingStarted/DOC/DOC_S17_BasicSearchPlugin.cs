@@ -1,11 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Data;
+
+[RunDirectly]
 
 public class DOC_S17_BasicSearchPlugin(Kernel kernel, ITextSearch textSearch) : ITest
 {
     public static void Build(IServiceCollection services)
     {
+        services.AddLogging(c => c.AddConsole().SetMinimumLevel(LogLevel.Trace));
         services.AddKernel()
             .DefaultChatCompletion()
             .GoogleTextSearch();

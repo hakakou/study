@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using OpenTelemetry;
@@ -12,17 +13,15 @@ using System.Reflection;
 
 Console.Clear();
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-
 Conf.Init<Program>();
 
-var services = new ServiceCollection();
+var builder = Host.CreateApplicationBuilder(args);
 
 // OpenTelemetry setup
 var endpoint = "http://localhost:4317";
 
 var resourceBuilder = ResourceBuilder
     .CreateDefault().AddService("Study");
-// autoGenerateServiceInstanceId: false
 
 // Enable model diagnostics with sensitive data.
 AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive", true);
@@ -39,7 +38,7 @@ using var meterProvider = Sdk.CreateMeterProviderBuilder()
     .AddOtlpExporter(options => options.Endpoint = new Uri(endpoint))
     .Build();
 
-services.AddLogging(builder =>
+builder.Services.AddLogging(builder =>
 {
     builder.AddOpenTelemetry(options =>
     {
@@ -62,7 +61,7 @@ var testTypes = Assembly.GetExecutingAssembly().GetTypes()
 
 foreach (var type in testTypes)
 {
-    services.AddTransient(type);
+    builder.Services.AddTransient(type);
 }
 
 var directRunType = testTypes.SingleOrDefault(t => t.GetCustomAttribute<RunDirectlyAttribute>() != null);
@@ -88,8 +87,16 @@ Console.WriteLine();
 
 async Task RunTestType(Type testType)
 {
-    testType.GetMethod("Build")?.Invoke(null, new object[] { services });
-    var serviceProvider = services.BuildServiceProvider();
-    var test = (serviceProvider.GetRequiredService(testType) as ITest)!;
-    await test.Run();
+    testType.GetMethod("Build")?.Invoke(null, new object[] { builder.Services });
+    
+    var host = builder.Build();
+    try
+    {
+        var test = (host.Services.GetRequiredService(testType) as ITest)!;
+        await test.Run();
+    }
+    finally
+    {
+        await host.StopAsync();
+    }
 }

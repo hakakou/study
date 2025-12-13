@@ -28,7 +28,6 @@ public class DOC_S32_AgentPlugins(Kernel kernel) : ITest
         // Import plug-in from object (stateful)
         agentKernel.ImportPluginFromObject(new WeatherPlugin("XXX"));
 
-
         // Create plug-in from a static function
         var functionFromMethod = agentKernel.CreateFunctionFromMethod(Greeting);
         var functionFromPrompt = agentKernel.CreateFunctionFromPrompt("What is the capital of {{$country}}?");

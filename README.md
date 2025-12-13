@@ -18,19 +18,40 @@ Todo: Make a list
 ```json
 {
   "OpenAI:ApiKey": "sk-proj-...",
-  "AzureOpenAI": {
-    "DeploymentName": "gpt-4o",
-    "Endpoint": "https://your-endpoint",
-    "ApiKey": "your-azure-openai-key"
-  },
-  "AzureAIFoundry": {
-    "DeploymentName": "gpt-4o-mistral",
+  "AzureFoundry": {
+    "DeploymentName": "gpt-4.1",
     "Endpoint": "https://your-foundry-endpoint",
     "ApiKey": "your-foundry-key"
+  },
+  "AzureFoundryEmbeddings": {
+    "DeploymentName": "text-embedding-3-large",
+    "Endpoint": "https://your-foundry-endpoint",
+    "ApiKey": "your-foundry-key"
+  },
+  "AzureAnthropic": {
+    "DeploymentName": "claude-sonnet-3-5",
+    "Endpoint": "https://your-anthropic-endpoint",
+    "ApiKey": "your-anthropic-key"
   },
   "GoogleTextSearch": {
     "SearchEngineId": "your-search-engine-id",
     "ApiKey": "your-google-api-key"
+  },
+  "BingTextSearch": {
+    "ApiKey": "your-bing-search-key"
+  },
+  "TavilyTextSearch": {
+    "ApiKey": "your-tavily-key"
+  },
+  "Mem0": {
+    "ApiKey": "your-mem0-key"
+  },
+  "MicrosoftFoundry": {
+    "Endpoint": "https://your-foundry-endpoint",
+    "ApiKey": "your-foundry-key"
+  },
+  "ApplicationInsights": {
+    "ConnectionString": "InstrumentationKey=your-key;..."
   }
 }
 ```

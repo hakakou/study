@@ -6,7 +6,6 @@ using Microsoft.SemanticKernel.Agents.Orchestration;
 using Microsoft.SemanticKernel.Agents.Orchestration.Concurrent;
 using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 
-[RunDirectly]
 public class DOC_S40_Agents_Concurrent(Kernel kernel, ILoggerFactory loggerFactory) : ITest
 {
     public static void Build(IServiceCollection services)
