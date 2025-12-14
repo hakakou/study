@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../MauiApp4/MauiApp4.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="AspireServices.csproj" />
+</Solution>

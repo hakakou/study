@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:MauiApp4.ViewModels"
+             xmlns:local="clr-namespace:MauiApp4" x:Class="MauiApp4.MainPage"
+             x:Name="page">
+
+    <ContentPage.BindingContext>
+        <vm:MainViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding ShowingCommand}"
+          BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="customerTemplate" x:DataType="local:Customer">
+
+            <SwipeView>
+                <SwipeView.RightItems>
+                    <SwipeItem Text="Delete" BackgroundColor="IndianRed" 
+                        Command="{Binding Path=BindingContext.DeleteCustomerCommand, Source={x:Reference page}}"
+                        CommandParameter="{Binding}"/>
+                </SwipeView.RightItems>
+
+                <Grid RowDefinitions="40,40" ColumnDefinitions="*,*" Padding="10">
+                    <Label Text="{Binding FirstName}"/>
+                    <Label Text="{Binding LastName}" Grid.Column="1"/>
+                    <Label Text="{Binding Email}" TextColor="DarkGray" Grid.Row="1" Grid.ColumnSpan="2"/>
+                </Grid>
+
+            </SwipeView>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <Grid>
+        <RefreshView IsRefreshing="{Binding Refreshing}" Command="{Binding LoadCustomersCommand}">
+            <CollectionView ItemsSource="{Binding Customers}" ItemTemplate="{StaticResource customerTemplate}"/>
+        </RefreshView>
+
+        <Button WidthRequest="80" HeightRequest="80" 
+        CornerRadius="40"
+        BackgroundColor="{StaticResource Primary}">
+            <Button.ImageSource>
+                <FontImageSource Glyph="+" FontFamily="MaterialIcons"/>
+            </Button.ImageSource>
+        </Button>
+    </Grid>
+
+</ContentPage>

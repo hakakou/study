@@ -28,7 +28,6 @@ builder.Services.AddSingleton<IWebDriver>(sp =>
     cm.AddArgument(@"user-data-dir=c:/Unzip/brave-profile");
     var service = ChromeDriverService.CreateDefaultService();
     var driver = new ChromeDriver(service, cm);
-    driver.Navigate().GoToUrl("https://www.linkedin.com/search/results/people/?keywords=harry%20kakoulidis&origin=FACETED_SEARCH");
     return driver;
 });
 

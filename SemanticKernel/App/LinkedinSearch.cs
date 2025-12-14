@@ -8,6 +8,12 @@ public class LinkedinSearch(IWebDriver driver)
     [return: Description("Possible matches")]
     public async Task<IEnumerable<string>> Search(string name)
     {
+        if (!driver.Url.StartsWith("https://www.linkedin.com/search/results/people/"))
+        {
+            driver.Navigate().GoToUrl("https://www.linkedin.com/search/results/people/?keywords=harry%20kakoulidis&origin=FACETED_SEARCH");
+            await SeleniumUtils.Wait(1, 2);
+        }
+
         await SeleniumUtils.Wait(7, 12);
         var searchInput = driver.FindElement(
             OpenQA.Selenium.By.CssSelector("input"));
@@ -44,5 +50,25 @@ public class LinkedinSearch(IWebDriver driver)
         }
 
         return results;
+    }
+
+    [KernelFunction]
+    [return: Description("Text content of the profile")]
+    public async Task<string> OpenProfile(string url)
+    {
+        driver.Navigate().GoToUrl(url);
+        await SeleniumUtils.Wait(1, 3);
+        await driver.ScrollDown(300, 1000);
+        await SeleniumUtils.Wait(5, 10);
+
+        try
+        {
+            var mainElement = driver.FindElement(OpenQA.Selenium.By.TagName("main"));
+            return mainElement.Text;
+        }
+        catch (NoSuchElementException)
+        {
+            return "Main element not found on the page";
+        }
     }
 }
