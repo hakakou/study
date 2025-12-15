@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:MauiApp4" x:Class="MauiApp4.MainPage"
              x:Name="page">
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <vm:MainViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding ShowingCommand}"
           BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
@@ -38,12 +38,14 @@
             <CollectionView ItemsSource="{Binding Customers}" ItemTemplate="{StaticResource customerTemplate}"/>
         </RefreshView>
 
-        <Button WidthRequest="80" HeightRequest="80" 
-        CornerRadius="40"
-        BackgroundColor="{StaticResource Primary}">
-            <Button.ImageSource>
-                <FontImageSource Glyph="+" FontFamily="MaterialIcons"/>
-            </Button.ImageSource>
+        <Button Text="+"
+    Command="{Binding ShowNewFormCommand}"   WidthRequest="56"   HeightRequest="56"
+    CornerRadius="28" FontSize="24" BackgroundColor="{StaticResource Primary}"
+    TextColor="White"  HorizontalOptions="End"  VerticalOptions="End"
+    Margin="16">
+            <Button.Shadow>
+                <Shadow Brush="Black" Opacity="0.4" Radius="8" Offset="0,4"/>
+            </Button.Shadow>
         </Button>
     </Grid>
 

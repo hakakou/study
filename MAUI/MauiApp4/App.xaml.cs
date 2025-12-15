@@ -6,10 +6,34 @@ namespace MauiApp4
     {
         public App()
         {
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                // Android.Runtime.JavaProxyThrowable logs here before fatal crash
+                System.Diagnostics.Debug.WriteLine("Unhandled: " + e.ExceptionObject);
+            };
+
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+            {
+                System.Diagnostics.Debug.WriteLine("Unobserved: " + e.Exception);
+                e.SetObserved();
+            };
+
             //  necessary for initializing SQLitePCLRaw on iOS devices.
             SQLitePCL.Batteries_V2.Init();
             using var context = new CrmContext();
             context.Database.EnsureCreated();
+
+            if (!context.Customers.Any())
+            {
+                context.Customers.Add(new Customer
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Email = "john.doe@example.com"
+                });
+                context.SaveChanges();
+            }
+
             Task.Run(async () => await CopyToAppDataDirectory("AboutAssets.txt"));
             InitializeComponent();
         }

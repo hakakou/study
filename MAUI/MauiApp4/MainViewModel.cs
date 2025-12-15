@@ -28,20 +28,18 @@ public partial class MainViewModel : ObservableObject
         context.Customers.Remove(customer);
         context.SaveChanges();
         // Update the ObservableCollection also
-        Customers.Remove(customer);
-
-        
+        Customers.Remove(customer);       
     }
 
     [RelayCommand]
     async Task ShowNewFormAsync()
     {
-        //await Shell.Current.GoToAsync(nameof(CustomerEditPage),
-        //    parameters: new Dictionary<string, object>
-        //    {
-        //        { "ParentRefreshAction", (Func<Customer, Task>)RefreshAddedAsync },
-        //        { "Item", new Customer() },
-        //    });
+        await Shell.Current.GoToAsync(nameof(CustomerEditPage),
+            parameters: new Dictionary<string, object>
+            {
+                { "ParentRefreshAction", (Func<Customer, Task>)RefreshAddedAsync },
+                { "Item", new Customer() },
+            });
     }
 
     Task RefreshAddedAsync(Customer addedCustomer)

@@ -5,6 +5,9 @@
         public AppShell()
         {
             InitializeComponent();
+
+            // Register route for CustomerEditPage
+            Routing.RegisterRoute(nameof(CustomerEditPage), typeof(CustomerEditPage));
         }
     }
 }

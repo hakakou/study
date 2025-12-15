@@ -21,6 +21,7 @@ namespace MauiApp4
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // 
             builder.Entity<Customer>().HasData(
                 new Customer { Id = 1, FirstName = "John", LastName = "Doe", Email = "john.doe@example.com" }
             );

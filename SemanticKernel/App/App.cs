@@ -44,14 +44,14 @@ public class App(Kernel kernel, ITextSearch textSearch, IWebDriver driver)
             - City: {{$City}}
             - Nationality: {{$Nationality}}
             - External: {{$External}}
-            
+
             Field Descriptions:
             - Title: Courtesy title (Mr/Ms)
             - Surname: Person full name (often 'SURNAME / NAME')
             - City: Duty station/city code (e.g., BRU=Brussels, LUX=Luxembourg)
             - Nationality: Nationality as a 2-letter country code (may be empty)
             - External: Is the person external to the DIGIT department ("external" or empty if not external)
-            
+
             Search for their LinkedIn profile (only on site www.linkedin.com) and provide:
             1. LinkedIn URL
             2. Certainty level (1-5) of the match
@@ -80,6 +80,59 @@ public class App(Kernel kernel, ITextSearch textSearch, IWebDriver driver)
                 new() { Name = "External", Description = "Is the person external to the European Commission?", IsRequired = false }
             ]
         };
+
+        //var templateConfig = new PromptTemplateConfig()
+        //{
+        //    Name = "PersonLinkedInSearch",
+        //    Template = """
+        //    Use the LinkedinSearch plugin to find the LinkedIn profile for the person below.
+        //    Best results would be EU based with a connection to the EU and especially
+        //    the European Commission DIGIT department (Directorate-General for Informatics).
+
+        //    Person Information:
+        //    - Name: {{$Surname}}
+        //    - Title: {{$Title}}
+        //    - City: {{$City}}
+        //    - Nationality: {{$Nationality}}
+        //    - External: {{$External}}
+
+        //    Field Descriptions:
+        //    - Title: Courtesy title (Mr/Ms)
+        //    - Surname: Person full name (often 'SURNAME / NAME')
+        //    - City: Duty station/city code (e.g., BRU=Brussels, LUX=Luxembourg)
+        //    - Nationality: Nationality as a 2-letter country code (may be empty)
+        //    - External: Is the person external to the DIGIT department ("external" or empty if not external)
+
+        //    Search for their LinkedIn profile and provide:
+        //    1. LinkedIn URL
+        //    2. Certainty level (1-5) of the match
+        //    3. Company name from their profile (leave empty if not found)
+        //    4. Location from their profile (leave empty if not found)
+        //    5. Profession/job title from their profile (leave empty if not found)
+        //    6. Education details from their profile (leave empty if not found)
+        //    7. Any interesting notes (up to 120 characters)
+
+        //    How to search:
+        //    - Use the LinkedinSearch.Search function to find potential matches for the person's name.
+        //    - If no results, you may also retry variations of the name (especially for Spanish names with compound surnames).
+        //    - From the search results:
+        //      * If you can identify a good match directly from the search results, select that profile.
+        //      * Else open possible profiles (up to 3 total) using LinkedinSearch.OpenProfile. 
+        //      * Start from the top results to avoid opening more profiles than needed.
+        //    - Select the profile that best matches based on:
+        //      * Location (preference for Brussels, Luxembourg, or other EU cities)
+        //      * Company/organization (preference for European Commission, EU institutions, or DIGIT or EU related work)
+        //      * Professional background matching the person's role
+        //    """,
+        //    TemplateFormat = "semantic-kernel",
+        //    InputVariables = [
+        //        new() { Name = "Surname", Description = "Person full name", IsRequired = true },
+        //        new() { Name = "Title", Description = "Courtesy title (Mr/Ms)", IsRequired = false },
+        //        new() { Name = "City", Description = "Duty station/city code", IsRequired = false },
+        //        new() { Name = "Nationality", Description = "Nationality code", IsRequired = false },
+        //        new() { Name = "External", Description = "Is the person external to the European Commission?", IsRequired = false }
+        //    ]
+        //};
 
         var f = @"c:\Unzip\app\DIGIT_people_output.xlsx";
         var latest = @"c:\Unzip\app\DIGIT_people_latest.xlsx";

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MauiApp4.ViewModels"
+             x:Class="MauiApp4.CustomerEditPage"
+             x:DataType="viewModels:CustomerEditViewModel"
+             Title="Edit Customer">
+	 
+		<ScrollView>
+			<VerticalStackLayout Padding="20" Spacing="15">
+				<Label Text="Customer Information"
+					   FontSize="20"
+					   FontAttributes="Bold"
+					   Margin="0,0,0,10"/>
+
+				<Label Text="First Name"/>
+				<Entry Text="{Binding Item.FirstName}"
+					   Placeholder="Enter first name"/>
+
+				<Label Text="Last Name"/>
+				<Entry Text="{Binding Item.LastName}"
+					   Placeholder="Enter last name"/>
+
+				<Label Text="Email"/>
+				<Entry Text="{Binding Item.Email}"
+					   Placeholder="Enter email"
+					   Keyboard="Email"/>
+
+
+				<HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+					<Button Text="Save" Command="{Binding SaveCommand}" />
+					<Button Text="Cancel" Command="{Binding CancelCommand}" />
+					<ActivityIndicator VerticalOptions="Center"
+									   WidthRequest="40" HeightRequest="40"
+									   IsRunning="{Binding SaveCommand.IsRunning}"
+									   Color="{StaticResource Primary}" />
+				</HorizontalStackLayout>
+			</VerticalStackLayout>
+		</ScrollView>
+
+
+ 
+</ContentPage>

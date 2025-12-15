@@ -1,6 +1,7 @@
 ﻿using Microsoft.SemanticKernel;
-using System.ComponentModel;
 using OpenQA.Selenium;
+using Spectre.Console;
+using System.ComponentModel;
 
 public class LinkedinSearch(IWebDriver driver)
 {
@@ -10,7 +11,7 @@ public class LinkedinSearch(IWebDriver driver)
     {
         if (!driver.Url.StartsWith("https://www.linkedin.com/search/results/people/"))
         {
-            driver.Navigate().GoToUrl("https://www.linkedin.com/search/results/people/?keywords=harry%20kakoulidis&origin=FACETED_SEARCH");
+            driver.Navigate().GoToUrl("https://www.linkedin.com/search/results/people/");
             await SeleniumUtils.Wait(1, 2);
         }
 
@@ -52,14 +53,12 @@ public class LinkedinSearch(IWebDriver driver)
         return results;
     }
 
-    [KernelFunction]
+    // [KernelFunction]
     [return: Description("Text content of the profile")]
     public async Task<string> OpenProfile(string url)
     {
         driver.Navigate().GoToUrl(url);
-        await SeleniumUtils.Wait(1, 3);
-        await driver.ScrollDown(300, 1000);
-        await SeleniumUtils.Wait(5, 10);
+        await driver.NaturalScrollDown(8, 12);
 
         try
         {
@@ -72,3 +71,4 @@ public class LinkedinSearch(IWebDriver driver)
         }
     }
 }
+

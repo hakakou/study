@@ -15,12 +15,18 @@ namespace MauiApp4
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
                 });
 
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            //// Register pages and view models
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<ViewModels.MainViewModel>();
+
+            builder.Services.AddTransient<CustomerEditPage>();
+            builder.Services.AddTransient<ViewModels.CustomerEditViewModel>();
 
             return builder.Build();
         }
