@@ -18,7 +18,7 @@ namespace MauiApp4
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             //// Register pages and view models
@@ -27,6 +27,9 @@ namespace MauiApp4
 
             builder.Services.AddTransient<CustomerEditPage>();
             builder.Services.AddTransient<ViewModels.CustomerEditViewModel>();
+            
+            builder.Services.AddTransient<DragDropDemoPage>();
+            builder.Services.AddTransient<ViewModels.DragDropDemoViewModel>();
 
             return builder.Build();
         }

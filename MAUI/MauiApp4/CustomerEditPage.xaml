@@ -1,43 +1,64 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:MauiApp4.ViewModels"
+             xmlns:local="clr-namespace:MauiApp4"
              x:Class="MauiApp4.CustomerEditPage"
-             x:DataType="viewModels:CustomerEditViewModel"
-             Title="Edit Customer">
-	 
-		<ScrollView>
-			<VerticalStackLayout Padding="20" Spacing="15">
-				<Label Text="Customer Information"
-					   FontSize="20"
-					   FontAttributes="Bold"
-					   Margin="0,0,0,10"/>
-
-				<Label Text="First Name"/>
-				<Entry Text="{Binding Item.FirstName}"
-					   Placeholder="Enter first name"/>
-
-				<Label Text="Last Name"/>
-				<Entry Text="{Binding Item.LastName}"
-					   Placeholder="Enter last name"/>
-
-				<Label Text="Email"/>
-				<Entry Text="{Binding Item.Email}"
-					   Placeholder="Enter email"
-					   Keyboard="Email"/>
-
-
-				<HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
-					<Button Text="Save" Command="{Binding SaveCommand}" />
-					<Button Text="Cancel" Command="{Binding CancelCommand}" />
-					<ActivityIndicator VerticalOptions="Center"
-									   WidthRequest="40" HeightRequest="40"
-									   IsRunning="{Binding SaveCommand.IsRunning}"
-									   Color="{StaticResource Primary}" />
-				</HorizontalStackLayout>
-			</VerticalStackLayout>
-		</ScrollView>
-
-
+             Title="Customer Details">
  
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <Label 
+                Text="Customer Details" 
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label 
+                Text="View customer information" 
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2" />
+
+            <!-- Customer Information -->
+            <Border Padding="15" StrokeThickness="2" StrokeShape="RoundRectangle 10,10,10,10">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="10">
+                    <Label Grid.Row="0" Grid.Column="0" Text="First Name:" VerticalOptions="Center" />
+                    <Entry Grid.Row="0" Grid.Column="1" Text="{Binding Item.FirstName}" Placeholder="Enter first name" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Last Name:" VerticalOptions="Center" />
+                    <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Item.LastName}" Placeholder="Enter last name" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Email:" VerticalOptions="Center" />
+                    <Entry Grid.Row="2" Grid.Column="1" Text="{Binding Item.Email}" Placeholder="Enter email" Keyboard="Email" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Phone:" VerticalOptions="Center" />
+                    <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Item.Phone}" Placeholder="Enter phone" Keyboard="Telephone" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="Address:" VerticalOptions="Center" />
+                    <Editor Grid.Row="4" Grid.Column="1" Text="{Binding Item.Address}" Placeholder="Enter address" AutoSize="TextChanges" />
+                </Grid>
+            </Border>
+
+            <!-- Status -->
+            <Border Padding="15" StrokeThickness="2" StrokeShape="RoundRectangle 10,10,10,10">
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <Label Text="Active Status:" VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding Item.IsActive}" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Action Buttons -->
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Button Grid.Column="0" Text="Save" Command="{Binding SaveCommand}" />
+
+				<Button Text="Cancel" Grid.Column="1"  Command="{Binding CancelCommand}"
+						BackgroundColor="{StaticResource Gray200}"
+						Color="{StaticResource Primary}" />
+				<ActivityIndicator VerticalOptions="Center"
+								   WidthRequest="40" HeightRequest="40"
+								   TextColor="{StaticResource Black}" 
+								   IsRunning="{Binding SaveCommand.IsRunning}" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

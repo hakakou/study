@@ -49,6 +49,23 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    async Task ShowDetailAsync(Customer c)
+    {
+        await Shell.Current.GoToAsync(nameof(CustomerEditPage),
+            parameters: new Dictionary<string, object>
+            {
+                { "ParentRefreshAction", (Func<Customer, Task>)RefreshAddedAsync },
+                { "Item", c },
+            });
+    }
+
+    [RelayCommand]
+    async Task ShowDragDropDemoAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(DragDropDemoPage));
+    }
+
+    [RelayCommand]
     async Task LoadCustomersAsync()
     {
         await Task.Run(() =>

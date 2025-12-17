@@ -29,7 +29,9 @@ namespace MauiApp4
                 {
                     FirstName = "John",
                     LastName = "Doe",
-                    Email = "john.doe@example.com"
+                    Email = "john.doe@example.com",
+                    Phone = "123-456-7890",
+                    IsActive = true
                 });
                 context.SaveChanges();
             }

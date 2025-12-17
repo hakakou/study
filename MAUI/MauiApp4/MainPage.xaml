@@ -24,6 +24,14 @@
                 </SwipeView.RightItems>
 
                 <Grid RowDefinitions="40,40" ColumnDefinitions="*,*" Padding="10">
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Command="{Binding Path=BindingContext.ShowDetailCommand, Source={x:Reference page}}"
+                            CommandParameter="{Binding}"/>
+                        <DragGestureRecognizer />
+                    </Grid.GestureRecognizers>
+
                     <Label Text="{Binding FirstName}"/>
                     <Label Text="{Binding LastName}" Grid.Column="1"/>
                     <Label Text="{Binding Email}" TextColor="DarkGray" Grid.Row="1" Grid.ColumnSpan="2"/>
@@ -34,19 +42,34 @@
     </ContentPage.Resources>
 
     <Grid>
+        
+        
         <RefreshView IsRefreshing="{Binding Refreshing}" Command="{Binding LoadCustomersCommand}">
             <CollectionView ItemsSource="{Binding Customers}" ItemTemplate="{StaticResource customerTemplate}"/>
         </RefreshView>
 
-        <Button Text="+"
-    Command="{Binding ShowNewFormCommand}"   WidthRequest="56"   HeightRequest="56"
-    CornerRadius="28" FontSize="24" BackgroundColor="{StaticResource Primary}"
-    TextColor="White"  HorizontalOptions="End"  VerticalOptions="End"
-    Margin="16">
-            <Button.Shadow>
-                <Shadow Brush="Black" Opacity="0.4" Radius="8" Offset="0,4"/>
-            </Button.Shadow>
-        </Button>
+        <HorizontalStackLayout HorizontalOptions="End" VerticalOptions="End" Spacing="10" Margin="16">
+            <Button Text="D&amp;D"
+                Command="{Binding ShowDragDropDemoCommand}"
+                WidthRequest="56"
+                HeightRequest="56"
+                CornerRadius="28"
+                FontSize="14"
+                BackgroundColor="{StaticResource Secondary}"
+                TextColor="White">
+                <Button.Shadow>
+                    <Shadow Brush="Black" Opacity="0.4" Radius="8" Offset="0,4"/>
+                </Button.Shadow>
+            </Button>
+            <Button Text="+"
+                Command="{Binding ShowNewFormCommand}"   WidthRequest="56"   HeightRequest="56"
+                CornerRadius="28" FontSize="24" BackgroundColor="{StaticResource Primary}"
+                TextColor="White">
+                <Button.Shadow>
+                    <Shadow Brush="Black" Opacity="0.4" Radius="8" Offset="0,4"/>
+                </Button.Shadow>
+            </Button>
+        </HorizontalStackLayout>
     </Grid>
 
 </ContentPage>

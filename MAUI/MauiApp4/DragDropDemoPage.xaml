@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiApp4.ViewModels"
+             x:Class="MauiApp4.DragDropDemoPage"
+             Title="Drag and Drop Demo">
+
+    <ContentPage.BindingContext>
+        <vm:DragDropDemoViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Label Text="Drag and Drop Demo" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Drag items from the source area to the drop zones below"
+                   FontSize="14"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20"/>
+
+            <!-- Source Items to Drag -->
+            <Label Text="Drag Items:" FontSize="18" FontAttributes="Bold"/>
+
+            <HorizontalStackLayout Spacing="10">
+                <Border BackgroundColor="LightBlue"                        Stroke="DarkBlue"
+                        StrokeThickness="2"                         HeightRequest="80"
+                        WidthRequest="80"                         Padding="10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.3" Radius="8" Offset="0,4"/>
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <DragGestureRecognizer DragStarting="OnDragStarting"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Item 1" 
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Border>
+
+                <Border BackgroundColor="LightGreen"
+                        Stroke="DarkGreen"
+                        StrokeThickness="2"
+                        HeightRequest="80"
+                        WidthRequest="80"
+                        Padding="10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.3" Radius="8" Offset="0,4"/>
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <DragGestureRecognizer DragStarting="OnDragStarting"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Item 2" 
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Border>
+
+                <Border BackgroundColor="LightCoral"
+                        Stroke="DarkRed"
+                        StrokeThickness="2"
+                        HeightRequest="80"
+                        WidthRequest="80"
+                        Padding="10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.3" Radius="8" Offset="0,4"/>
+                    </Border.Shadow>
+                    <Border.GestureRecognizers>
+                        <DragGestureRecognizer DragStarting="OnDragStarting"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Item 3" 
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </Border>
+            </HorizontalStackLayout>
+
+            <!-- Drop Zone 1 -->
+            <Label Text="Drop Zone 1:" FontSize="18" FontAttributes="Bold" Margin="0,20,0,0"/>
+
+            <Border x:Name="dropZone1"
+                    BackgroundColor="DarkBlue"
+                    Stroke="LightGray"
+                    StrokeThickness="2"
+                    HeightRequest="150"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.3" Radius="8" Offset="0,4"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <DragGestureRecognizer />
+                    <DropGestureRecognizer DragOver="DropGestureRecognizer_DragOver"
+                                         DragLeave="DropGestureRecognizer_DragLeave"
+                                         Drop="DropGestureRecognizer_Drop"/>
+                </Border.GestureRecognizers>
+                <Label x:Name="dropZone1Label"
+                       Text="Drop items here" 
+                       TextColor="White"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </Border>
+
+            <!-- Drop Zone 2 -->
+            <Label Text="Drop Zone 2:" FontSize="18" FontAttributes="Bold"/>
+
+            <Border x:Name="dropZone2"
+                    BackgroundColor="DarkGreen"
+                    Stroke="LightGray"
+                    StrokeThickness="2"
+                    HeightRequest="150"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.3" Radius="8" Offset="0,4"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <DragGestureRecognizer />
+                    <DropGestureRecognizer DragOver="DropGestureRecognizer_DragOver"
+                                         DragLeave="DropGestureRecognizer_DragLeave"
+                                         Drop="DropGestureRecognizer_Drop"/>
+                </Border.GestureRecognizers>
+                <Label x:Name="dropZone2Label"
+                       Text="Drop items here" 
+                       TextColor="White"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </Border>
+
+            <!-- Drop Zone 3 -->
+            <Label Text="Drop Zone 3:" FontSize="18" FontAttributes="Bold"/>
+
+            <Border x:Name="dropZone3"
+                    BackgroundColor="DarkRed"
+                    Stroke="LightGray"
+                    StrokeThickness="2"
+                    HeightRequest="150"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.3" Radius="8" Offset="0,4"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <DragGestureRecognizer />
+                    <DropGestureRecognizer DragOver="DropGestureRecognizer_DragOver"
+                                         DragLeave="DropGestureRecognizer_DragLeave"
+                                         Drop="DropGestureRecognizer_Drop"/>
+                </Border.GestureRecognizers>
+                <Label x:Name="dropZone3Label"
+                       Text="Drop items here" 
+                       TextColor="White"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+            </Border>
+
+            <!-- Status Label -->
+            <Label x:Name="statusLabel"
+                   Text="Ready to drag and drop"
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
