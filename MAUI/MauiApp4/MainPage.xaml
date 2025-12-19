@@ -6,13 +6,11 @@
              xmlns:local="clr-namespace:MauiApp4" x:Class="MauiApp4.MainPage"
              x:Name="page">
 
-    <!--<ContentPage.BindingContext>
-        <vm:MainViewModel/>
-    </ContentPage.BindingContext>-->
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding ShowingCommand}"
           BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
     </ContentPage.Behaviors>
+    
     <ContentPage.Resources>
         <DataTemplate x:Key="customerTemplate" x:DataType="local:Customer">
 
@@ -42,8 +40,8 @@
     </ContentPage.Resources>
 
     <Grid>
-        
-        
+
+
         <RefreshView IsRefreshing="{Binding Refreshing}" Command="{Binding LoadCustomersCommand}">
             <CollectionView ItemsSource="{Binding Customers}" ItemTemplate="{StaticResource customerTemplate}"/>
         </RefreshView>

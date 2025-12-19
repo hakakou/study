@@ -37,7 +37,7 @@ namespace MauiApp4.ViewModels
                 await context.SaveChangesAsync();
             }
             
-            await ParentRefreshAction(Item);
+            //await ParentRefreshAction(Item);
             await Shell.Current.GoToAsync("..");
         }
 

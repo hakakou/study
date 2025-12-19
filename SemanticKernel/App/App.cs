@@ -19,7 +19,7 @@ public class App(Kernel kernel, ITextSearch textSearch, IWebDriver driver)
 
         var linkedinPlugin = KernelPluginFactory.CreateFromObject(
             new LinkedinSearch(driver), "LinkedinSearch");
-        kernel.Plugins.Add(linkedinPlugin);
+        // kernel.Plugins.Add(linkedinPlugin);
 
         kernel.AutoFunctionInvocationFilters.Add(new StopOnSearchRateLimitFilter());
 
@@ -63,12 +63,9 @@ public class App(Kernel kernel, ITextSearch textSearch, IWebDriver driver)
             8. Any interesting notes (up to 120 characters)
 
             How to search:
-            - First look only for query "NAME (eu OR DIGIT) site:linkedin.com". 
-            - If no good match, try another search with query "NAME site:linkedin.com".
+            - Try a search with query "NAME site:linkedin.com european commission".
             - If no match again, think of common variations on the name (especially for spanish names) 
               and try searching again.
-            - You can also use the LinkedinSearch plugin to search directly on LinkedIn, 
-              but only if unsure of the WebSearch plugin results.
             - You are free to use the two plugins with variations to find the best match.
             """,
             TemplateFormat = "semantic-kernel",

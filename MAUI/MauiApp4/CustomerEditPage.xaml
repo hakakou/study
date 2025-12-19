@@ -1,10 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MauiApp4"
+             xmlns:local="clr-namespace:MauiApp4.ViewModels"
              x:Class="MauiApp4.CustomerEditPage"
+             x:DataType="local:CustomerEditViewModel"
              Title="Customer Details">
- 
+
+    <ContentPage.Triggers>
+        <DataTrigger Binding="{Binding Item.IsActive}" Value="True" TargetType="ContentPage">
+            <Setter Property="Title" Value="ACTIVE Customer"/>
+        </DataTrigger>
+    </ContentPage.Triggers>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit" 
+                     Command="{Binding ShowEditFormCommand}"
+                     Order="Primary"
+                     Priority="0" />
+
+        <ToolbarItem Text="Delete" 
+                     Command="{Binding DeleteCommand}"
+                     Order="Primary"
+                     Priority="1">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="🗑️" Color="{StaticResource Primary}" Size="22" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem Text="Share" 
+                     Command="{Binding ShareCommand}"
+                     Order="Primary"
+                     Priority="2">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="↗️" Color="{StaticResource Primary}" Size="22" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem Text="Refresh" 
+                     Command="{Binding RefreshCommand}"
+                     Order="Secondary"
+                     Priority="0" />
+
+        <ToolbarItem Text="Export" 
+                     Command="{Binding ExportCommand}"
+                     Order="Secondary"
+                     Priority="1" />
+
+        <ToolbarItem Text="Settings" 
+                     Command="{Binding SettingsCommand}"
+                     Order="Secondary"
+                     Priority="2" />
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="20">
 
@@ -33,8 +80,6 @@
                     <Label Grid.Row="3" Grid.Column="0" Text="Phone:" VerticalOptions="Center" />
                     <Entry Grid.Row="3" Grid.Column="1" Text="{Binding Item.Phone}" Placeholder="Enter phone" Keyboard="Telephone" />
 
-                    <Label Grid.Row="4" Grid.Column="0" Text="Address:" VerticalOptions="Center" />
-                    <Editor Grid.Row="4" Grid.Column="1" Text="{Binding Item.Address}" Placeholder="Enter address" AutoSize="TextChanges" />
                 </Grid>
             </Border>
 
@@ -50,12 +95,12 @@
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                 <Button Grid.Column="0" Text="Save" Command="{Binding SaveCommand}" />
 
-				<Button Text="Cancel" Grid.Column="1"  Command="{Binding CancelCommand}"
+                <Button Text="Cancel" Grid.Column="1"  Command="{Binding CancelCommand}"
 						BackgroundColor="{StaticResource Gray200}"
-						Color="{StaticResource Primary}" />
-				<ActivityIndicator VerticalOptions="Center"
+					  />
+                <ActivityIndicator VerticalOptions="Center"
 								   WidthRequest="40" HeightRequest="40"
-								   TextColor="{StaticResource Black}" 
+								   Color="{StaticResource Black}" 
 								   IsRunning="{Binding SaveCommand.IsRunning}" />
             </Grid>
 

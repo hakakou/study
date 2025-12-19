@@ -28,7 +28,7 @@ public partial class MainViewModel : ObservableObject
         context.Customers.Remove(customer);
         context.SaveChanges();
         // Update the ObservableCollection also
-        Customers.Remove(customer);       
+        Customers.Remove(customer);
     }
 
     [RelayCommand]
@@ -42,9 +42,13 @@ public partial class MainViewModel : ObservableObject
             });
     }
 
-    Task RefreshAddedAsync(Customer addedCustomer)
+    Task RefreshAddedAsync(Customer customer)
     {
-        Customers.Add(addedCustomer);
+        var found = Customers.FirstOrDefault(c => c.Id == customer.Id);
+        if (found != null)
+        {
+            Customers.Add(customer);
+        }
         return Task.CompletedTask;
     }
 
