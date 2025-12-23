@@ -1,15 +1,29 @@
 ﻿using AutoBogus;
-using Bogus;
-using HotChocolate.Configuration;
-using HotChocolate.Types.Descriptors.Definitions;
 using NewsWeb;
-using System;
-using System.Xml.Linq;
 
 namespace Server.Types;
 
+public record Book(string Title, Author Author)
+{
+}
+
+public record Author(string Name)
+{
+}
+
+
 public class Query
 {
+    public List<Book> GetBooks()
+    {
+        return AutoFaker.Generate<List<Book>>();
+    }
+
+    public Author GetAuthor(int id)
+    {
+        return AutoFaker.Generate<Author>();
+    }
+
     public string Hello() => "Hello world";
 
     public List<NewsCountry> GetNewsCountries()
@@ -34,27 +48,20 @@ public class Query
     //    return news.News.FirstOrDefault();
     //}
 
-    //public async Task<Response8> GetGeoCoordinatesAsync(string location, NewsService newsService)
-    //{
-    //    return await newsService.GetGeoCoordinatesAsync(location);
-    //}
+    [GraphQLDescription("Get Geo Coordinates for a given location.")]
+    public async Task<Response8> GetGeoCoordinatesAsync(string location, NewsService newsService)
+    {
+        return await newsService.GetGeoCoordinatesAsync(location);
+    }
 
-    //[GraphQLDescription("Playlists hand-picked to be featured to all users.")]
-    //public async Task<List<PlaylistSimplified>> FeaturedPlaylists(SpotifyService spotifyService)
-    //{
-    //    var response = await spotifyService.GetFeaturedPlaylistsAsync();
-    //    var items = response.Playlists.Items;
-    //    return items.ToList();
-    //}
+
 }
 
 
-public class NewsCountry(string id, string code, string name)
+public record NewsCountry(string Id, string Code, string Name)
 {
     [ID]
-    public string Id { get; set; } = id;
-    public string Code { get; set; } = code;
-    public string Name { get; set; } = name;
+    public string Id { get; set; } = Id;
 
     private List<NewsArticle>? _newsArticles;
     public async Task<List<NewsArticle>> GetNewsArticlesAsync(NewsService newsService)
@@ -71,12 +78,10 @@ public class NewsCountry(string id, string code, string name)
     }
 }
 
-public class NewsArticle(int id, string title, string content)
+public record NewsArticle(int Id, string Title, string Content)
 {
     [ID]
-    public int Id { get; set; } = id;
-    public string Title { get; set; } = title;
-    public string Content { get; set; } = content;
+    public int Id { get; set; } = Id;
 
     public List<Comment> GetComments()
     {
@@ -84,57 +89,10 @@ public class NewsArticle(int id, string title, string content)
     }
 }
 
-public class Comment(int id, string text)
+public record Comment(int Id, string Text)
 {
     [ID]
-    public int Id { get; set; } = id;
-    public string Text { get; set; } = text;
+    public int Id { get; set; } = Id;
 }
 
-public class CommentType : ObjectType<Comment>
-{
-    protected override FieldCollection<ObjectField> OnCompleteFields(ITypeCompletionContext context, ObjectTypeDefinition definition)
-    {
-        return base.OnCompleteFields(context, definition);
-    }
-}
  
-//[GraphQLDescription("A curated collection of tracks designed for a specific activity or mood.")]
-//public class Playlist
-//{
-//    [GraphQLDescription("The ID for the playlist.")]
-//    [ID]
-//    public string Id { get; }
-
-//    [GraphQLDescription("The name of the playlist.")]
-//    public string Name { get; set; }
-
-//    [GraphQLDescription("Describes the playlist, what to expect and entices the user to listen.")]
-//    public string? Description { get; set; }
-
-//    public Playlist(string id, string name)
-//    {
-//        Id = id;
-//        Name = name;
-//    }
-//}
-
-
-//public class Artist
-//{
-//    [GraphQLDescription("The ID for the playlist.")]
-//    [ID]
-//    public string Id { get; }
-
-//    public string Name { get; set; }
-
-//    public int? Followers { get; set; }
-
-//    public float? Popularity { get; set; }
-
-//    public Artist(string id, string name)
-//    {
-//        Id = id;
-//        Name = name;
-//    }
-//}

@@ -1,0 +1,5 @@
+subscription OnSessionUpdated {
+  onSessionScheduled {
+    title
+  }
+}

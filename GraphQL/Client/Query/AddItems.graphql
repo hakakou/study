@@ -1,0 +1,10 @@
+mutation AddItemsToPlaylist($input: AddCommentInput!) {
+  addItemsToPlaylist(input: $input) {
+    comment {
+      id
+    }
+    code
+    message
+    success
+  }
+}

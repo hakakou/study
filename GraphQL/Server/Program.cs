@@ -1,7 +1,8 @@
 using Bogus;
+using Microsoft.Extensions.DependencyInjection;
 using NewsWeb;
+using Server;
 using Server.Types;
-using System.Web;
 
 Randomizer.Seed = new Random(42);
 
@@ -9,15 +10,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 var apiKey = builder.Configuration["NewsApiKey"] ?? throw new InvalidOperationException("NewsApiKey not found in configuration");
 
+builder.Services.AddHostedService<TimedHostedService>();
+
 builder.Services.AddHttpClient<NewsService>()
     .AddHttpMessageHandler(() => new ApiKeyHandler(apiKey));
 
 builder.Services
    .AddGraphQLServer()
-   //.AddDocumentFromFile("Types/Schema.graphql")
-   //.BindRuntimeType<Query>();
+
+       //.AddDocumentFromFile("Types/Schema.graphql")
+
    .AddMutationType<Mutation>()
-   .AddQueryType<Query>();
+   .AddQueryType<Query>()
+   .AddDefaultTransactionScopeHandler()
+   .AddMutationConventions()
+   .AddErrorInterfaceType<IUserError>()
+   .AddSubscriptionType<Subscription>().AddInMemorySubscriptions();
+
 
 builder.Services.AddCors(options =>
     {
@@ -31,23 +40,13 @@ builder.Services.AddCors(options =>
     });
 
 var app = builder.Build();
+
 app.MapGraphQL();
 app.UseCors();
+
+// Subscriptions
+// app.UseRouting();
+app.UseWebSockets();
+//
+
 app.Run();
-
-public class ApiKeyHandler(string apiKey) : DelegatingHandler
-{
-    protected override Task<HttpResponseMessage> SendAsync(
-        HttpRequestMessage request, CancellationToken cancellationToken)
-    {
-        var uriBuilder = new UriBuilder(request.RequestUri!);
-
-        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["api-key"] = apiKey;
-
-        uriBuilder.Query = query.ToString();
-        request.RequestUri = uriBuilder.Uri;
-
-        return base.SendAsync(request, cancellationToken);
-    }
-}

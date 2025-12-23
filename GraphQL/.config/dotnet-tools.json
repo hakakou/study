@@ -8,6 +8,13 @@
         "nswag"
       ],
       "rollForward": false
+    },
+    "strawberryshake.tools": {
+      "version": "15.1.11",
+      "commands": [
+        "dotnet-graphql"
+      ],
+      "rollForward": false
     }
   }
 }

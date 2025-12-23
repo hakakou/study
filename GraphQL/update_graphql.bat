@@ -1,0 +1,1 @@
+dotnet graphql init https://localhost:7260/graphql -n MyClient -p ./Client

@@ -1,0 +1,14 @@
+query Query {
+  hello
+  newsCountries {
+    id
+    name
+    newsArticles {
+      content
+      title
+      comments {
+        text
+      }
+    }
+  }
+}
