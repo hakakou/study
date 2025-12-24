@@ -1,0 +1,6 @@
+@AuthWindows_HostAddress = http://localhost:5019
+
+GET {{AuthWindows_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

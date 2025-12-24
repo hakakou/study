@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
     <PackageReference Include="ObjectDumper.NET" Version="4.3.2" />
     <PackageReference Include="StrawberryShake.Server" Version="15.1.11" />
+    <PackageReference Include="StrawberryShake.Transport.WebSockets" Version="15.1.11" />
   </ItemGroup>
 
 </Project>

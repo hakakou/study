@@ -5,23 +5,42 @@ schema {
 }
 
 type Mutation {
-  addItemsToPlaylist(input: AddCommentInput!): AddCommentPayload!
-}
-
-type Subscription {
-  onSessionUpdated: String!
+  addComment(input: AddCommentInput!): AddCommentPayload!
+  createUser(input: CreateUserInput!): CreateUserPayload!
 }
 
 type Query {
+  books: [Book!]!
+  author(id: Int!): Author!
   hello: String!
   newsCountries: [NewsCountry!]!
+  "Get Geo Coordinates for a given location."
+  geoCoordinates(location: String!): Response8!
 }
 
-type NewsCountry {
-  newsArticles: [NewsArticle!]!
-  id: ID!
+type Subscription {
+  itemUpdated: Item!
+  itemPublished(author: String!): Item!
+  dataAdded: Item!
+}
+
+type UserNameTakenError implements UserError {
   code: String!
+  message: String!
+}
+
+interface UserError {
+  message: String!
+  code: String!
+}
+
+type Author {
   name: String!
+}
+
+type Book {
+  title: String!
+  author: Author!
 }
 
 input AddCommentInput {
@@ -39,16 +58,49 @@ type AddCommentPayload {
   comment: Comment
 }
 
-type Comment {
+type NewsCountry {
+  newsArticles: [NewsArticle!]!
+  code: String!
+  name: String!
   id: ID!
-  text: String!
+}
+
+type Response8 {
+  latitude: Float!
+  longitude: Float!
+  city: String
+  additionalProperties: [KeyValuePairOfStringAndObject!]
+}
+
+type Item {
+  name: String!
+}
+
+type KeyValuePairOfStringAndObject {
+  key: String!
 }
 
 type NewsArticle {
   comments: [Comment!]!
-  id: ID!
   title: String!
   content: String!
+  id: ID!
+}
+
+type Comment {
+  text: String!
+  id: ID!
+}
+
+input CreateUserInput {
+  username: ID!
+}
+
+union CreateUserError = UserNameTakenError
+
+type CreateUserPayload {
+  book: Book
+  errors: [CreateUserError!]
 }
 
 "The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."

@@ -1,0 +1,9 @@
+query Query {
+  hello
+}
+
+subscription DataAdded {
+  dataAdded {
+    name
+  }
+}
