@@ -30,7 +30,10 @@ public class Subscription(ILogger<Subscription> logger)
     }
 
     [Subscribe(With = nameof(SubscribeToItem))]
-    public Item DataAdded([EventMessage] Item item) => item ;
+    public Item DataAdded([EventMessage] Item item)
+    {
+        return item;
+    }
 }
 
 public record Item(string Name);

@@ -28,7 +28,6 @@ IMyClient client = services.GetRequiredService<IMyClient>();
 var m = await client.Query.ExecuteAsync();
 Console.WriteLine(m.Dump());
 
-
 var subscription = client.DataAdded.Watch().Subscribe(result =>
 {
     if (result.Data != null)
