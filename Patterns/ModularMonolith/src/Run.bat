@@ -1,1 +1,0 @@
-docker-compose -f docker-compose.yml -p modular-monolith-template up -d

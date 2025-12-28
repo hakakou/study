@@ -106,7 +106,7 @@ public abstract class Specification<TEntity> : ISpecification<TEntity>
     /// </summary>
     /// <param name="entity">Entity</param>
     /// <returns><see langword="true"/> if an entity matches the current specification; otherwise, <see langword="false"/></returns>
-    public bool lsSatisfiedBy(TEntity entity)
+    public bool IsSatisfiedBy(TEntity entity)
     {
         if (FilterQuery is null)
         {

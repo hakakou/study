@@ -1,8 +1,0 @@
-### Create Carrier
-POST {{host}}/api/carriers
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "name": "DHL Express"
-}

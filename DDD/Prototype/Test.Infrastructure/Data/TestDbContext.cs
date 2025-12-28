@@ -9,14 +9,12 @@ public class TestDbContext : DbContext
     {
     }
 
-    public DbSet<Repo> GitRepositories => Set<Repo>();
-    
+    public DbSet<Repo> Repos => Set<Repo>();   
     public DbSet<Issue> Issues => Set<Issue>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TestDbContext).Assembly);
     }
 }

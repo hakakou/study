@@ -1,27 +1,29 @@
+using Haka.Patterns.DDD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using Test.Infrastructure.Data;
 using Test.Infrastructure.Repositories;
-using Haka.Patterns.DDD;
 using Xunit;
-using Xunit.Abstractions;
-using System.Diagnostics;
 
 namespace Test.Infrastructure.Tests;
 
 public class DatabaseFixture : IDisposable
 {
     public ServiceProvider ServiceProvider { get; }
+    public SqlCommandInterceptor SqlInterceptor { get; }
 
     public DatabaseFixture()
     {
         var services = new ServiceCollection();
+        SqlInterceptor = new SqlCommandInterceptor();
 
         services.AddScoped<TestDbContext>(provider =>
         {
             var options = new DbContextOptionsBuilder<TestDbContext>()
                 .UseSqlite("DataSource=:memory:")
                 .LogTo(c=> Trace.WriteLine(c))
+                .AddInterceptors(SqlInterceptor)
                 .Options;
 
             var context = new TestDbContext(options);

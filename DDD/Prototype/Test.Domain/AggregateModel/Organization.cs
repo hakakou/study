@@ -23,6 +23,11 @@ public class Repo : EntityBase<Guid>, IAggregateRoot
         Name = name;
         Issues = new Collection<Issue>();
     }
+
+    public bool IsInInactive()
+    {
+        return new InactiveRepoSpecification().IsSatisfiedBy(this);
+    }
 }
 
 public class Issue : EntityBase<Issue, int>, IAggregateRoot
@@ -40,11 +45,6 @@ public class Issue : EntityBase<Issue, int>, IAggregateRoot
     public string? Description { get; set; }
     public DateTime CreatedDate { get; private set; }
     //public ICollection<IssueLabel> Labels { get; private set; }
-
-    public bool IsInInactive()
-    {
-        return new InactiveIssuesSpecification().IsSatisfiedBy(this);
-    }
 
     public void SetName(string name)
     {
@@ -101,12 +101,11 @@ public class IssueLabel : EntityBase<Guid>
     public string Name { get; private set; }
 }
 
-public class InactiveIssuesSpecification : Specification<Issue>
+public class InactiveRepoSpecification : Specification<Repo>
 {
-    public InactiveIssuesSpecification()
+    public InactiveRepoSpecification()
     {
-        Query.IsOld()
-          .Where(issue => issue.AssignedUserId == null);
+        Query.Where(issue => !issue.Issues.Any());
     }
 }
 
@@ -136,14 +135,14 @@ public static class IssuePredicates
         var dateThreshold = DateTime.UtcNow.AddDays(-30);
         return builder.Where(x => x.CreatedDate < dateThreshold);
     }
+}
 
-    public class ReposWithManyIssues : Haka.Patterns.Specifications.Specification<Repo>
+public class ReposWithManyIssues : Haka.Patterns.Specifications.Specification<Repo>
+{
+    public ReposWithManyIssues(int min = 1)
     {
-        public ReposWithManyIssues(int min = 1)
-        {
-            AddFilteringQuery(repo => repo.Issues.Count >= min);
-            AddOrderByDescendingQuery(repo => repo.Issues.Count);
-            AddIncludeQuery(repo => repo.Issues);
-        }
+        AddFilteringQuery(repo => repo.Issues.Count >= min);
+        AddOrderByDescendingQuery(repo => repo.Issues.Count);
+        AddIncludeQuery(repo => repo.Issues);
     }
 }

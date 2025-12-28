@@ -1,4 +1,0 @@
-### Transit Shipment
-POST {{host}}/api/shipments/transit/10000005
-Content-Type: application/json
-Authorization: Bearer {{token}}

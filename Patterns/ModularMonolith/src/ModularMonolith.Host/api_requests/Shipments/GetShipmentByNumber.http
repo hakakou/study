@@ -1,3 +1,0 @@
-### Get Shipment by Number
-GET {{host}}/api/shipments/08490520
-Authorization: Bearer {{token}}

@@ -1,4 +1,0 @@
-### Process Shipment
-POST {{host}}/api/shipments/process/10000005
-Content-Type: application/json
-Authorization: Bearer {{token}}
