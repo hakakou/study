@@ -4,9 +4,9 @@ using Test.Domain.AggregateModel;
 
 namespace Test.Infrastructure.Data.Configurations;
 
-public class GitRepositoryConfiguration : IEntityTypeConfiguration<GitRepository>
+public class GitRepositoryConfiguration : IEntityTypeConfiguration<Repo>
 {
-    public void Configure(EntityTypeBuilder<GitRepository> builder)
+    public void Configure(EntityTypeBuilder<Repo> builder)
     {
         builder.HasKey(g => g.Id);
         

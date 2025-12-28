@@ -9,7 +9,7 @@ public class TestDbContext : DbContext
     {
     }
 
-    public DbSet<GitRepository> GitRepositories => Set<GitRepository>();
+    public DbSet<Repo> GitRepositories => Set<Repo>();
     
     public DbSet<Issue> Issues => Set<Issue>();
 

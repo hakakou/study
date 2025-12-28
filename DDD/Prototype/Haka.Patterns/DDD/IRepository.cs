@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using System.Linq.Expressions;
 
 namespace Haka.Patterns.DDD;
 
@@ -8,4 +9,5 @@ namespace Haka.Patterns.DDD;
 /// <typeparam name="T"></typeparam>
 public interface IRepository<T> : IRepositoryBase<T> where T : class, IAggregateRoot
 {
+    public Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
 }

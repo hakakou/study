@@ -17,7 +17,7 @@ public class IssueConfiguration : IEntityTypeConfiguration<Issue>
         builder.Property(i => i.Description)
             .HasMaxLength(2000);
         
-        builder.Property(i => i.GitRepositoryId)
+        builder.Property(i => i.RepoId)
             .IsRequired();
         
         builder.Property(i => i.CreatedDate)
