@@ -1,0 +1,35 @@
+### Get Viral Posts
+GET https://localhost:5000/api/social-media/viral-posts?minLikesCount=60
+Accept: application/json
+
+### Get Recent Posts
+GET https://localhost:5000/api/social-media/recent-posts
+Accept: application/json
+
+### Get Recent Posts from last 3 days
+GET https://localhost:5000/api/social-media/recent-posts?daysBack=3
+Accept: application/json
+
+### Get Engaged Posts
+GET https://localhost:5000/api/social-media/engaged-posts?minCommentsCount=50
+Accept: application/json
+
+### Get Posts by User ID
+GET https://localhost:5000/api/social-media/users/1/posts
+Accept: application/json
+
+### Get Posts by Username
+GET https://localhost:5000/api/social-media/users/Jean81/posts
+Accept: application/json
+
+### Get Popular Authors
+GET https://localhost:5000/api/social-media/popular-authors
+Accept: application/json
+
+### Get Popular Authors with custom minimum average likes
+GET https://localhost:5000/api/social-media/popular-authors?minAverageLikes=50
+Accept: application/json
+
+### Get .NET and Architecture Posts
+GET https://localhost:5000/api/social-media/dotnet-architecture-posts
+Accept: application/json
