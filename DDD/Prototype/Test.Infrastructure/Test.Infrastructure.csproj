@@ -67,7 +67,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Test.Domain\Test.Domain.csproj" />
-    <ProjectReference Include="..\Haka.Patterns\Haka.Patterns.csproj" />
   </ItemGroup>
 
 </Project>

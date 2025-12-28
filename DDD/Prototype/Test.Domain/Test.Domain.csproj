@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Haka.Patterns\Haka.Patterns.csproj" />
+	  <ProjectReference Include="..\..\..\..\Haka Projects\Common\Haka.Patterns\Haka.Patterns.csproj" />
 	</ItemGroup>
 
 </Project>

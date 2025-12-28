@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="Haka.Patterns/Haka.Patterns.csproj" />
+  <Project Path="../../../Haka Projects/Common/Haka.Patterns/Haka.Patterns.csproj" />
   <Project Path="Test.Application/Test.Application.csproj" />
   <Project Path="Test.Console/Test.Console.csproj" />
   <Project Path="Test.Domain/Test.Domain.csproj" />
