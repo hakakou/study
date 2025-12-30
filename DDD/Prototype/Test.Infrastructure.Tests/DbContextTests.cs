@@ -3,6 +3,9 @@ using Haka.Patterns.DDD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Test.Domain.AggregateModel;
+using Test.Domain.DomainServices;
+using Test.Domain.Exceptions;
+using Test.Domain.Specifications;
 using Test.Infrastructure.Data;
 using Xunit;
 
@@ -33,18 +36,25 @@ public class DbContextTests : IAsyncLifetime
     [Fact]
     public async Task CanInsertGitRepository()
     {
+        _sql.Commands.Clear();
+
         // Arrange
         var repositoryId = Guid.NewGuid();
         var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
 
-        var issue1 = new Issue(repositoryId, "Issue 1", DateTime.UtcNow);
+        var issue1 = await new IssueManager(_issueRepository)
+            .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
+        repo.AddIssue(issue1);
 
         // Act
-        _sql.Commands.Clear();
-        repo.AddIssue(issue1);
         await _repoRepository.AddAsync(repo);
 
         _sql.Commands.Should().ContainMatch("INSERT INTO *");
+
+        Func<Task> command = async () =>
+            await new IssueManager(_issueRepository)
+                .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
+        await command.Should().ThrowAsync<BusinessException>();
 
         // Assert
         _sql.Commands.Clear();
@@ -84,7 +94,9 @@ public class DbContextTests : IAsyncLifetime
         await _repoRepository.SaveChangesAsync();
 
         var createdDate = DateTime.UtcNow;
-        var issue = new Issue(repositoryId, "Test Issue", createdDate);
+        var issue = await new IssueManager(_issueRepository)
+            .CreateAsync(repositoryId, new IssueName("Test Issue"), createdDate);
+
         issue.Description = "This is a test issue";
 
         // Act
@@ -93,10 +105,10 @@ public class DbContextTests : IAsyncLifetime
 
         // Assert
         var savedIssue = await _dbContext.Issues
-            .FirstOrDefaultAsync(i => i.Name == "Test Issue");
+            .FirstOrDefaultAsync(i => i.Name == new IssueName("Test Issue"));
 
         Assert.NotNull(savedIssue);
-        Assert.Equal("Test Issue", savedIssue.Name);
+        Assert.Equal(new IssueName("Test Issue"), savedIssue.Name);
         Assert.Equal("This is a test issue", savedIssue.Description);
         Assert.Equal(repositoryId, savedIssue.RepoId);
         Assert.Equal(createdDate, savedIssue.CreatedDate);
@@ -105,12 +117,16 @@ public class DbContextTests : IAsyncLifetime
     [Fact]
     public async Task CanInsertMultipleEntities()
     {
+        var test = Guid.CreateVersion7();
+
         // Arrange
         var repositoryId = Guid.NewGuid();
         var repository = new Repo(repositoryId, "MainRepository") { Name = "MainRepository" };
 
-        var issue1 = new Issue(repositoryId, "First Issue", DateTime.UtcNow.AddDays(-2));
-        var issue2 = new Issue(repositoryId, "Second Issue", DateTime.UtcNow.AddDays(-1));
+        var issue1 = await new IssueManager(_issueRepository)
+            .CreateAsync(repositoryId, new IssueName("First Issue"), DateTime.UtcNow.AddDays(-2));
+        var issue2 = await new IssueManager(_issueRepository)
+            .CreateAsync(repositoryId, new IssueName("Second Issue"), DateTime.UtcNow.AddDays(-1));
 
         // Act
         await _repoRepository.AddAsync(repository);
@@ -129,7 +145,8 @@ public class DbContextTests : IAsyncLifetime
             .ToListAsync();
 
         Assert.Equal(2, issues.Count);
-        Assert.Contains(issues, i => i.Name == "First Issue");
-        Assert.Contains(issues, i => i.Name == "Second Issue");
-    }     
+        Assert.Contains(issues, i => i.Name == new IssueName("First Issue"));
+        Assert.Contains(issues, i => i.Name == new IssueName("Second Issue"));
+    }
+
 }

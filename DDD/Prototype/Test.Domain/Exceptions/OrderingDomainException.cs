@@ -1,4 +1,4 @@
-﻿namespace eShop.Ordering.Domain.Exceptions;
+﻿namespace Test.Domain.Exceptions;
 
 /// <summary>
 /// Exception type for domain exceptions
@@ -16,15 +16,3 @@ public class OrderingDomainException : Exception
         : base(message, innerException)
     { }
 }
-
-public class BusinessException : Exception
-{
-    public BusinessException()
-    { }
-    public BusinessException(string message)
-        : base(message)
-    { }
-    public BusinessException(string message, Exception innerException)
-        : base(message, innerException)
-    { }
-}   

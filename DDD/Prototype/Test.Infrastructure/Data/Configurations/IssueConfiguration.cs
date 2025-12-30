@@ -24,7 +24,12 @@ public class IssueConfiguration : IEntityTypeConfiguration<Issue>
             .IsRequired();
         
         builder.Property(i => i.AssignedUserId);
-        
+
+        builder.Property(i => i.Name)
+            .HasConversion(
+                v => v.Value,
+                v => new IssueName(v));
+
         builder.ToTable("Issues");
     }
 }
