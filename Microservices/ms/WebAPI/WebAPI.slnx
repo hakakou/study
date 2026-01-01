@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="../AppHost/AppHost.csproj" />
   <Project Path="../ServiceDefaults/ServiceDefaults.csproj" />
+  <Project Path="../WebAPI2/WebAPI2.csproj" Id="fc939034-6d75-4b0d-b84a-698b3560d832" />
   <Project Path="WebAPI.csproj" />
 </Solution>

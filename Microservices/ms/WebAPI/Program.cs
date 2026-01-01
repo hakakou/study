@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
 using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,10 +38,10 @@ app.UseReDoc(options =>
     options.RoutePrefix = "docs";
     options.SpecUrl("/openapi/v1.json");
 });
-//app.UseSwaggerUi(); // UseSwaggerUI Protected by if (env.IsDevelopment())
 
-var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<PlanetDbContext>();
-dbContext.Database.EnsureCreated();
+
+await app.EnsureDbSeeded();
+
 app.Run();
 
 public class MyOptions
