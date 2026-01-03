@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -5,7 +6,7 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class WeatherForecastController(IOptionsSnapshot<MyOptions> opts) : ControllerBase
+public class WeatherForecastController(IBus bus) : ControllerBase
 {
     private static readonly string[] Summaries =
     [
@@ -13,9 +14,12 @@ public class WeatherForecastController(IOptionsSnapshot<MyOptions> opts) : Contr
     ];
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IEnumerable<WeatherForecast>> Get()
     {
-        var o = opts.Value.Option1;
+        await bus.Publish(new DemoContracts.GettingStarted
+        {
+            Message = "Hello 2!"
+        });
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {

@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using WebAPI2;
 
@@ -11,9 +12,27 @@ builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddControllers();
 
 // Add PostgreSQL with EF Core
 builder.AddNpgsqlDbContext<AppDbContext>("webdb2");
+
+
+builder.Services.AddOptions<SqlTransportOptions>().Configure(options =>
+{
+    options.ConnectionString = builder.Configuration.GetConnectionString("webdb2")!;
+});
+builder.Services.AddPostgresMigrationHostedService();
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<GettingStartedConsumer>();
+    x.UsingPostgres((context, cfg) =>
+    {
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
+
 
 var app = builder.Build();
 
@@ -25,21 +44,21 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
+//string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+//app.MapGet("/weatherforecast", () =>
+//{
+//    var forecast = Enumerable.Range(1, 5).Select(index =>
+//        new WeatherForecast
+//        (
+//            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+//            Random.Shared.Next(-20, 55),
+//            summaries[Random.Shared.Next(summaries.Length)]
+//        ))
+//        .ToArray();
+//    return forecast;
+//})
+//.WithName("GetWeatherForecast");
 
 app.MapGet("/products", async (AppDbContext db) =>
 {
@@ -48,13 +67,32 @@ app.MapGet("/products", async (AppDbContext db) =>
 .WithName("GetProducts");
 
 app.MapDefaultEndpoints();
+app.MapControllers();
 
 // Ensure database is seeded
 await app.EnsureDbSeeded();
 
+//var bus = app.Services.GetRequiredService<IBus>();
+
+//await bus.Publish(new DemoContracts.GettingStarted
+//{
+//    Message = "Hello!"
+//});
+
 app.Run();
+
+
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}
+
+
+namespace DemoContracts
+{
+    public record GettingStarted
+    {
+        public string Message { get; init; }
+    }
 }

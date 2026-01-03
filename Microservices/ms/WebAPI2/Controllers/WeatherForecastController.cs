@@ -1,10 +1,11 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController(IBus bus) : ControllerBase
     {
         private static readonly string[] Summaries =
         [
@@ -12,8 +13,13 @@ namespace WebAPI2.Controllers
         ];
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
+            await bus.Publish(new DemoContracts.GettingStarted
+            {
+                Message = "Hello!"
+            });
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

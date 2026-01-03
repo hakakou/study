@@ -1,0 +1,153 @@
+@OData_HostAddress = http://localhost:5136
+
+### Get all events
+GET {{OData_HostAddress}}/odata/Events
+Accept: application/json
+
+###
+
+### Get single event by key
+GET {{OData_HostAddress}}/odata/Events(1)
+Accept: application/json
+
+###
+
+### Filter by EventDate (equals)
+GET {{OData_HostAddress}}/odata/Events?$filter=Id%20eq%2010
+Accept: application/json
+
+###
+
+### Filter by EventDate (equals)
+GET {{OData_HostAddress}}/odata/Events?$filter=EventDate%20eq%202025-12-05
+Accept: application/json
+
+###
+
+### Filter by EventDate (greater than or equal)
+GET {{OData_HostAddress}}/odata/Events?$filter=EventDate%20ge%202025-12-01
+Accept: application/json
+
+###
+
+### Filter by EventDate (month function)
+GET {{OData_HostAddress}}/odata/Events?$filter=month(EventDate)%20eq%2012
+Accept: application/json
+
+###
+
+### Filter by StartTime (equals)
+GET {{OData_HostAddress}}/odata/Events?$filter=StartTime%20eq%2013:00:00
+Accept: application/json
+
+###
+
+### Filter by StartTime (less than)
+GET {{OData_HostAddress}}/odata/Events?$filter=StartTime%20lt%2010:00:00
+Accept: application/json
+
+###
+
+### Filter by EndTime (minute function)
+GET {{OData_HostAddress}}/odata/Events?$filter=minute(EndTime)%20eq%2030
+Accept: application/json
+
+###
+
+### Order by EventDate descending and StartTime
+GET {{OData_HostAddress}}/odata/Events?$orderby=EventDate%20desc,%20StartTime
+Accept: application/json
+
+###
+
+### Select specific properties
+GET {{OData_HostAddress}}/odata/Events?$select=Title,EventDate,StartTime
+Accept: application/json
+
+###
+
+### Top 1 event
+GET {{OData_HostAddress}}/odata/Events?$top=1
+Accept: application/json
+
+###
+
+### Skip 1 event
+GET {{OData_HostAddress}}/odata/Events?$skip=1
+Accept: application/json
+
+###
+
+### Count events
+GET {{OData_HostAddress}}/odata/Events?$count=true
+Accept: application/json
+
+###
+
+### Filter by nullable property (has value)
+GET {{OData_HostAddress}}/odata/Events?$filter=RegistrationDeadline%20ne%20null
+Accept: application/json
+
+###
+
+### Combined query: filter, orderby, select
+GET {{OData_HostAddress}}/odata/Events?$filter=EventDate%20ge%202025-11-01&$orderby=StartTime&$select=Title,Location,StartTime
+Accept: application/json
+
+###
+
+### Create new event (POST)
+POST {{OData_HostAddress}}/odata/Events
+Content-Type: application/json
+
+{
+    "Title": "Test Event",
+    "Location": "Online",
+    "EventDate": "2025-05-15",
+    "StartTime": "20:30:59.0010100",
+    "EndTime": "08:30:59.0010000",
+    "RegistrationDeadline": "2025-05-01",
+    "DoorOpenTime": "20:00:00",
+    "AlternateDates": ["2025-05-15", "2025-05-16"],
+    "SessionTimes": ["20:30:59.0010100", "08:30:59.0010000", "21:31:59"]
+}
+
+###
+
+### Create event with minimal data
+POST {{OData_HostAddress}}/odata/Events
+Content-Type: application/json
+
+{
+    "Title": "Quick Meeting",
+    "Location": "Conference Room A",
+    "EventDate": "2025-06-10",
+    "StartTime": "14:00:00",
+    "EndTime": "15:00:00"
+}
+
+###
+
+### Custom function: GetEventsInDateRange
+GET {{OData_HostAddress}}/odata/Events/GetEventsInDateRange(startDate=2025-11-01,endDate=2025-12-31,preferredTime=10:00:00)
+Accept: application/json
+
+###
+
+### Custom function: GetEventsInDateRange (without preferred time)
+GET {{OData_HostAddress}}/odata/Events/GetEventsInDateRange(startDate=2025-11-01,endDate=2025-12-31,preferredTime=null)
+Accept: application/json
+
+###
+
+### Custom function: GetEventsInDateRange (narrow range)
+GET {{OData_HostAddress}}/odata/Events/GetEventsInDateRange(startDate=2025-12-01,endDate=2025-12-10,preferredTime=13:00:00)
+Accept: application/json
+
+###
+
+### Get OData metadata
+GET {{OData_HostAddress}}/odata/$metadata
+Accept: application/xml
+
+###

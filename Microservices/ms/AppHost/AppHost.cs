@@ -7,14 +7,17 @@ var mongodb = builder.AddMongoDB("mongodb", password: pass)
     .WithLifetime(ContainerLifetime.Persistent)
     .AddDatabase("webdb");
 
-var postgres = builder.AddPostgres("postgres", password: pass)
+var postgres = builder.AddPostgres("postgres", userName: pass, password: pass)
     .WithEndpointProxySupport(false)
     .WithLifetime(ContainerLifetime.Persistent)
     .AddDatabase("webdb2");
 
 builder.AddProject<Projects.WebAPI>("webapi")
     .WithReference(mongodb)
-    .WaitFor(mongodb);
+    .WaitFor(mongodb)
+
+    .WithReference(postgres)
+    .WaitFor(postgres);
 
 builder.AddProject<Projects.WebAPI2>("webapi2")
     .WithReference(postgres)
