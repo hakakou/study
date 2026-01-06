@@ -1,0 +1,19 @@
+@JWTAuthentication_HostAddress = https://localhost:7274
+@URL = https://localhost:7274
+
+# @name login
+POST {{URL}}/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "password"
+}
+
+###
+
+GET {{URL}}/weatherforecast/
+Accept: application/json
+Authorization: Bearer {{login.response.body.$.token}}
+
+
