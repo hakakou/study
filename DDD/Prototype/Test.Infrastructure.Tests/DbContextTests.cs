@@ -44,7 +44,7 @@ public class DbContextTests : IAsyncLifetime
 
         var issue1 = await new IssueManager(_issueRepository)
             .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
-        repo.AddIssue(issue1);
+        //repo.AddIssue(issue1);
 
         // Act
         await _repoRepository.AddAsync(repo);
@@ -65,7 +65,7 @@ public class DbContextTests : IAsyncLifetime
             .FirstOrDefaultAsync(r => r.Id == repositoryId);
 
         // Specification Type 1
-        var spec1 = new ReposWithManyIssues();
+        var spec1 = new TrendingIssues();
         var rQuery = _dbContext.ApplySpecification(spec1);
         rQuery.Should().ContainSingle();
         spec1.IsSatisfiedBy(repo).Should().BeTrue();
@@ -74,7 +74,7 @@ public class DbContextTests : IAsyncLifetime
         list1.Should().ContainSingle();
 
         // Specification Type 2
-        var spec2 = new InactiveRepoSpecification();
+        var spec2 = new InactiveIssueSpecification();
         spec2.IsSatisfiedBy(repo2).Should().BeFalse();
 
         var list2 = await _repoRepository.ListAsync(spec2);
