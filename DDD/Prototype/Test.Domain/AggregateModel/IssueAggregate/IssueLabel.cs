@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using Haka.Patterns.DDD;
 
 namespace Test.Domain.AggregateModel;
@@ -8,6 +9,7 @@ public class IssueLabel : EntityBase<Guid>
     {
         Id = id;
         IssueId = issueId;
+        Guard.Against.NullOrWhiteSpace(name);
         Name = name;
     }
     public Guid IssueId { get; set; }

@@ -3,10 +3,10 @@ using Test.Domain.AggregateModel;
 
 namespace Test.Domain.Specifications;
 
-public class DuplicateNameSpecification(Guid repoId, IssueName name) : Specification<Issue>
+public class DuplicateNameSpecification : Specification<Issue>
 {
-    public override bool IsSatisfiedBy(Issue issue)
+    public DuplicateNameSpecification(Guid repoId, IssueName name)
     {
-        return issue.RepoId == repoId && issue.Name == name;
+        Query.Where(i => i.RepoId == repoId && i.Name == name);
     }
 }

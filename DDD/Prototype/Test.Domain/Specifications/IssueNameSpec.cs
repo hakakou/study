@@ -6,7 +6,7 @@ namespace Test.Domain.Specifications;
 
 public class IssueNameSpec : Specification<Issue, string>
 {
-    public IssueNameSpec(int id)
+    public IssueNameSpec(Guid id)
     {
         Query
             .Where(x => x.Id == id)

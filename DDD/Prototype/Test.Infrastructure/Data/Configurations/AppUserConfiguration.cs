@@ -1,25 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Test.Domain.AggregateModel;
+using Test.Domain.Specifications;
 
 namespace Test.Infrastructure.Data.Configurations;
 
-public class RepoConfiguration : IEntityTypeConfiguration<Repo>
+public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
 {
-    public void Configure(EntityTypeBuilder<Repo> builder)
+    public void Configure(EntityTypeBuilder<AppUser> builder)
     {
         builder.HasKey(g => g.Id);
         
-        builder.Property(g => g.Name)
-            .IsRequired()
-            .HasMaxLength(200);
-
         builder.HasMany<Issue>()
             .WithOne()
-            .HasForeignKey(i => i.RepoId)
-            .IsRequired()
+            .HasForeignKey(i => i.AssignedUserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.ToTable("Repos");
+        builder.ToTable("AppUsers");
     }
 }

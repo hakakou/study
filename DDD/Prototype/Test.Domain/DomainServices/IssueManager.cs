@@ -18,7 +18,12 @@ public class IssueManager(IRepository<Issue> issueRepository) : IDomainService
 
     public async Task<Issue> CreateAsync(Guid repoId, IssueName name, DateTime createdDate)
     {
-        if (await issueRepository.AnyAsync(new DuplicateNameSpecification(repoId, name)))
+        var q = new DuplicateNameSpecification(repoId, name);
+
+        var list = await issueRepository.ListAsync(q);
+        bool any = await issueRepository.AnyAsync(q);
+
+        if (any)
             throw new BusinessException("...");
 
         var issue = new Issue(repoId, name, createdDate);

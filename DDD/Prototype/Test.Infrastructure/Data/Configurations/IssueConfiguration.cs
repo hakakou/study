@@ -30,6 +30,16 @@ public class IssueConfiguration : IEntityTypeConfiguration<Issue>
                 v => v.Value,
                 v => new IssueName(v));
 
+        builder.OwnsMany(i => i.Labels, lb =>
+        {
+            lb.WithOwner().HasForeignKey("IssueId");
+            lb.HasKey(l => l.Id);
+            lb.Property(l => l.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            lb.ToTable("IssueLabels");
+        });
+
         builder.ToTable("Issues");
     }
 }

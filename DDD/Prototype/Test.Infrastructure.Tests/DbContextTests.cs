@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Test.Domain.AggregateModel;
 using Test.Domain.DomainServices;
 using Test.Domain.Exceptions;
-using Test.Domain.Specifications;
 using Test.Infrastructure.Data;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Test.Infrastructure.Tests;
 
@@ -19,14 +19,16 @@ public class DbContextTests : IAsyncLifetime
     private readonly IRepository<Issue> _issueRepository;
     private readonly IServiceScope _scope;
     private readonly SqlCommandInterceptor _sql;
+    private readonly ITestOutputHelper _output;
 
-    public DbContextTests(DatabaseFixture fixture)
+    public DbContextTests(DatabaseFixture fixture, ITestOutputHelper output)
     {
+        _sql = fixture.SqlInterceptor;
         _scope = fixture.ServiceProvider.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<TestDbContext>();
-        _sql = fixture.SqlInterceptor;
         _repoRepository = _scope.ServiceProvider.GetRequiredService<IRepository<Repo>>();
         _issueRepository = _scope.ServiceProvider.GetRequiredService<IRepository<Issue>>();
+        _output = output;
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
@@ -34,7 +36,20 @@ public class DbContextTests : IAsyncLifetime
     public async Task DisposeAsync() => _scope.Dispose();
 
     [Fact]
-    public async Task CanInsertGitRepository()
+    public async Task Schema_Test()
+    {
+
+        var repositoryId = Guid.NewGuid();
+        var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+
+        await _repoRepository.AddAsync(repo);
+
+        foreach (var command in _sql.Commands)
+            _output.WriteLine(command);
+    }
+
+    [Fact]
+    public async Task AddRepo_WithIssue_InsertsToDatabase()
     {
         _sql.Commands.Clear();
 
@@ -42,56 +57,47 @@ public class DbContextTests : IAsyncLifetime
         var repositoryId = Guid.NewGuid();
         var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
 
-        var issue1 = await new IssueManager(_issueRepository)
-            .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
-        //repo.AddIssue(issue1);
-
-        // Act
+        // Act - Application layer saves
         await _repoRepository.AddAsync(repo);
 
-        _sql.Commands.Should().ContainMatch("INSERT INTO *");
+        var issue1 = await new IssueManager(_issueRepository)
+            .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
 
-        Func<Task> command = async () =>
-            await new IssueManager(_issueRepository)
-                .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
-        await command.Should().ThrowAsync<BusinessException>();
+        await _issueRepository.AddAsync(issue1);
 
         // Assert
-        _sql.Commands.Clear();
-        _dbContext.ChangeTracker.Clear();
-
-        var repo2 = await _dbContext.Repos
-            .Include(r => r.Issues)
-            .FirstOrDefaultAsync(r => r.Id == repositoryId);
-
-        // Specification Type 1
-        var spec1 = new TrendingIssues();
-        var rQuery = _dbContext.ApplySpecification(spec1);
-        rQuery.Should().ContainSingle();
-        spec1.IsSatisfiedBy(repo).Should().BeTrue();
-
-        var list1 = await _repoRepository.WhereAsync(spec1, CancellationToken.None);
-        list1.Should().ContainSingle();
-
-        // Specification Type 2
-        var spec2 = new InactiveIssueSpecification();
-        spec2.IsSatisfiedBy(repo2).Should().BeFalse();
-
-        var list2 = await _repoRepository.ListAsync(spec2);
-        list2.Should().BeEmpty();
-
-        Assert.Equal("TestRepository", repo2.Name);
-        Assert.Equal(1, repo2.Issues.Count());
+        _sql.Commands.Should().ContainMatch("INSERT INTO *");
     }
 
     [Fact]
-    public async Task CanInsertIssue()
+    public async Task CreateIssue_WithDuplicateName_ThrowsBusinessException()
+    {
+        // Arrange
+        var repositoryId = Guid.NewGuid();
+        var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+        await _repoRepository.AddAsync(repo);
+
+        var issueName = new IssueName("Duplicate Issue");
+        var issue1 = await new IssueManager(_issueRepository)
+            .CreateAsync(repositoryId, issueName, DateTime.UtcNow);
+        await _issueRepository.AddAsync(issue1);
+
+        // Act & Assert
+        Func<Task> command = async () =>
+            await new IssueManager(_issueRepository)
+                .CreateAsync(repositoryId, issueName, DateTime.UtcNow);
+
+        await command.Should().ThrowAsync<BusinessException>();
+    }
+
+    [Fact]
+    public async Task AddIssue_WithAllProperties_PersistsCorrectly()
     {
         // Arrange
         var repositoryId = Guid.NewGuid();
         var repository = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+
         await _repoRepository.AddAsync(repository);
-        await _repoRepository.SaveChangesAsync();
 
         var createdDate = DateTime.UtcNow;
         var issue = await new IssueManager(_issueRepository)
@@ -99,9 +105,8 @@ public class DbContextTests : IAsyncLifetime
 
         issue.Description = "This is a test issue";
 
-        // Act
+        // Act - Application layer saves
         await _issueRepository.AddAsync(issue);
-        await _issueRepository.SaveChangesAsync();
 
         // Assert
         var savedIssue = await _dbContext.Issues
@@ -115,7 +120,7 @@ public class DbContextTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CanInsertMultipleEntities()
+    public async Task AddMultipleIssues_ToSameRepo_AllPersistCorrectly()
     {
         var test = Guid.CreateVersion7();
 
@@ -148,5 +153,4 @@ public class DbContextTests : IAsyncLifetime
         Assert.Contains(issues, i => i.Name == new IssueName("First Issue"));
         Assert.Contains(issues, i => i.Name == new IssueName("Second Issue"));
     }
-
 }

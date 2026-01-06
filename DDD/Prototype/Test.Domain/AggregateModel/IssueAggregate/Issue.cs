@@ -3,7 +3,7 @@ using Test.Domain.Specifications;
 
 namespace Test.Domain.AggregateModel;
 
-public class Issue : EntityBase<Issue, int>, IAggregateRoot
+public class Issue : EntityBase<Issue, Guid>, IAggregateRoot
 {
     internal Issue(Guid repoId, IssueName name, DateTime createdDate) : base()
     {
@@ -29,7 +29,6 @@ public class Issue : EntityBase<Issue, int>, IAggregateRoot
     {
         Labels.Add(label);
     }
-
 
     public bool IsInInactive()
     {
