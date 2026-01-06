@@ -7,7 +7,7 @@ namespace Test.Domain.DomainServices;
 
 public class IssueManager(IRepository<Issue> issueRepository) : IDomainService
 {
-    public async Task AssignToUser(AppUser user, Issue issue)
+    public async Task AssignToUser(User user, Issue issue)
     {
         var issues = await issueRepository.CountAsync();
         if (issues >= 3)

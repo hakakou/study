@@ -38,9 +38,7 @@ public class DbContextTests : IAsyncLifetime
     [Fact]
     public async Task Schema_Test()
     {
-
-        var repositoryId = Guid.NewGuid();
-        var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+        var repo = new Repo("TestRepository") { Name = "TestRepository" };
 
         await _repoRepository.AddAsync(repo);
 
@@ -53,12 +51,20 @@ public class DbContextTests : IAsyncLifetime
     {
         _sql.Commands.Clear();
 
+
         // Arrange
-        var repositoryId = Guid.NewGuid();
-        var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+        var repo = new Repo("TestRepository") { Name = "TestRepository" };
+        repo.Id.Should().Be(Guid.Empty);
+
+        repo.AddRepoItem("src/Issue1.cs");
+        var r = repo.AddRepoItem("src/Issue2.cs");
 
         // Act - Application layer saves
         await _repoRepository.AddAsync(repo);
+        var repositoryId = repo.Id;
+        repo.Id.Should().NotBe(Guid.Empty);
+
+        r.Repo.Should().Be(repo);
 
         var issue1 = await new IssueManager(_issueRepository)
             .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
@@ -73,19 +79,18 @@ public class DbContextTests : IAsyncLifetime
     public async Task CreateIssue_WithDuplicateName_ThrowsBusinessException()
     {
         // Arrange
-        var repositoryId = Guid.NewGuid();
-        var repo = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+        var repo = new Repo("TestRepository") { Name = "TestRepository" };
         await _repoRepository.AddAsync(repo);
 
         var issueName = new IssueName("Duplicate Issue");
         var issue1 = await new IssueManager(_issueRepository)
-            .CreateAsync(repositoryId, issueName, DateTime.UtcNow);
+            .CreateAsync(repo.Id, issueName, DateTime.UtcNow);
         await _issueRepository.AddAsync(issue1);
 
         // Act & Assert
         Func<Task> command = async () =>
             await new IssueManager(_issueRepository)
-                .CreateAsync(repositoryId, issueName, DateTime.UtcNow);
+                .CreateAsync(repo.Id, issueName, DateTime.UtcNow);
 
         await command.Should().ThrowAsync<BusinessException>();
     }
@@ -94,14 +99,13 @@ public class DbContextTests : IAsyncLifetime
     public async Task AddIssue_WithAllProperties_PersistsCorrectly()
     {
         // Arrange
-        var repositoryId = Guid.NewGuid();
-        var repository = new Repo(repositoryId, "TestRepository") { Name = "TestRepository" };
+        var repository = new Repo("TestRepository") { Name = "TestRepository" };
 
         await _repoRepository.AddAsync(repository);
 
         var createdDate = DateTime.UtcNow;
         var issue = await new IssueManager(_issueRepository)
-            .CreateAsync(repositoryId, new IssueName("Test Issue"), createdDate);
+            .CreateAsync(repository.Id, new IssueName("Test Issue"), createdDate);
 
         issue.Description = "This is a test issue";
 
@@ -115,7 +119,7 @@ public class DbContextTests : IAsyncLifetime
         Assert.NotNull(savedIssue);
         Assert.Equal(new IssueName("Test Issue"), savedIssue.Name);
         Assert.Equal("This is a test issue", savedIssue.Description);
-        Assert.Equal(repositoryId, savedIssue.RepoId);
+        Assert.Equal(repository.Id, savedIssue.RepoId);
         Assert.Equal(createdDate, savedIssue.CreatedDate);
     }
 

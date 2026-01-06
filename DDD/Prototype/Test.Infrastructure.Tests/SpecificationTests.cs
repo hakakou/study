@@ -16,7 +16,7 @@ public class SpecificationTests : IAsyncLifetime
     private readonly TestDbContext _dbContext;
     private readonly IRepository<Repo> _repoRepository;
     private readonly IRepository<Issue> _issueRepository;
-    private readonly IRepository<AppUser> _userRepository;
+    private readonly IRepository<User> _userRepository;
     private readonly IServiceScope _scope;
     private readonly SqlCommandInterceptor _sql;
 
@@ -27,7 +27,7 @@ public class SpecificationTests : IAsyncLifetime
         _dbContext = _scope.ServiceProvider.GetRequiredService<TestDbContext>();
         _repoRepository = _scope.ServiceProvider.GetRequiredService<IRepository<Repo>>();
         _issueRepository = _scope.ServiceProvider.GetRequiredService<IRepository<Issue>>();
-        _userRepository = _scope.ServiceProvider.GetRequiredService<IRepository<AppUser>>();
+        _userRepository = _scope.ServiceProvider.GetRequiredService<IRepository<User>>();
     }
 
     public Task InitializeAsync() => Task.CompletedTask;
@@ -43,7 +43,7 @@ public class SpecificationTests : IAsyncLifetime
         await _repoRepository.AddAsync(repo);
 
         var userId = Guid.NewGuid();
-        var user = new AppUser(userId, "TestUser");
+        var user = new User(userId, "TestUser");
         await _userRepository.AddAsync(user);
 
         var issueManager = new IssueManager(_issueRepository);
@@ -81,7 +81,7 @@ public class SpecificationTests : IAsyncLifetime
         await _repoRepository.AddAsync(repo);
 
         var userId = Guid.NewGuid();
-        var user = new AppUser(userId, "TestUser");
+        var user = new User(userId, "TestUser");
         await _userRepository.AddAsync(user);
 
         var issueManager = new IssueManager(_issueRepository);
