@@ -34,6 +34,7 @@ public class DatabaseFixture : IDisposable
 
         // Register repository pattern
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+        //services.AddScoped(typeof(IUnitOfWork<>), typeof(EfUnitOfWork<>));
 
         ServiceProvider = services.BuildServiceProvider();
     }

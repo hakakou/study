@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Haka.Patterns.DDD;
 
 namespace Test.Domain.AggregateModel;
@@ -28,21 +27,5 @@ public class Repo : EntityBase<Guid>, IAggregateRoot
         var repoItem = new RepoItem(this, path);
         _repoItems.Add(repoItem);
         return repoItem;
-    }
-}
-
-public class RepoItem : EntityBase<Guid>
-{
-    public Repo Repo { get; private set; }
-    public Guid RepoId { get; private set; }
-
-    public string Path { get; private set; }
-
-    private RepoItem() : base() { }
-
-    public RepoItem(Repo repo, string path) : base()
-    {
-        Repo = repo;
-        Path = path;
     }
 }

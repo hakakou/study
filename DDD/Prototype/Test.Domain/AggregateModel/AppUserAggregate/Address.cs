@@ -19,3 +19,15 @@ public readonly record struct Address
         Country = Guard.Against.NullOrWhiteSpace(country, nameof(country));
     }
 }
+
+public class AddressAsClass
+{
+    public string Street { get; init; }
+    public string City { get; init; }
+
+    public AddressAsClass(string street, string city)
+    {
+        Street = Guard.Against.NullOrWhiteSpace(street, nameof(street));
+        City = Guard.Against.NullOrWhiteSpace(city, nameof(city));
+    }
+}

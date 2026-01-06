@@ -3,14 +3,14 @@ using Test.Domain.Specifications;
 
 namespace Test.Domain.AggregateModel;
 
-public class Issue : EntityBase<Issue, Guid>, IAggregateRoot
+public class Issue : EntityBase<Guid>, IAggregateRoot
 {
     internal Issue(Guid repoId, IssueName name, DateTime createdDate) : base()
     {
         RepoId = repoId;
         CreatedDate = createdDate;
         Name = name;
-        Labels = [];
+        _labels = [];
     }
 
     public Guid RepoId { get; private set; }
@@ -18,7 +18,12 @@ public class Issue : EntityBase<Issue, Guid>, IAggregateRoot
     public DateTime CreatedDate { get; private set; }
     public string? Description { get; set; }
     public Guid? AssignedUserId { get; internal set; }
-    public ICollection<IssueLabel> Labels { get; private set; }
+
+    public List<IssueLabel> _labels;
+    public IReadOnlyList<IssueLabel> Labels => _labels;
+    
+    // The above is better then
+    //public ICollection<IssueLabel> Labels { get; private set; }
 
     public void SetName(IssueName name)
     {
@@ -27,7 +32,7 @@ public class Issue : EntityBase<Issue, Guid>, IAggregateRoot
 
     public void AddLabel(IssueLabel label)
     {
-        Labels.Add(label);
+        _labels.Add(label);
     }
 
     public bool IsInInactive()
