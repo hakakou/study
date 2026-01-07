@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DXApplication.csproj">
+    <Deploy />
+  </Project>
+</Solution>

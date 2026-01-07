@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="DXApplication.Views.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dx="http://schemas.devexpress.com/maui"
+    xmlns:views="clr-namespace:DXApplication.Views">
+
+    <Shell.Resources>
+        <Style x:Key="ShellItemStyle" TargetType="dx:DXToggleButton">
+            <Setter Property="ButtonType" Value="ToolButton" />
+            <Setter Property="CornerRadius" Value="50" />
+            <Setter Property="CheckedBackgroundColor" Value="{dx:ThemeColor Key=SecondaryContainer}" />
+            <Setter Property="CheckedTextColor" Value="{dx:ThemeColor Key=OnSecondaryContainer}" />
+            <Setter Property="IconColor" Value="{dx:ThemeColor Key=Primary}" />
+            <Setter Property="CheckedIconColor" Value="{dx:ThemeColor Key=OnSecondaryContainer}" />
+            <Setter Property="IconPlacement" Value="Left" />
+            <Setter Property="HorizontalContentAlignment" Value="Start" />
+            <Setter Property="FontFamily" Value="Roboto Medium" />
+            <Setter Property="Margin" Value="12, 0" />
+            <Setter Property="Padding" Value="16, 12" />
+            <Setter Property="IconWidth" Value="24" />
+            <Setter Property="IconHeight" Value="24" />
+            <Setter Property="IconIndent" Value="10" />
+        </Style>
+    </Shell.Resources>
+
+    <Shell.ItemTemplate>
+        <DataTemplate x:DataType="ShellContent">
+            <dx:DXToggleButton
+                Style="{StaticResource ShellItemStyle}"
+                Icon="{Binding Icon}"
+                IsChecked="{Binding IsChecked, Mode=OneWay}"
+                Content="{Binding Title}"
+                InputTransparent="True" />
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <ShellContent
+        Title="Welcome"
+        Icon="star"
+        ContentTemplate="{DataTemplate views:DefaultPage}" />
+</Shell>

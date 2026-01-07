@@ -1,5 +1,6 @@
 using Ardalis.SmartEnum;
 using Haka.Patterns.DDD;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace Test.Domain.AggregateModel;
@@ -13,7 +14,10 @@ public class User : EntityBase<Guid>, IAggregateRoot
         UserType = UserType.Free;
     }
 
+    [MinLength(5)]
+    [Required]
     public string UserName { get; private set; }
+    
     public Address? Address { get; private set; }
 
     public UserType UserType { get; private set; }

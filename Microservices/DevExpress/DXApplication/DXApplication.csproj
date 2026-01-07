@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<UseMaui>true</UseMaui>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SingleProject>true</SingleProject>
+		<Nullable>enable</Nullable>
+		<RootNamespace>DXApplication</RootNamespace>
+
+		<!-- Display name -->
+		<ApplicationTitle>DXApplication</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.DXApplication</ApplicationId>
+		<ApplicationIdGuid>870C2EC6-F45B-4F59-8E28-6C3C31905A55</ApplicationIdGuid>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#6750A4" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#6750A4" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
+		<PackageReference Include="DevExpress.Data" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.Controls" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.CollectionView" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.Editors" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.DataGrid" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.TreeView" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.Scheduler" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.Gauges" Version="25.2.*" />
+		<PackageReference Include="DevExpress.Maui.Charts" Version="25.2.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	</ItemGroup>
+</Project>
