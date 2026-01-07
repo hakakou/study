@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FluentValidation/FluentValidation.csproj" />
+  <Project Path="FluentValidationConsole/FluentValidationConsole.csproj" />
+</Solution>
