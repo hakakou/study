@@ -1,6 +1,6 @@
-using Haka.Patterns.DDD;
+using Haka.Patterns.SeedWork;
 
-namespace Test.Domain.AggregateModel;
+namespace Test.Domain.AggregateModel.RepoAggregate;
 
 public class RepoItem : EntityBase<Guid>
 {

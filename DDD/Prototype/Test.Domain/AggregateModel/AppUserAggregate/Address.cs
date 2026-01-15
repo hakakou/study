@@ -1,6 +1,6 @@
 using Ardalis.GuardClauses;
 
-namespace Test.Domain.AggregateModel;
+namespace Test.Domain.AggregateModel.AppUserAggregate;
 
 public readonly record struct Address
 {

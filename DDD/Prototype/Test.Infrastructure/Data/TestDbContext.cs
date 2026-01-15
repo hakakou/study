@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmartEnum.EFCore;
-using Test.Domain.AggregateModel;
+using Test.Domain.AggregateModel.IssueAggregate;
+using Test.Domain.AggregateModel.RepoAggregate;
 
 namespace Test.Infrastructure.Data;
 
@@ -18,5 +19,6 @@ public class TestDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TestDbContext).Assembly);
         modelBuilder.ConfigureSmartEnum();
-    }
+   }
+
 }

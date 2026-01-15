@@ -1,6 +1,6 @@
 using Ardalis.Specification;
 using System.Linq;
-using Test.Domain.AggregateModel;
+using Test.Domain.AggregateModel.IssueAggregate;
 
 namespace Test.Domain.Specifications;
 

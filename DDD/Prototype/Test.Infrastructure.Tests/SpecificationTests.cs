@@ -1,8 +1,11 @@
 using AwesomeAssertions;
-using Haka.Patterns.DDD;
+using Haka.Patterns.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Test.Domain.AggregateModel;
+using Newtonsoft.Json.Linq;
+using Test.Domain.AggregateModel.AppUserAggregate;
+using Test.Domain.AggregateModel.IssueAggregate;
+using Test.Domain.AggregateModel.RepoAggregate;
 using Test.Domain.DomainServices;
 using Test.Domain.Specifications;
 using Test.Infrastructure.Data;
@@ -30,9 +33,9 @@ public class SpecificationTests : IAsyncLifetime
         _userRepository = _scope.ServiceProvider.GetRequiredService<IRepository<User>>();
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
+    public ValueTask InitializeAsync() => ValueTask.CompletedTask;
 
-    public async Task DisposeAsync() => _scope.Dispose();
+    public async ValueTask DisposeAsync() => _scope.Dispose();
 
     [Fact]
     public async Task TrendingIssues_WithAssignedIssues_FiltersByAssignment()

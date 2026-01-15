@@ -1,10 +1,15 @@
-using Haka.Patterns.DDD;
+using System;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Test.Application.EventHandlers;
+using Test.Domain.Events;
 using Test.Infrastructure.Data;
 using Test.Infrastructure.Repositories;
 using Xunit;
+using Haka.Patterns.SeedWork;
 
 namespace Test.Infrastructure.Tests;
 
@@ -18,12 +23,27 @@ public class DatabaseFixture : IDisposable
         var services = new ServiceCollection();
         SqlInterceptor = new SqlCommandInterceptor();
 
+        services.AddMediator(
+            (MediatorOptions options) =>
+            {
+                options.Assemblies = [
+                    typeof(IssueAssignedToUserDomainEventHandler),
+                    typeof(IssueAssignedToUserDomainEvent)];
+            }
+        );
+
+        services.AddScoped<EventDispatchInterceptor>();
+        services.AddScoped<IDomainEventDispatcher, MediatorDomainEventDispatcher>();
+        services.AddLogging((b) => b.AddXUnit());
+
         services.AddScoped<TestDbContext>(provider =>
         {
+            var eventDispatchInterceptor = provider.GetRequiredService<EventDispatchInterceptor>();
+
             var options = new DbContextOptionsBuilder<TestDbContext>()
                 .UseSqlite("DataSource=:memory:")
-                .LogTo(c=> Trace.WriteLine(c))
-                .AddInterceptors(SqlInterceptor)
+                .LogTo(c => Trace.WriteLine(c))
+                .AddInterceptors(SqlInterceptor, eventDispatchInterceptor)
                 .Options;
 
             var context = new TestDbContext(options);

@@ -1,7 +1,7 @@
 using Ardalis.Specification.EntityFrameworkCore;
-using Haka.Patterns.DDD;
 using Test.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Haka.Patterns.SeedWork;
 
 namespace Test.Infrastructure.Repositories;
 

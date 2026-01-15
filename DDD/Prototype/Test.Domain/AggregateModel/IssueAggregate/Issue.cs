@@ -1,7 +1,8 @@
-using Haka.Patterns.DDD;
 using Test.Domain.Specifications;
+using Test.Domain.Events;
+using Haka.Patterns.SeedWork;
 
-namespace Test.Domain.AggregateModel;
+namespace Test.Domain.AggregateModel.IssueAggregate;
 
 public class Issue : EntityBase<Guid>, IAggregateRoot
 {
@@ -11,6 +12,9 @@ public class Issue : EntityBase<Guid>, IAggregateRoot
         CreatedDate = createdDate;
         Name = name;
         _labels = [];
+        
+        // Raise domain event when issue is created
+        RegisterDomainEvent(new IssueCreatedDomainEvent(Id, repoId, name.Value, createdDate));
     }
 
     public Guid RepoId { get; private set; }
@@ -38,6 +42,14 @@ public class Issue : EntityBase<Guid>, IAggregateRoot
     public bool IsInInactive()
     {
         return new InactiveIssueSpecification().IsSatisfiedBy(this);
+    }
+    
+    public void AssignToUser(Guid userId)
+    {
+        AssignedUserId = userId;
+        
+        // Raise domain event when issue is assigned
+        RegisterDomainEvent(new IssueAssignedToUserDomainEvent(Id, userId, RepoId, Name.Value));
     }
 }
 

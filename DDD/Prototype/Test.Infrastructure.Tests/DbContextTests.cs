@@ -1,13 +1,14 @@
 ﻿using AwesomeAssertions;
-using Haka.Patterns.DDD;
+using Haka.Patterns.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Test.Domain.AggregateModel;
+using Test.Domain.AggregateModel.AppUserAggregate;
+using Test.Domain.AggregateModel.IssueAggregate;
+using Test.Domain.AggregateModel.RepoAggregate;
 using Test.Domain.DomainServices;
 using Test.Domain.Exceptions;
 using Test.Infrastructure.Data;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Test.Infrastructure.Tests;
 
@@ -17,6 +18,7 @@ public class DbContextTests : IAsyncLifetime
     private readonly TestDbContext _dbContext;
     private readonly IRepository<Repo> _repoRepository;
     private readonly IRepository<Issue> _issueRepository;
+    private readonly IRepository<User> _userReporitory;
     private readonly IServiceScope _scope;
     private readonly SqlCommandInterceptor _sql;
     private readonly ITestOutputHelper _output;
@@ -28,12 +30,12 @@ public class DbContextTests : IAsyncLifetime
         _dbContext = _scope.ServiceProvider.GetRequiredService<TestDbContext>();
         _repoRepository = _scope.ServiceProvider.GetRequiredService<IRepository<Repo>>();
         _issueRepository = _scope.ServiceProvider.GetRequiredService<IRepository<Issue>>();
+        _userReporitory = _scope.ServiceProvider.GetRequiredService<IRepository<User>>();
         _output = output;
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
-
-    public async Task DisposeAsync() => _scope.Dispose();
+    ValueTask IAsyncLifetime.InitializeAsync() => ValueTask.CompletedTask;
+    public async ValueTask DisposeAsync() => _scope.Dispose();
 
     [Fact]
     public async Task Schema_Test()
@@ -50,7 +52,6 @@ public class DbContextTests : IAsyncLifetime
     public async Task AddRepo_WithIssue_InsertsToDatabase()
     {
         _sql.Commands.Clear();
-
 
         // Arrange
         var repo = new Repo("TestRepository") { Name = "TestRepository" };
@@ -70,6 +71,13 @@ public class DbContextTests : IAsyncLifetime
             .CreateAsync(repositoryId, new IssueName("Issue 1"), DateTime.UtcNow);
 
         await _issueRepository.AddAsync(issue1);
+
+        var user = new User(Guid.NewGuid(), "testuser");
+        await _userReporitory.AddAsync(user);
+
+        issue1.AssignToUser(user.Id);
+
+        await _issueRepository.UpdateAsync(issue1);
 
         // Assert
         _sql.Commands.Should().ContainMatch("INSERT INTO *");
@@ -157,4 +165,6 @@ public class DbContextTests : IAsyncLifetime
         Assert.Contains(issues, i => i.Name == new IssueName("First Issue"));
         Assert.Contains(issues, i => i.Name == new IssueName("Second Issue"));
     }
+
+
 }

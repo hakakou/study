@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
-using Haka.Patterns.DDD;
+using Haka.Patterns.SeedWork;
 
-namespace Test.Domain.AggregateModel;
+namespace Test.Domain.AggregateModel.IssueAggregate;
 
 public class IssueLabel : EntityBase<Guid>
 {

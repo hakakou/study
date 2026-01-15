@@ -1,5 +1,6 @@
-using Haka.Patterns.DDD;
-using Test.Domain.AggregateModel;
+using Haka.Patterns.SeedWork;
+using Test.Domain.AggregateModel.AppUserAggregate;
+using Test.Domain.AggregateModel.IssueAggregate;
 using Test.Domain.Exceptions;
 using Test.Domain.Specifications;
 

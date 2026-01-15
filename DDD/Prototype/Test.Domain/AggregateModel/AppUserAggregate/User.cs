@@ -1,9 +1,9 @@
 using Ardalis.SmartEnum;
-using Haka.Patterns.DDD;
+using Haka.Patterns.SeedWork;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
-namespace Test.Domain.AggregateModel;
+namespace Test.Domain.AggregateModel.AppUserAggregate;
 
 public class User : EntityBase<Guid>, IAggregateRoot
 {
