@@ -17,15 +17,17 @@ public class Issue : EntityBase<Guid>, IAggregateRoot
         RegisterDomainEvent(new IssueCreatedDomainEvent(Id, repoId, name.Value, createdDate));
     }
 
+    private DateTime _updatedDate;
+
     public Guid RepoId { get; private set; }
     public IssueName Name { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public string? Description { get; set; }
     public Guid? AssignedUserId { get; internal set; }
 
-    public List<IssueLabel> _labels;
-    public IReadOnlyList<IssueLabel> Labels => _labels;
-    
+    private readonly List<IssueLabel> _labels;
+    public IReadOnlyCollection<IssueLabel> Labels => _labels;
+   
     // The above is better then
     //public ICollection<IssueLabel> Labels { get; private set; }
 

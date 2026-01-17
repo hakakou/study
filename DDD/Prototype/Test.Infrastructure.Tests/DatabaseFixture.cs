@@ -23,8 +23,7 @@ public class DatabaseFixture : IDisposable
         var services = new ServiceCollection();
         SqlInterceptor = new SqlCommandInterceptor();
 
-        services.AddMediator(
-            (MediatorOptions options) =>
+        services.AddMediator(options =>
             {
                 options.Assemblies = [
                     typeof(IssueAssignedToUserDomainEventHandler),

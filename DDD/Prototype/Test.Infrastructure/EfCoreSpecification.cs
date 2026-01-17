@@ -12,12 +12,11 @@ public static class SpecificationExtensions
 
         var query = dbContext.Set<TEntity>().AsNoTracking();
         query = efCoreSpecification.Apply(query);
-
         return query;
     }
 }
 
-internal class EfCoreSpecification<TEntity> : Specification<TEntity>
+internal class EfCoreSpecification<TEntity> : BaseSpecification<TEntity>
     where TEntity : class
 {
     public EfCoreSpecification(ISpecification<TEntity> specification)
