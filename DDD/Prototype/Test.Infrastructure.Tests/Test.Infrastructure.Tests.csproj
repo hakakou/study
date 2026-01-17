@@ -6,12 +6,15 @@
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<UserSecretsId>313b34db-f412-4570-a9df-1a7bdea20aaa</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AwesomeAssertions" Version="9.3.0" />
 		<PackageReference Include="MartinCostello.Logging.XUnit.v3" Version="0.7.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="10.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
 		<PackageReference Include="Mediator.SourceGenerator" Version="3.0.1" />
@@ -25,7 +28,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Test.Application\Test.Application.csproj" />
 		<ProjectReference Include="..\Test.Infrastructure\Test.Infrastructure.csproj" />
-		<ProjectReference Include="..\Test.Domain\Test.Domain.csproj" />
 	</ItemGroup>
 
 </Project>
