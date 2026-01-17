@@ -2,7 +2,7 @@ using AwesomeAssertions;
 using Haka.Patterns.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Test.Domain.AggregateModel.AppUserAggregate;
+using Test.Domain.AggregateModel.UserAggregate;
 using Test.Domain.AggregateModel.IssueAggregate;
 using Test.Domain.AggregateModel.RepoAggregate;
 using Test.Domain.DomainServices;

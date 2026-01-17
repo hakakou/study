@@ -1,6 +1,10 @@
 using Ardalis.GuardClauses;
+using Test.Domain.AggregateModel.UserAggregate;
+using Test;
+using Test.Domain;
+using Test.Domain.AggregateModel;
 
-namespace Test.Domain.AggregateModel.AppUserAggregate;
+namespace Test.Domain.AggregateModel.UserAggregate;
 
 public readonly record struct Address
 {

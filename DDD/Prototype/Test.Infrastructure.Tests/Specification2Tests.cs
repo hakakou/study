@@ -2,7 +2,7 @@ using AwesomeAssertions;
 using Haka.Patterns.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Test.Domain.AggregateModel.AppUserAggregate;
+using Test.Domain.AggregateModel.UserAggregate;
 using Test.Domain.AggregateModel.IssueAggregate;
 using Test.Domain.AggregateModel.RepoAggregate;
 using Test.Domain.DomainServices;
@@ -61,7 +61,7 @@ public class Specification2Tests : IAsyncLifetime
 
         // Act
         _dbContext.ChangeTracker.Clear();
-        var spec = new TrendingIssues();
+        var spec = new Domain.Specifications2.TrendingIssues();
 
         // Use spec's IsSatisfiedBy method directly
         var allIssues = await _dbContext.Issues.Where(i => i.RepoId == repositoryId).ToListAsync();

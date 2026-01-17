@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Test.Domain.AggregateModel.AppUserAggregate;
+using Test.Domain.AggregateModel.UserAggregate;
 using Test.Domain.AggregateModel.IssueAggregate;
 
 namespace Test.Infrastructure.Data.Configurations;
