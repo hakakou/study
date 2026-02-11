@@ -90,8 +90,4 @@ public class DOC_S41_ConcurrentWithStructuredOutput(Kernel kernel, IChatCompleti
         public string CompetitorsOrSimularProducts { get; set; }
     }
 
-
-
-
-
 }

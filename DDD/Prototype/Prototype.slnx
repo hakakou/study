@@ -1,7 +1,7 @@
 <Solution>
   <Project Path="../../../Projects/Common/Haka.Patterns/Haka.Patterns.csproj" />
   <Project Path="Test.Application/Test.Application.csproj" />
-  <Project Path="Test.Console/Test.Console.csproj" />
+  <Project Path="Test.WebAPI/Test.WebAPI.csproj" />
   <Project Path="Test.Domain/Test.Domain.csproj" />
   <Project Path="Test.Infrastructure.Tests/Test.Infrastructure.Tests.csproj" />
   <Project Path="Test.Infrastructure/Test.Infrastructure.csproj" />

@@ -25,6 +25,7 @@ public class DatabaseFixture : IDisposable
 
         services.AddMediator(options =>
             {
+                options.ServiceLifetime = ServiceLifetime.Scoped;
                 options.Assemblies = [
                     typeof(IssueAssignedToUserDomainEventHandler),
                     typeof(IssueAssignedToUserDomainEvent)];

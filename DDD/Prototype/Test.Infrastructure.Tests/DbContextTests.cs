@@ -40,7 +40,7 @@ public class DbContextTests : IAsyncLifetime
     [Fact]
     public async Task Schema_Test()
     {
-        var repo = new Repo("TestRepository") { Name = "TestRepository" };
+        var repo = new Repo("TestRepository");
 
         await _repoRepository.AddAsync(repo);
 
@@ -54,7 +54,7 @@ public class DbContextTests : IAsyncLifetime
         _sql.Commands.Clear();
 
         // Arrange
-        var repo = new Repo("TestRepository") { Name = "TestRepository" };
+        var repo = new Repo("TestRepository");
         repo.Id.Should().Be(Guid.Empty);
 
         repo.AddRepoItem("src/Issue1.cs");
@@ -87,7 +87,7 @@ public class DbContextTests : IAsyncLifetime
     public async Task CreateIssue_WithDuplicateName_ThrowsBusinessException()
     {
         // Arrange
-        var repo = new Repo("TestRepository") { Name = "TestRepository" };
+        var repo = new Repo("TestRepository");
         await _repoRepository.AddAsync(repo);
 
         var issueName = new IssueName("Duplicate Issue");
@@ -107,7 +107,7 @@ public class DbContextTests : IAsyncLifetime
     public async Task AddIssue_WithAllProperties_PersistsCorrectly()
     {
         // Arrange
-        var repository = new Repo("TestRepository") { Name = "TestRepository" };
+        var repository = new Repo("TestRepository");
 
         await _repoRepository.AddAsync(repository);
 

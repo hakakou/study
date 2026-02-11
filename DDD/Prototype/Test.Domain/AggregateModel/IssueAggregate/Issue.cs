@@ -17,8 +17,6 @@ public class Issue : EntityBase<Guid>, IAggregateRoot
         RegisterDomainEvent(new IssueCreatedDomainEvent(Id, repoId, name.Value, createdDate));
     }
 
-    private DateTime _updatedDate;
-
     public Guid RepoId { get; private set; }
     public IssueName Name { get; private set; }
     public DateTime CreatedDate { get; private set; }
