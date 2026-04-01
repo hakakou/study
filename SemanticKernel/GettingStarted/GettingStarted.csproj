@@ -9,31 +9,31 @@
 	</PropertyGroup>
  
 	<ItemGroup>
-		<PackageReference Include="Anthropic.SDK" Version="5.9.0" />
-		<PackageReference Include="Azure.Identity" Version="1.18.0-beta.2" />
-		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.6.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" Version="1.70.0-preview" />
+		<PackageReference Include="Anthropic.SDK" Version="5.10.0" />
+		<PackageReference Include="Azure.Identity" Version="1.20.0" />
+		<PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.7.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" Version="1.74.0-preview" />
 		<PackageReference Include="ObjectDumper.NET" Version="4.3.2" />
-		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.3" />
-		<PackageReference Include="Microsoft.Extensions.VectorData.Abstractions" Version="9.7.0" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.70.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.70.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.Magentic" Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.OpenAI" Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.AzureAI " Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Agents.Orchestration" Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.70.0-alpha" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.70.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.PgVector" Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.70.0-preview" />
-		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.70.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.70.0-alpha" />
-		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.70.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.70.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.5" />
+		<PackageReference Include="Microsoft.Extensions.VectorData.Abstractions" Version="10.1.0" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.74.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.74.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Magentic" Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.OpenAI" Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.AzureAI " Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Agents.Orchestration" Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.74.0-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.74.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.PgVector" Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.74.0-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.74.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.74.0-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.74.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.74.0" />
 	</ItemGroup>
  
 	<ItemGroup>

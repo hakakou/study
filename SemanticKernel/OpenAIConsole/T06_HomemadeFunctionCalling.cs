@@ -2,6 +2,7 @@
 using Spectre.Console;
 using System.Text.Json;
 
+[RunDirectly]
 internal class T06_HomemadeFunctionCalling
 {
     public static async Task Run()
@@ -104,7 +105,7 @@ and NOTHING else.";
 
             var responseForUser = deserializedResponse.tool_input.ToString();
             // Here we have the final response for the user
-            AnsiConsole.MarkupLine($"[green]{responseForUser}[/]");
+            AnsiConsole.MarkupLine($"[green]{Markup.Escape(responseForUser)}[/]");
             list.Add(new AssistantChatMessage(responseForUser));
         }
     }

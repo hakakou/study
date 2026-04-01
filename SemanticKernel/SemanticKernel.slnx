@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../README.md" />
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="../Qdrant/QdrantStudy/QdrantStudy.csproj" />
+  <Project Path="GettingStarted/GettingStarted.csproj" />
+  <Project Path="OpenAIConsole/AzureOpenAIConsole.csproj" />
+  <Project Path="OpenAITest/OpenAITest.csproj" />
+  <Project Path="SemanticKernelConsole/SemanticKernelConsole.csproj" />
+  <Project Path="SharedConfig/SharedConfig.csproj" />
+</Solution>

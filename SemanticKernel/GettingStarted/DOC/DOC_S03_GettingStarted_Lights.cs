@@ -14,7 +14,8 @@ public class DOC_S03_GettingStarted_Lights(
     public static void Build(IServiceCollection services)
     {
         services.AddKernel().DefaultChatCompletion()
-          .Plugins.AddFromType<LightsPlugin>("Lights");
+          //.Plugins.AddFromType<LightsPlugin>("Lights");
+          .Plugins.AddFromObject(new LightsPlugin(), "Lights");
     }
 
     public async Task Run()
