@@ -1,0 +1,1 @@
+ psql -d coffee_chain -U admin %*

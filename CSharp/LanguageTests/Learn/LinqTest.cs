@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using Haka.Debug;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace LanguageTests
 {

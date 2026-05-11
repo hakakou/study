@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Disposable/Disposable.csproj" />
+  <Project Path="Dotnet_trace/Dotnet_trace.csproj" />
+  <Project Path="LanguageTests.EfCore/LanguageTests.EfCore.csproj" />
+  <Project Path="LanguageTests/LanguageTests.csproj" />
+  <Project Path="WorkWithDrives/WorkWithDrives.csproj" />
+</Solution>

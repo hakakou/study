@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
+
 
 namespace LanguageTests
 {
@@ -24,7 +24,7 @@ namespace LanguageTests
             Recorder.Start();
 
             // simulate a process that requires some memory resources...
-            int[] largeArrayOfInts = Enumerable.Range(1, 10_000).ToArray();
+            int[] largeArrayOfInts = Enumerable.Range(1, 5_000).ToArray();
 
             // ...and takes some time to complete
             System.Threading.Thread.Sleep(new Random().Next(5, 10) * 1000);
