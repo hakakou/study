@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 
@@ -92,7 +90,7 @@ namespace LanguageTests.Packages
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string path = @"c:\Files\Projects\Northwind\Northwind.db";
+            string path = @"Northwind.db";
             optionsBuilder.UseLazyLoadingProxies()
                 .UseSqlite($"Filename={path}");
         }
