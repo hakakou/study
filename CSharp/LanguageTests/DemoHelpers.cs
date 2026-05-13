@@ -1,4 +1,4 @@
-namespace Haka.Debug;
+namespace LanguageTests;
 
 public static class Extensions
 {
