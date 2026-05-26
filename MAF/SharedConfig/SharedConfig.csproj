@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<UserSecretsId>313b34db-f412-4570-a9df-1a7bdea20aaa</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Agents.AI.Foundry" Version="1.6.2-preview.260521.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.8" />
+		<PackageReference Include="ObjectDumper.NET" Version="4.3.2" />
+		<PackageReference Include="Spectre.Console.Cli" Version="0.55.0" />
+	</ItemGroup>
+</Project>

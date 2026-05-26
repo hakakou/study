@@ -1,0 +1,1 @@
+pgcli -u admin -h localhost -d mydb --warn off

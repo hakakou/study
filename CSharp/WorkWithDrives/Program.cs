@@ -6,7 +6,7 @@ using static System.IO.Path;
 using static System.Environment;
 using System.IO;
 
-namespace Lib1Console
+namespace WorkWithDrives
 {
     class Program
     {

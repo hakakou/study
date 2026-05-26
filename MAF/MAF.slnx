@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MAFConsole/MAFConsole.csproj" />
+  <Project Path="SharedConfig/SharedConfig.csproj" />
+</Solution>
