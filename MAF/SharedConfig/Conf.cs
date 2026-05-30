@@ -39,6 +39,11 @@ public static class Conf
         Conf.MicrosoftFoundry.Endpoint = config["MicrosoftFoundry:Endpoint"];
         Conf.MicrosoftFoundry.ApiKey = config["MicrosoftFoundry:ApiKey"];
 
+        Conf.MicrosoftFoundry2.Endpoint = config["MicrosoftFoundry2:Endpoint"];
+        Conf.MicrosoftFoundry2.ClientSecret = config["MicrosoftFoundry2:ClientSecret"];
+        Conf.MicrosoftFoundry2.ClientId = config["MicrosoftFoundry2:ClientId"];
+        Conf.MicrosoftFoundry2.TenantId = config["MicrosoftFoundry2:TenantId"];
+
         Conf.ApplicationInsights.ConnectionString = config["ApplicationInsights:ConnectionString"];
     }
 
@@ -93,6 +98,14 @@ public static class Conf
     {
         public static string Endpoint;
         public static string ApiKey;
+    }
+
+    public static class MicrosoftFoundry2
+    {
+        public static string Endpoint;
+        public static string ClientSecret;
+        public static string ClientId;
+        public static string TenantId;
     }
 
     public static class ApplicationInsights
