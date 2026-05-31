@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net10.0</TargetFrameworks>
+		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>313b34db-f412-4570-a9df-1a7bdea20aaa</UserSecretsId>
+		<Nullable>enable</Nullable>
+		<!-- The Functions build tools don't like namespaces that start with a number -->
+		<AssemblyName>HostedAgent</AssemblyName>
+		<RootNamespace>HostedAgent</RootNamespace>
+		<!-- The SDK auto-generation misses DurableTask (naming convention mismatch).
+		     Extensions\WorkerExtensions.csproj explicitly adds Microsoft.Azure.WebJobs.Extensions.DurableTask. -->
+		<ExtensionsCsProj>$(MSBuildProjectDirectory)\Extensions\WorkerExtensions.csproj</ExtensionsCsProj>
+	</PropertyGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Agents.AI.Hosting.AzureFunctions" Version="1.8.0-preview.260528.1" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.DurableTask" Version="1.16.5" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
+		<PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.7" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SharedConfig\SharedConfig.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Update="host.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="local.settings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

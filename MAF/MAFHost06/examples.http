@@ -1,0 +1,40 @@
+### Prerequisites
+### Run with: func start   (NOT dotnet run)
+### Requires Azurite running for AzureWebJobsStorage (UseDevelopmentStorage=true)
+
+@baseUrl = http://localhost:7071
+@agentName = HostedAgent
+
+### Single-turn: chat with the hosted agent
+POST {{baseUrl}}/api/agents/{{agentName}}/run
+Content-Type: application/json
+
+{
+  "message": "What is the largest city in France?"
+}
+
+### Single-turn: another question
+POST {{baseUrl}}/api/agents/{{agentName}}/run
+Content-Type: application/json
+
+{
+  "message": "Explain quantum entanglement in one sentence."
+}
+
+### Multi-turn session: start a new conversation (pick any sessionId)
+@sessionId = session-001
+
+POST {{baseUrl}}/api/agents/{{agentName}}/sessions/{{sessionId}}/run
+Content-Type: application/json
+
+{
+  "message": "My name is Alice and I love hiking."
+}
+
+### Multi-turn session: follow-up in the same session (agent remembers Alice)
+POST {{baseUrl}}/api/agents/{{agentName}}/sessions/{{sessionId}}/run
+Content-Type: application/json
+
+{
+  "message": "What do you remember about me?"
+}

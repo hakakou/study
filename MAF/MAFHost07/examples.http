@@ -1,0 +1,180 @@
+@host = http://localhost:60948
+@contentType = application/json
+
+###############################################################################
+# A2A v1.0 SDK (a2aproject/a2a-dotnet).
+# JSON-RPC methods are PascalCase: SendMessage, GetTask, etc.
+# (v0.3 used "message/send" — that's what caused the -32601 errors.)
+#
+# Both bindings are mounted at "/" in your Program.cs:
+#   MapA2AJsonRpc -> JSON-RPC envelope
+#   MapA2AHttpJson -> REST endpoints (POST /message:send, etc.)
+###############################################################################
+
+###############################################################################
+# 1. Agent Card discovery (well-known endpoint, v1.0 path)
+###############################################################################
+GET {{host}}/.well-known/agent-card.json
+Accept: application/json
+
+###############################################################################
+# JSON-RPC binding  (method = "SendMessage")
+###############################################################################
+
+### 2. JSON-RPC: invoices for a company
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "role": "ROLE_USER",
+      "messageId": "msg-1",
+      "parts": [
+        { "text": "List the latest invoices for Contoso." }
+      ]
+    }
+  }
+}
+
+### 3. JSON-RPC: query by invoice id
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "2",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "role": "ROLE_USER",
+      "messageId": "msg-2",
+      "parts": [
+        { "text": "Show me invoice INV789." }
+      ]
+    }
+  }
+}
+
+### 4. JSON-RPC: query by transaction id
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "3",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "role": "ROLE_USER",
+      "messageId": "msg-3",
+      "parts": [
+        { "text": "Find the invoice for transaction TICKET-XYZ987." }
+      ]
+    }
+  }
+}
+
+### 5. JSON-RPC: invoices within a date range, with totals
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "4",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "role": "ROLE_USER",
+      "messageId": "msg-4",
+      "parts": [
+        { "text": "What invoices does XStore have from the last month? Include totals." }
+      ]
+    }
+  }
+}
+
+### 6. JSON-RPC: Get Task (use a task id returned by a SendMessage response)
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "5",
+  "method": "GetTask",
+  "params": {
+    "id": "PASTE-TASK-ID-HERE"
+  }
+}
+
+###############################################################################
+# HTTP+JSON / REST binding  (POST /message:send)
+# Same agent, plain REST transport (no JSON-RPC envelope).
+###############################################################################
+
+### 7. REST: send a message
+POST {{host}}/message:send
+Content-Type: {{contentType}}
+
+{
+  "message": {
+    "role": "ROLE_USER",
+    "messageId": "msg-5",
+    "parts": [
+      { "text": "List the latest invoices for Cymbal Direct." }
+    ]
+  }
+}
+
+### 8. REST: Get Task by id
+GET {{host}}/tasks/PASTE-TASK-ID-HERE
+Accept: application/json
+
+###############################################################################
+# POLICY agent  (restart app with agentType = "POLICY")
+###############################################################################
+
+### 9. JSON-RPC: short shipment policy
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "6",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "role": "ROLE_USER",
+      "messageId": "msg-6",
+      "parts": [
+        { "text": "What is the policy for short shipments?" }
+      ]
+    }
+  }
+}
+
+###############################################################################
+# LOGISTICS agent  (restart app with agentType = "LOGISTICS")
+###############################################################################
+
+### 10. JSON-RPC: shipment status
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": "7",
+  "method": "SendMessage",
+  "params": {
+    "message": {
+      "role": "ROLE_USER",
+      "messageId": "msg-7",
+      "parts": [
+        { "text": "What is the status for SHPMT-SAP-001?" }
+      ]
+    }
+  }
+}

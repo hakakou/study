@@ -20,7 +20,6 @@
 		<ProjectReference Include="..\SharedConfig\SharedConfig.csproj" />
 	</ItemGroup>
 
-
 	<ItemGroup>
 		<None Update="**/*.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -32,6 +31,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Haka\MEF\" />
+		<Folder Include="Haka\MEF\" />
 	</ItemGroup>
 </Project>

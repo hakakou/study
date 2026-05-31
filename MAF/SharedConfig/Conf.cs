@@ -10,6 +10,8 @@ public static class Conf
 
     public static void Init<T>() where T : class
     {
+        // Console.Clear(); Creates problems with webapps?
+        
         var config = new ConfigurationBuilder()
             .AddUserSecrets<T>() // Loads secrets.json
             .Build();
